@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.smartken.kia.mapper.sys.IMenuTreeNodeMapper">
+<select id="selectOne" parameterType="String" resultType="MenuTreeNodeModel" resultMap="MenuTreeNodeModelRM">
+select * from sys_menu where id = #{pObjId}
+</select>
+
+<select id="selectAll"  resultType="ArrayList" resultMap="MenuTreeNodeModelRM">
+select * from sys_menu
+</select>
+
+<resultMap type="MenuTreeNodeModel" id="MenuTreeNodeModelRM">
+   <result property="id" column="id"/>
+   <result property="name" column="name"/>
+   <result property="descp" column="name"/>
+   <result property="url" column="url" />
+   <result property="icon" column="icon"/>
+   <result property="parentId" column="parent_id"/>
+   <result property="token" column="token"/>
+</resultMap>
+</mapper>

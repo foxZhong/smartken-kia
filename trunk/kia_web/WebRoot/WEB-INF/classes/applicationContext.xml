@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+		http://www.springframework.org/schema/tx  http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+	    http://www.springframework.org/schema/aop  http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+	">
+
+
+<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">   
+    <property name="driverClassName" value="com.mysql.jdbc.Driver" />   
+    <property name="url" value="jdbc:mysql://localhost:3306/kia" />   
+    <property name="username" value="root"></property>
+    <property name="password" value="sa"></property>
+</bean>   
+   
+
+<bean class="org.mybatis.spring.SqlSessionFactoryBean" id="sqlSessionFactory">
+    <property name="configLocation" value="classpath:mybatis3.xml"></property>
+    <property name="dataSource" ref="dataSource"></property>
+
+</bean>
+
+
+ <bean id="baseMapper" class="org.mybatis.spring.mapper.MapperFactoryBean" abstract="true" lazy-init="true">
+     <property name="sqlSessionFactory" ref="sqlSessionFactory" />
+   </bean>
+
+<bean id="menuTreeNodeMapper" parent="baseMapper">
+    <property name="mapperInterface" value="com.smartken.kia.mapper.sys.IMenuTreeNodeMapper"></property>
+</bean>
+
+
+<bean class="com.smartken.kia.biz.impl.SysBiz" id="sysBiz">
+ <property name="iMenuTreeNodeMapper" ref="menuTreeNodeMapper"></property>
+</bean>
+
+<bean id="com.smartken.kia.web.struts2.sys.MenuTreeNodeAction" 
+      class="com.smartken.kia.web.struts2.sys.MenuTreeNodeAction">
+   <property name="iSysBiz" ref="sysBiz"></property>
+</bean>
+
+</beans>
