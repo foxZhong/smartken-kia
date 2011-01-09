@@ -4,9 +4,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.beans.FeatureDescriptor;
+import java.io.Serializable;
 import java.lang.reflect.*;
 
-public abstract class BaseModel {
+public abstract class BaseModel implements Serializable {
 
 	public JSONObject toJson()
 	{

@@ -2,7 +2,7 @@ package com.smartken.kia.model.sys;
 
 import com.smartken.kia.model.BaseModel;
 
-public class MenuTreeNodeModel extends BaseModel {
+public class MenuModel extends BaseModel {
 
 	private String id;
 	private String name;
