@@ -2,44 +2,96 @@
 <beans
 	xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-		http://www.springframework.org/schema/tx  http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
-	    http://www.springframework.org/schema/aop  http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
-	">
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+	     http://www.springframework.org/schema/beans 
+	     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	     http://www.springframework.org/schema/context
+         http://www.springframework.org/schema/context/spring-context-3.0.xsd
+         http://www.springframework.org/schema/tx
+         http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+         http://www.springframework.org/schema/jdbc 
+         http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
+         http://www.springframework.org/schema/aop
+         http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+		">
 
 
-<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">   
-    <property name="driverClassName" value="com.mysql.jdbc.Driver" />   
-    <property name="url" value="jdbc:mysql://localhost:3306/kia" />   
-    <property name="username" value="root"></property>
-    <property name="password" value="sa"></property>
-</bean>   
+   <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"> 
+        <property name="locations"> 
+          <list> 
+            <value>WEB-INF/oracle.properties</value> 
+            </list> 
+         </property> 
+   </bean>
+   
+  
+
+
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass" value="${jdbc.driverClassName}" />
+		<property name="jdbcUrl" value="${jdbc.url}" />
+		<property name="user" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<property name="autoCommitOnClose" value="true"/>
+		<property name="checkoutTimeout" value="${cpool.checkoutTimeout}"/>
+		<property name="initialPoolSize" value="${cpool.minPoolSize}"/>
+		<property name="minPoolSize" value="${cpool.minPoolSize}"/>
+		<property name="maxPoolSize" value="${cpool.maxPoolSize}"/>
+		<property name="maxIdleTime" value="${cpool.maxIdleTime}"/>
+		<property name="acquireIncrement" value="${cpool.acquireIncrement}"/>
+		<property name="maxIdleTimeExcessConnections" value="${cpool.maxIdleTimeExcessConnections}"/>
+	</bean>
    
 
 <bean class="org.mybatis.spring.SqlSessionFactoryBean" id="sqlSessionFactory">
     <property name="configLocation" value="classpath:mybatis3.xml"></property>
     <property name="dataSource" ref="dataSource"></property>
-
 </bean>
+ 
+	<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	
+	<tx:advice id="txAdvice" transaction-manager="txManager">
+		<tx:attributes>
+			<tx:method name="get*" read-only="true"/>
+			<tx:method name="save*" propagation="REQUIRED"/>
+			<tx:method name="remove*" propagation="REQUIRED"/>			
+		</tx:attributes>
+	</tx:advice>
+
+	<aop:config>
+		<aop:pointcut expression="execution(* com.smartken.kia.biz.impl.*.*(..))" id="kiaMehtod"/>
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="kiaMehtod" />
+		
+	</aop:config>
 
 
- <bean id="baseMapper" class="org.mybatis.spring.mapper.MapperFactoryBean" abstract="true" lazy-init="true">
+
+ <bean id="baseMapper" class="org.mybatis.spring.mapper.MapperFactoryBean" abstract="true" >
      <property name="sqlSessionFactory" ref="sqlSessionFactory" />
    </bean>
 
-<bean id="menuTreeNodeMapper" parent="baseMapper">
-    <property name="mapperInterface" value="com.smartken.kia.mapper.sys.IMenuTreeNodeMapper"></property>
+<bean id="menuMapper" parent="baseMapper">
+    <property name="mapperInterface" value="com.smartken.kia.mapper.sys.IMenuMapper"></property>
+</bean>
+<bean id="userMapper" parent="baseMapper">
+    <property name="mapperInterface" value="com.smartken.kia.mapper.sys.IUserMapper"></property>
 </bean>
 
 
-<bean class="com.smartken.kia.biz.impl.SysBiz" id="sysBiz">
- <property name="iMenuTreeNodeMapper" ref="menuTreeNodeMapper"></property>
+
+<bean class="com.smartken.kia.biz.impl.SysBiz" id="baseSysBiz" abstract="true" >
+ <property name="iMenuMapper" ref="menuMapper"></property>
+ <property name="iUserMapper" ref="userMapper"></property>
 </bean>
 
-<bean id="com.smartken.kia.web.struts2.sys.MenuTreeNodeAction" 
-      class="com.smartken.kia.web.struts2.sys.MenuTreeNodeAction">
-   <property name="iSysBiz" ref="sysBiz"></property>
-</bean>
+
+
+
 
 </beans>

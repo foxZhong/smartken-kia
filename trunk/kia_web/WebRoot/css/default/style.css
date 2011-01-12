@@ -1,0 +1,109 @@
+
+body
+{
+	font-family: ËÎÌו, Arial, Helvetica, sans-serif;
+	font-size: 15px;
+	color: #333333;
+	font-style: normal;
+	font-variant: normal;
+	white-space: normal;
+}
+
+.b
+{
+	border: 1px solid #C0C0C0;
+}
+
+input
+{
+	 height: 20px;
+	 width:120px;
+	 font-size: 0.9em;
+}
+
+textarea
+{
+	 height: 100px;
+	 width:100%;
+	 font-size: 0.9em;
+}
+
+iframe
+{
+	height: 100%;
+	width:100%;
+	overflow:hidden;
+	border-width: 0px;
+}
+
+.innerFrame
+{
+	height: 100%;
+	width:100%;
+	overflow:hidden;
+	border-width: 0px;
+}
+
+.innerDiv
+{
+ height : 100%;
+	width:100%;
+}
+
+.editTable
+{
+	border-style: solid;
+	border-width: 1px 0px 0px 1px;
+	border-color: #66CCFF;
+	table-layout: auto;
+	width: 100%;
+	background-color: #E1FFFF;
+}
+
+.editTable td
+{
+	border-style: solid;
+	border-width: 0px 1px 1px 0px;
+	border-color: #66CCFF;
+	text-align: left;
+	padding:1%;
+	vertical-align: top;
+}
+
+.editTable .th
+{
+	text-align: right;
+	vertical-align: text-top;
+	font-weight: bolder;
+	color: #0033CC;
+	font-size: 0.9em;
+	padding:2%;
+}
+
+.editTable .tdLabel
+{
+	text-align: right;
+	vertical-align: text-top;
+	font-weight: bolder;
+	color: #0033CC;
+	font-size: 0.9em;
+	padding:2%;
+}
+
+.editTable .tdInput
+{
+	text-align: left;
+	vertical-align: top;
+}
+
+.editTable .tdInput:hover
+{
+	background-color: #FFE2A6;
+}
+
+.editTable lable
+{
+	font-weight: bolder;
+	font-size: 1.2em;
+	color: #666666;
+}
