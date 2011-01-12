@@ -1,6 +1,6 @@
 package com.smartken.kia.model.sys;
 
-import com.smartken.kia.model.BaseModel;
+import com.smartken.kia.util.model.BaseModel;
 
 public class MenuModel extends BaseModel {
 
@@ -13,7 +13,7 @@ public class MenuModel extends BaseModel {
 	private String parentId;
 	private String token;
 	public String getToken() {
-		return token;
+		return token==null?"":token;
 	}
 	public void setToken(String token) {
 		this.token = token;
