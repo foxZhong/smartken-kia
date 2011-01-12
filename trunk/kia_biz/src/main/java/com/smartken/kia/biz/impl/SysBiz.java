@@ -9,6 +9,7 @@ import org.json.*;
 
 import com.smartken.kia.biz.ISysBiz;
 import com.smartken.kia.mapper.sys.IMenuMapper;
+import com.smartken.kia.mapper.sys.IUserMapper;
 import com.smartken.kia.model.sys.MenuModel;
 import com.smartken.kia.util.EasyUIHelper;
 import com.smartken.kia.util.ObjectHelper;
@@ -18,37 +19,19 @@ import com.smartken.kia.util.StringHelper;
 public class SysBiz implements ISysBiz {
 
 	private IMenuMapper iMenuMapper;
+	private IUserMapper iUserMapper;
 
-	public void setiMenuTreeNodeMapper(IMenuMapper iMenuTreeNodeMapper) {
+	public void setiMenuMapper(IMenuMapper iMenuTreeNodeMapper) {
 		this.iMenuMapper = iMenuTreeNodeMapper;
 	}
 
-
-
-	private JSONArray loadTreeNode(ArrayList<MenuModel> pArrTreeNode,String pParentId) 
-	{
-		JSONArray lArrJson=new JSONArray();
-		try
-		{
-		for (MenuModel mtn : pArrTreeNode) {
-			if(pParentId.equalsIgnoreCase(mtn.getParentId()))
-			{
-				JSONObject json=new JSONObject();
-				JSONObject jsonAttrs=new JSONObject();
-				jsonAttrs.put("url", mtn.getUrl());
-				json.put(EasyUIHelper.JSON_TREE_ID, mtn.getId());
-				json.put(EasyUIHelper.JSON_TREE_TEXT, mtn.getName());
-				json.put(EasyUIHelper.JSON_TREE_CHILDREN, loadTreeNode(pArrTreeNode, mtn.getId()));
-				json.put(EasyUIHelper.JSON_TREE_ICONCLS, mtn.getIcon());
-	            json.put(EasyUIHelper.JSON_TREE_ATTRIBUTES, jsonAttrs);
-				//json.put(EASYUI_TREE_IMAGE, mtn.getName());
-				lArrJson.put(json);
-			}
-		}
-		}catch(JSONException je)
-		{}
-		return lArrJson;
+	public void setiUserMapper(IUserMapper iUserMapper) {
+		this.iUserMapper = iUserMapper;
 	}
+
+
+
+
 
 	private MenuModel getNewPkMenu(MenuModel pMt)
 	{
@@ -65,48 +48,30 @@ public class SysBiz implements ISysBiz {
 
 
 
-
-	public JSONArray getMenuDataGrid() {
-		// TODO Auto-generated method stub
-		JSONArray lArrJsonMenu=new JSONArray();
-		ArrayList<MenuModel> lArrMtn=iMenuMapper.selectNotInPk(StringHelper.strToArr("root"));
-		Iterator<MenuModel> lItrMtn=lArrMtn.iterator();
-		while(lItrMtn.hasNext())
-		{
-		  lArrJsonMenu.put(lItrMtn.next().toJson());	
-		}
-		return lArrJsonMenu;
-	}
-
-
-
-
-
-
-
-
-
-	public MenuModel saveMenu(MenuModel pMenuModel) {
+	@SuppressWarnings("finally")
+	public int saveMenu(MenuModel pMenuModel) {
 		// TODO Auto-generated method stub
 		int lIntSqlResult=0;		
-		MenuModel lMtnReturn=null;
 		if(StringHelper.strIsBlank(pMenuModel.getId()))
-		{  return pMenuModel;}
+		{  return lIntSqlResult;}
+		try{
 		lIntSqlResult=iMenuMapper.updateOne(pMenuModel);  
 		if(lIntSqlResult==0)
 		{
 			pMenuModel=this.getNewPkMenu(pMenuModel);
 			lIntSqlResult=iMenuMapper.insertOne(pMenuModel);
 		}
-		if(lIntSqlResult>0)
-		{
-			lMtnReturn=(MenuModel) iMenuMapper.selectEqPk(pMenuModel.getId());
-		}
-		return lMtnReturn;
+		}catch(Exception ex)
+        {
+        	ex.printStackTrace();
+        }finally{
+        	return lIntSqlResult;
+        }
 	}
 
 
 
+	@SuppressWarnings("finally")
 	public MenuModel getMenu(String pStrId, int query) {
 		// TODO Auto-generated method stub
 		// TODO Auto-generated method stub
@@ -114,51 +79,62 @@ public class SysBiz implements ISysBiz {
 		String lStrId=ObjectHelper.formatString(pStrId);
 		if(lStrId.length()<1)
 			return null;
+		try{
 		if(query==StringHelper.EQ)
 		{
 			lObjReturn=(MenuModel) iMenuMapper.selectEqPk(lStrId);
-		}
-		return lObjReturn;
-	}
-
-
-
-
-	public JSONArray getMenuComboxTreeWithId(ArrayList<String> lListIds,
-			int query) {
-		// TODO Auto-generated method stub
-		ArrayList<MenuModel> lArrMtn=new ArrayList<MenuModel>();
-		if(query==StringHelper.NOTIN)
-		{
-			lArrMtn=iMenuMapper.selectNotInPk(lListIds);
-		}
-        return this.loadTreeNode(lArrMtn, "");
-	}
-
-
-
-	public JSONArray getMenuTreeWithId(ArrayList<String> lListId,
-			int query) {
-		ArrayList<MenuModel> lArrMtn=new ArrayList<MenuModel>();
-        if(query==StringHelper.IN)
-        {
-        	lArrMtn=iMenuMapper.selectInPk(lListId);
+		}}catch(Exception ex)
+		{ ex.printStackTrace();}finally{
+        	return lObjReturn;
         }
-		return this.loadTreeNode(lArrMtn, "root");
 	}
 
 
 
+
+
+	@SuppressWarnings("finally")
+	public ArrayList<MenuModel> getMenuWithId(ArrayList<String> pListId,
+			int query) {
+		ArrayList<MenuModel> lArrMtnReturn=new ArrayList<MenuModel>();
+        try{
+		if(query==StringHelper.IN)
+        {
+        	lArrMtnReturn=iMenuMapper.selectInPk(pListId);
+        }else if(query==StringHelper.NOTIN){
+        	lArrMtnReturn=iMenuMapper.selectNotInPk(pListId);
+        }else if(query==StringHelper.LIKE){
+        	lArrMtnReturn=iMenuMapper.selectLikePk(pListId.get(0).toString());
+        }else if(query==StringHelper.ALL){
+        	lArrMtnReturn=iMenuMapper.selectAll();
+        }
+		}catch(Exception ex)
+        {
+        	ex.printStackTrace();
+        }finally{
+        	return lArrMtnReturn;
+        }
+		
+	}
+
+
+
+	@SuppressWarnings("finally")
 	public int removeMenuWithId(ArrayList pArrIds, int query) {
 		// TODO Auto-generated method stub
 		int lIntReturn=0;
 		if(pArrIds.size()<1)
 			  return lIntReturn;
+		try{
 		if(query==StringHelper.IN)
 		{
 			lIntReturn=iMenuMapper.deleteInPk(pArrIds);
-		}
-		return lIntReturn;
+		}}catch(Exception ex)
+        {
+        	ex.printStackTrace();
+        }finally{
+        	return lIntReturn;
+        }
 	}
 
     
