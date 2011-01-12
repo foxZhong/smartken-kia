@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.smartken.kia.mapper.sys.IUserMapper">
+
+ 
+<cache flushInterval="1000000" readOnly="true"></cache>
+
+<sql id="table">sys_user</sql>
+<sql id="pk">id</sql>
+<sql id="likeCol">name</sql>
+<sql id="colums">id,pwd,name,role </sql>
+<sql id="insertCols">#{id},#{pwd},#{name},#{role}</sql>
+<sql id="updateCols">
+     name=#{name},
+     pwd=#{pwd},
+     role=#{role}
+</sql>
+<sql id="orderby">name</sql>
+
+<resultMap type="UserModel" id="resultMap">
+   <result property="id" column="id"/>
+   <result property="name" column="name"/>
+   <result property="pwd" column="pwd"/>
+   <result property="role" column="role" />
+</resultMap>
+
+<select id="selectEqPk" parameterType="String" resultType="UserModel" resultMap="resultMap">
+  select <include refid="colums"/> 
+    from <include refid="table"/> 
+  where <include refid="pk" /> = #{pObjPk}
+</select>
+ 
+<select id="selectLikePk" parameterType="String" resultType="UserModel"  resultMap="resultMap">
+   select <include refid="colums"/> 
+    from <include refid="table"/>
+   where <include refid="likeCol" /> like #{pStrRegexp}
+</select>
+
+
+<select id="selectInPk" resultType="UserModel"  resultMap="resultMap">
+   select <include refid="colums"/> 
+    from <include refid="table"/>
+   where <include refid="pk" /> in
+   <foreach item="pk" collection="list" open="(" separator="," close=")">
+      #{pk}
+   </foreach> 
+</select>
+
+<select id="selectNotInPk" resultType="UserModel"  resultMap="resultMap">
+   select <include refid="colums"/> 
+    from <include refid="table"/>
+   where <include refid="pk" /> not in
+   <foreach item="pk" collection="list" open="(" separator="," close=")">
+      #{pk}
+   </foreach> 
+</select>
+
+<select  id="selectAll"  resultType="ArrayList" resultMap="resultMap">
+  select <include refid="colums"/> 
+  from <include refid="table"/> 
+  <include refid="orderby"/>
+</select>
+
+<insert id="insertOne"   parameterType="UserModel">
+   insert into <include refid="table"/> 
+     ( <include refid="colums"/> ) values
+     ( <include refid="insertCols"/>) 
+</insert>
+
+<update id="updateOne" flushCache="true"  parameterType="UserModel">
+  update <include refid="table"/> set 
+       <include refid="updateCols"/>
+       where <include refid="pk" />=#{id}
+</update>
+
+<delete id="deleteInPk" flushCache="true">
+   delete from <include refid="table"/> 
+   where <include refid="pk" /> in
+   <foreach item="pk" collection="list" open="(" separator="," close=")">
+      #{pk}
+   </foreach>
+</delete>
+
+<delete id="deleteNotInPk" flushCache="true">
+   delete from <include refid="table"/> 
+   where <include refid="pk" /> not in
+   <foreach item="pk" collection="list" open="(" separator="," close=")">
+      #{pk}
+   </foreach>
+</delete>
+
+
+
+
+
+<select id="selectInRole" resultType="UserModel"  resultMap="resultMap">
+   select <include refid="colums"/> 
+    from <include refid="table"/>
+   where role in
+   <foreach item="pk" collection="list" open="(" separator="," close=")">
+      #{pk}
+   </foreach> 
+</select>
+
+
+</mapper>

@@ -15,6 +15,7 @@ public abstract class BaseDao {
 
 	public BaseDao()
 	{
+		
 		String resource ="mybatis3-local.xml";
 		try {
 			Reader reader = Resources.getResourceAsReader(resource);

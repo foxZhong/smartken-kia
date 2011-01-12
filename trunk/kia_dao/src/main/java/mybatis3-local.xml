@@ -2,9 +2,10 @@
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
-<properties resource="kia_mysql.property"></properties>
+<properties resource="kia_oracle.property"></properties>
 <typeAliases>
-   <typeAlias type="com.smartken.kia.model.sys.MenuTreeNodeModel" alias="MenuTreeNodeModel"/>
+   <typeAlias type="com.smartken.kia.model.sys.MenuModel" alias="MenuModel"/>
+    <typeAlias type="com.smartken.kia.model.sys.UserModel" alias="UserModel"/>
 </typeAliases>
 
 <environments default="development">
@@ -19,6 +20,7 @@
 </environment>
 </environments>
 <mappers>
-<mapper resource="com/smartken/kia/mapper/sys/IMenuTreeNodeMapper.xml"/>
+<mapper resource="com/smartken/kia/mapper/sys/IMenuMapper.xml"/>
+<mapper resource="com/smartken/kia/mapper/sys/IUserMapper.xml"/>
 </mappers>
 </configuration>
