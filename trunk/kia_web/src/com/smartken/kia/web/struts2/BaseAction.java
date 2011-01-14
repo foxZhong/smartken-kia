@@ -15,8 +15,10 @@ import org.apache.struts2.interceptor.SessionAware;
 
 import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.ActionSupport;
+import com.opensymphony.xwork2.ModelDriven;
 import com.opensymphony.xwork2.Preparable;
 import com.opensymphony.xwork2.interceptor.Interceptor;
+import com.smartken.kia.biz.ISysBiz;
 
 
 public abstract class BaseAction extends ActionSupport 
@@ -34,20 +36,17 @@ implements ServletResponseAware,ServletRequestAware,Preparable{
 	protected HttpSession _session;
 	protected String format;
 
-
-	public abstract String listDataGrid() throws Exception;
-	public abstract String listTree() throws Exception;
-	public abstract String listComboTree() throws Exception;
-	public abstract String edit() throws Exception;
+	
+	
 	public abstract String remove() throws Exception;
 	public abstract String search() throws Exception;
-	public abstract String save() throws Exception;
+	public abstract String moidfy() throws Exception;
 	public abstract String add() throws Exception;
 	protected abstract void clear();
 	
-	public String index()
+	public String to_index() throws Exception
 	{
-		return SUCCESS;
+		return INPUT;
 	}
 	
 	protected void writeHTML(String lStrHTML)
