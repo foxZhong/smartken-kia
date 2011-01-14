@@ -4,20 +4,26 @@ import java.awt.List;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import javax.management.modelmbean.ModelMBean;
+
 
 import org.json.*;
 
 import com.smartken.kia.biz.ISysBiz;
+import com.smartken.kia.mapper.IMapper;
 import com.smartken.kia.mapper.sys.IMenuMapper;
 import com.smartken.kia.mapper.sys.IUserMapper;
 import com.smartken.kia.model.sys.MenuModel;
+import com.smartken.kia.model.sys.UserModel;
 import com.smartken.kia.util.EasyUIHelper;
 import com.smartken.kia.util.ObjectHelper;
 import com.smartken.kia.util.StringHelper;
 
 
-public class SysBiz implements ISysBiz {
+public class SysBiz<T> extends BaseCurdBiz<T> implements ISysBiz<T> {
 
+	
+	
 	private IMenuMapper iMenuMapper;
 	private IUserMapper iUserMapper;
 
@@ -30,8 +36,19 @@ public class SysBiz implements ISysBiz {
 	}
 
 
-
-
+	public void loadCrudMapper(Class c)
+	{
+		
+		if(c.equals(MenuModel.class))
+		{
+			this.iCRUDMapper=iMenuMapper;
+		}else if(c.equals(UserModel.class))
+		{
+		    this.iCRUDMapper=iUserMapper;	
+		}
+	}
+	
+	
 
 	private MenuModel getNewPkMenu(MenuModel pMt)
 	{
@@ -45,98 +62,44 @@ public class SysBiz implements ISysBiz {
 	   return pMt;
 	}
 
-
-
-
-	@SuppressWarnings("finally")
-	public int saveMenu(MenuModel pMenuModel) {
+	@Override
+	public int addModel(T model) throws Exception {
 		// TODO Auto-generated method stub
-		int lIntSqlResult=0;		
-		if(StringHelper.strIsBlank(pMenuModel.getId()))
-		{  return lIntSqlResult;}
-		try{
-		lIntSqlResult=iMenuMapper.updateOne(pMenuModel);  
-		if(lIntSqlResult==0)
-		{
-			pMenuModel=this.getNewPkMenu(pMenuModel);
-			lIntSqlResult=iMenuMapper.insertOne(pMenuModel);
-		}
-		}catch(Exception ex)
-        {
-        	ex.printStackTrace();
-        }finally{
-        	return lIntSqlResult;
-        }
+		return super.addModel(model);
 	}
 
-
-
-	@SuppressWarnings("finally")
-	public MenuModel getMenu(String pStrId, int query) {
+	@Override
+	public ArrayList<T> getModelWithId(ArrayList lListIds, int query)
+			throws Exception {
 		// TODO Auto-generated method stub
+		return super.getModelWithId(lListIds, query);
+	}
+
+	@Override
+	public int modifyModel(T model) throws Exception {
 		// TODO Auto-generated method stub
-		MenuModel lObjReturn=null;
-		String lStrId=ObjectHelper.formatString(pStrId);
-		if(lStrId.length()<1)
-			return null;
-		try{
-		if(query==StringHelper.EQ)
-		{
-			lObjReturn=(MenuModel) iMenuMapper.selectEqPk(lStrId);
-		}}catch(Exception ex)
-		{ ex.printStackTrace();}finally{
-        	return lObjReturn;
-        }
+		return super.modifyModel(model);
+	}
+
+	@Override
+	public int removeModelWithId(ArrayList lListIds, int query)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return super.removeModelWithId(lListIds, query);
 	}
 
 
 
 
 
-	@SuppressWarnings("finally")
-	public ArrayList<MenuModel> getMenuWithId(ArrayList<String> pListId,
-			int query) {
-		ArrayList<MenuModel> lArrMtnReturn=new ArrayList<MenuModel>();
-        try{
-		if(query==StringHelper.IN)
-        {
-        	lArrMtnReturn=iMenuMapper.selectInPk(pListId);
-        }else if(query==StringHelper.NOTIN){
-        	lArrMtnReturn=iMenuMapper.selectNotInPk(pListId);
-        }else if(query==StringHelper.LIKE){
-        	lArrMtnReturn=iMenuMapper.selectLikePk(pListId.get(0).toString());
-        }else if(query==StringHelper.ALL){
-        	lArrMtnReturn=iMenuMapper.selectAll();
-        }
-		}catch(Exception ex)
-        {
-        	ex.printStackTrace();
-        }finally{
-        	return lArrMtnReturn;
-        }
-		
-	}
 
 
-
-	@SuppressWarnings("finally")
-	public int removeMenuWithId(ArrayList pArrIds, int query) {
-		// TODO Auto-generated method stub
-		int lIntReturn=0;
-		if(pArrIds.size()<1)
-			  return lIntReturn;
-		try{
-		if(query==StringHelper.IN)
-		{
-			lIntReturn=iMenuMapper.deleteInPk(pArrIds);
-		}}catch(Exception ex)
-        {
-        	ex.printStackTrace();
-        }finally{
-        	return lIntReturn;
-        }
-	}
-
-    
 
 }
+
+
+
+
+	
+	
+
