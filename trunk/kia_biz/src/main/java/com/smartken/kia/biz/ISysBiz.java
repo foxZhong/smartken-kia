@@ -5,12 +5,10 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 
 import com.smartken.kia.model.sys.MenuModel;
+import com.smartken.kia.model.sys.UserModel;
 
-public interface ISysBiz {
+public interface ISysBiz<Model> extends IBaseCrudBiz<Model> {
 
-	public ArrayList<MenuModel> getMenuWithId(ArrayList<String> lListTokens,int query);
-	public MenuModel getMenu(String pStrId,int query);
-	public int removeMenuWithId(ArrayList pArrId,int query);
-	public int saveMenu(MenuModel pMenuModel);
+		
 
 }
