@@ -1,55 +1,40 @@
 package com.smartken.kia.util;
 
+import java.util.ArrayList;
+
 public class StringHelper {
 
 	
-	public static String formatString(String lStrFormat)
+	  public static int LT=-2;
+	  public static int LTE=-1;
+	  public static int EQ=0;
+	  public static int GTE=1;
+	  public static int GT=2;
+	  public static int IN=3;
+	  public static int NOTIN=4;
+	  public static int LIKE=5;
+	  public static int ALL=6;
+	
+	public static ArrayList<String> strToArr(String pStrVal)
 	{
-		return formatString(lStrFormat, "");
+		ArrayList<String> lListReturn=new ArrayList<String>();
+		lListReturn.add(pStrVal);
+		return lListReturn;
 	}
 	
-	public static String formatString(String lStrFormat,String lStrDefault)
+	public static ArrayList<String> strSplitArr(String pStrVal,String pStrSplit)
 	{
-		return lStrFormat==lStrDefault?"":lStrFormat;
-	}
-	
-	public static int formatInt(String lStrFormat)
-	{
-		return formatInt(lStrFormat, 0);
-	}
-	
-	public static int formatInt(String lStrFormat,int lIntDefault)
-	{
-		if(lStrFormat==null)
-			return lIntDefault;
-		int lIntFormat;
-		try
+		ArrayList<String> lListReturn=new ArrayList<String>();
+		String[] lArrVals=pStrVal.split(pStrSplit);
+		for(int i=0;i<lArrVals.length;i++)
 		{
-			lIntFormat=Integer.parseInt(lStrFormat);
-		}catch(NumberFormatException nfe)
-		{
-			lIntFormat=lIntDefault;
+			lListReturn.add(lArrVals[i]);
 		}
-		return lIntFormat;
+		return lListReturn;
 	}
 	
-	public static double formatDouble(String lStrFormat)
+	public static boolean strIsBlank(String pStr)
 	{
-		return formatDouble(lStrFormat, 0);
-	}
-	
-	public static double formatDouble(String lStrFormat,double lDubDefault)
-	{
-		if(lStrFormat==null)
-			return lDubDefault;
-		double lDubFormat;
-		try
-		{
-			lDubFormat=Double.parseDouble(lStrFormat);
-		}catch(NumberFormatException nfe)
-		{
-			lDubFormat=lDubDefault;
-		}
-		return lDubFormat;
+		return pStr==null||pStr.length()==0;
 	}
 }
