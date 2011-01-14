@@ -8,7 +8,7 @@ import org.apache.ibatis.type.MappedTypes;
 import com.smartken.kia.mapper.IMapper;
 
 
-public interface IMenuMapper extends IMapper {
+public interface IMenuMapper<T> extends IMapper<T> {
 
 	
 	public ArrayList selectInToken(ArrayList<String> lListToken);

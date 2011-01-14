@@ -5,9 +5,9 @@
 
 <mapper namespace="com.smartken.kia.mapper.sys.IMenuMapper">
 
-<cache flushInterval="1000000" readOnly="true"></cache>
+<cache flushInterval="10000" readOnly="true"></cache>
 
-<sql id="table">sys_menu</sql>
+<sql id="table">kia_sys_menu</sql>
 <sql id="pk">id</sql>
 <sql id="likeCol">name</sql>
 <sql id="colums">id,name,descp,url,parma,icon,parent_id,token </sql>

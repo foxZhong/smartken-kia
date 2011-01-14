@@ -8,23 +8,29 @@
  
 <cache flushInterval="1000000" readOnly="true"></cache>
 
-<sql id="table">sys_user</sql>
-<sql id="pk">id</sql>
+<sql id="table">kia_sys_user</sql>
+<sql id="pk">login_id</sql>
 <sql id="likeCol">name</sql>
-<sql id="colums">id,pwd,name,role </sql>
-<sql id="insertCols">#{id},#{pwd},#{name},#{role}</sql>
+<sql id="colums">login_id,login_pwd,name,role_fk,dept_fk,idcard,work_id,ip_begin,ip_end,statue </sql>
+<sql id="insertCols">#{loginId},#{loginPwd},#{name},#{role},#{dept},#{idCard},#{workId},#{ipBegin},#{ipEnd},#{statue}</sql>
 <sql id="updateCols">
+     loginPwd=#{loginPwd},
      name=#{name},
-     pwd=#{pwd},
-     role=#{role}
+     role_fk=#{role},
+     dept_fk=#{dept},
+     idcard=#{idCard},
+     work_id=#{workId},
+     ip_begin=#{ipBegin},
+     ip_end=#{ipEnd},
+     statue=#{statue},
 </sql>
-<sql id="orderby">name</sql>
+<sql id="orderby">name,idcard</sql>
 
 <resultMap type="UserModel" id="resultMap">
    <result property="id" column="id"/>
    <result property="name" column="name"/>
    <result property="pwd" column="pwd"/>
-   <result property="role" column="role" />
+   <result property="role" column="role"  />
 </resultMap>
 
 <select id="selectEqPk" parameterType="String" resultType="UserModel" resultMap="resultMap">
@@ -103,6 +109,13 @@
    <foreach item="pk" collection="list" open="(" separator="," close=")">
       #{pk}
    </foreach> 
+</select>
+
+
+<select id="login" resultType="String" resultMap="resultMap">
+   select <include refid="colums"/>
+   from <include refid="table"/>
+   where login_id='#pStrLoginId#' and login_pwd='#pStrLoginPwd#'
 </select>
 
 
