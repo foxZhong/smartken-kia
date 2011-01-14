@@ -1,6 +1,7 @@
 package com.smartken.kia.web.struts2.sys;
 
 
+import java.awt.Menu;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -23,9 +24,9 @@ public class MenuAction extends BaseAction
 
 	private String menuid;
 	private String menuids;
-	private ISysBiz iSysBiz;
 	private MenuModel menu;
 	
+    protected ISysBiz<MenuModel> iSysBiz;
 	
 	public void setMenuid(String menuid) {
 		this.menuid = menuid;
@@ -57,11 +58,16 @@ public class MenuAction extends BaseAction
 		this.menu = menu;
 	}
 
-	@Override
-	public String save() {
+	public String modify() {
 		// TODO Auto-generated method stub
 		System.out.println("save:"+menu.toJson());
-		int re=this.iSysBiz.saveMenu(menu);
+		int re=0;
+		try {
+			re = this.iSysBiz.modifyModel(menu);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		writeHTML(re+"条菜单记录保存成功");
 		return NONE;
 	}
@@ -71,19 +77,23 @@ public class MenuAction extends BaseAction
 		// TODO Auto-generated method stub
 		System.out.println("remove:"+_req.getMethod());
 		ArrayList<String> lListIds=new ArrayList<String>();
+		try{
 	    if(menuids!=null&&_req.getMethod().equalsIgnoreCase(METHOD_GET))
 		{
              lListIds=StringHelper.strSplitArr(menuids,",");
-             int re=this.iSysBiz.removeMenuWithId(lListIds,StringHelper.IN);
+             int re=this.iSysBiz.removeModelWithId(lListIds,StringHelper.IN);
              writeHTML("成功删除"+re+"条记录");
              return NONE;
 		}else if(_req.getMethod().equalsIgnoreCase(METHOD_POST))
 		{
 	    	lListIds.add(menu.getId());
-	    	this.iSysBiz.removeMenuWithId(lListIds,StringHelper.IN);;
+	    	this.iSysBiz.removeModelWithId(lListIds,StringHelper.IN);;
 	    	return INPUT;
-		}else
-	      return NONE;
+		} 
+		}catch(Exception e)
+		{
+		  e.printStackTrace();	
+		}finally{return NONE;}
 	}
 
 	@Override
@@ -103,32 +113,26 @@ public class MenuAction extends BaseAction
 		return SUCCESS;
 	}
 	
-	@Override
-	public String listTree() throws Exception{
+	
+	public String list_Tree() throws Exception{
 		ArrayList lListToken=StringHelper.strToArr("root");
-		ArrayList<MenuModel> lListMenu=iSysBiz.getMenuWithId(lListToken,StringHelper.NOTIN);
+		ArrayList<MenuModel> lListMenu=iSysBiz.getModelWithId(lListToken,StringHelper.NOTIN);
 		JSONArray lJsonMenu=this.loadTreeNode(lListMenu,"root");
 		this.writeHTML(lJsonMenu.toString());
 		return NONE;
 	}
 	
-	@Override
-	public String listComboTree() throws Exception{
+	
+	public String list_ComboTree() throws Exception{
 		ArrayList lListIds=StringHelper.strToArr("");
-	    ArrayList<MenuModel> lListMenu =iSysBiz.getMenuWithId(lListIds,StringHelper.ALL);
+	    ArrayList<MenuModel> lListMenu =iSysBiz.getModelWithId(lListIds,StringHelper.ALL);
 	    JSONArray lJsonMenu=this.loadTreeNode(lListMenu,"");
 	    this.writeHTML(lJsonMenu.toString());
 		return NONE;
 	}
 
-	@Override
-	public String edit() throws Exception {
-		// TODO Auto-generated method stub
-        System.out.println("edit");
-		return INPUT;
-	}
 
-	@Override
+
 	public String add() throws Exception {
 		// TODO Auto-generated method stub
 		System.out.println("add");
@@ -137,10 +141,10 @@ public class MenuAction extends BaseAction
 	}
 
 	
-	public String listDataGrid() throws Exception {
+	public String list_DataGrid() throws Exception {
 		// TODO Auto-generated method stub
 		
-		ArrayList lListMenu=iSysBiz.getMenuWithId(StringHelper.strToArr("root"), StringHelper.NOTIN);
+		ArrayList lListMenu=iSysBiz.getModelWithId(StringHelper.strToArr("root"), StringHelper.NOTIN);
 		//System.out.println("list:"+lArrJson.toString());
 		if(format==null||format.equalsIgnoreCase(FORMAT_JSON))
 		{
@@ -156,13 +160,15 @@ public class MenuAction extends BaseAction
 
 	public void prepare() throws Exception {
 		// TODO Auto-generated method stub
+		iSysBiz.loadCrudMapper(MenuModel.class);
 		if(_req.getMethod().equalsIgnoreCase(METHOD_POST))
 			return;
 		String lStrId=ObjectHelper.formatString(this.menuid);
 		if(lStrId.length()>0)
 		{
-			menu=iSysBiz.getMenu(this.menuid,StringHelper.EQ);
-			menu=menu!=null?menu:new MenuModel();
+			ArrayList<MenuModel> lListMenu=iSysBiz.getModelWithId(StringHelper.strToArr(this.menuid),StringHelper.EQ);
+		    this.menu=ObjectHelper.isEmpty(lListMenu)?new MenuModel():lListMenu.get(0);
+		
 		}else
 		{
 			this.clear();
@@ -177,10 +183,6 @@ public class MenuAction extends BaseAction
 		this.menuid="";
 		this.menuids="";
 	}
-	
-	
-	
-	
 	
 	
 	
@@ -215,6 +217,23 @@ public class MenuAction extends BaseAction
 		JSONArray lListMenu=ObjectHelper.toJsonArray(pListMenu);
 		JSONObject lJsonDg=EasyUIHelper.toJsonDataGrid(lListMenu);
 		return lJsonDg;
+	}
+
+
+	@Override
+	public String moidfy() throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	public String to_edit() throws Exception {
+		// TODO Auto-generated method stub
+		return INPUT;
+	}
+	
+	public String to_add() throws Exception {
+		// TODO Auto-generated method stub
+		return INPUT;
 	}
 
 }

@@ -5,12 +5,21 @@
 <struts>
 
 <package name="sys-menu"  extends="base-package" namespace="/sys/menu" >
-   <action name="*-*" 
+
+   <action name="fn-*" 
      class="com.smartken.kia.web.struts2.sys.MenuAction" method="{1}">
      <result name="success">/sys/menu/index.jsp</result>
-     <result name="input">/sys/menu/{1}.{2}</result>
+     <result name="input">/sys/menu/{1}.jsp</result>
    </action>
+   <action name="*-*" 
+     class="com.smartken.kia.web.struts2.sys.MenuAction" method="{1}_{2}">
+      <result name="input">/sys/menu/{2}.jsp</result>
+   </action>
+
+ 
 </package>
+
+
 
 
 </struts>
