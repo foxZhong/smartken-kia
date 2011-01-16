@@ -16,7 +16,7 @@
 		    });
     	 
     		$('#MenuTreeNode').tree({
-				url: 'sys/menu/listTree.action',
+				url: 'sys/menu/list-Tree.action',
 				animate:true,
 				onClick:function(node){
 					if(node.attributes.url.length<1)
