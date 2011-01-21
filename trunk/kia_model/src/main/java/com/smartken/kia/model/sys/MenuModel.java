@@ -1,6 +1,6 @@
 package com.smartken.kia.model.sys;
 
-import com.smartken.kia.util.model.BaseModel;
+import com.smartken.kia.util.model.impl.BaseModel;
 
 public class MenuModel extends BaseModel {
 
@@ -60,4 +60,10 @@ public class MenuModel extends BaseModel {
 	public void setParentId(String parentId) {
 		this.parentId = parentId;
 	}
+	public Object generalPK() throws NullPointerException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
 }

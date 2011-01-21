@@ -1,6 +1,6 @@
 package com.smartken.kia.model.sys;
 
-import com.smartken.kia.util.model.BaseModel;
+import com.smartken.kia.util.model.impl.BaseModel;
 
 public class UserModel extends BaseModel {
 
@@ -31,6 +31,12 @@ public class UserModel extends BaseModel {
 	}
 	public void setRole(String role) {
 		this.role = role;
+	}
+	
+	
+	public Object generalPK() throws NullPointerException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }
