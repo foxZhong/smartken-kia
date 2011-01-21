@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import org.apache.ibatis.type.MappedTypes;
 
-import com.smartken.kia.mapper.IMapper;
+import com.smartken.kia.util.model.IMapper;
 
 
 public interface IMenuMapper<T> extends IMapper<T> {

@@ -2,7 +2,7 @@ package com.smartken.kia.mapper.sys;
 
 import java.util.ArrayList;
 
-import com.smartken.kia.mapper.IMapper;
+import com.smartken.kia.util.model.IMapper;
 import com.smartken.kia.model.sys.UserModel;
 
 

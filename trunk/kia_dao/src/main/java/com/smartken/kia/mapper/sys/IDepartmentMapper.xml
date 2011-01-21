@@ -3,35 +3,48 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 
-<mapper namespace="com.smartken.kia.mapper.sys.IMenuMapper">
+<mapper namespace="com.smartken.kia.mapper.sys.IDepartmentMapper">
 
 <cache flushInterval="10000" readOnly="true"></cache>
 
-<sql id="table">kia_sys_menu</sql>
-<sql id="pk">id</sql>
-<sql id="likeCol">name</sql>
-<sql id="colums">id,name,descp,url,parma,icon,parent_id,token </sql>
-<sql id="insertCols">#{id},#{name},#{descp},#{url},#{parma},#{icon},#{parentId},#{token}</sql>
-<sql id="updateCols">
-     name=#{name},
-     descp=#{descp},
-     parma=#{parma},
-     icon=#{icon},
-     parent_id=#{parentId},
-     url=#{url},
-     token=#{token}
-</sql>
-<sql id="orderby">token</sql>
+<!-- 
 
-<resultMap type="MenuModel" id="resultMap">
-   <result property="id" column="id"/>
-   <result property="name" column="name"/>
-   <result property="descp" column="descp"/>
-   <result property="url" column="url" />
-   <result property="parma" column="parma" />
-   <result property="icon" column="icon"/>
-   <result property="parentId" column="parent_id"/>
-   <result property="token" column="token"/>
+ 	private String id;
+ 	private String fullname;
+ 	private String nickname;
+ 	private String company;
+ 	private String type;
+ 	private String linkman;
+ 	private String phone;
+ 	private String mobile;
+
+ -->
+
+<sql id="table">kia_sys_department</sql>
+<sql id="pk">id = #{id}</sql>
+<sql id="likeCol">fullname</sql>
+<sql id="colums">id,fullname,nickname,company_fk,type_fk,linkman,phone,mobile </sql>
+<sql id="insertCols">#{id},#{fullname},#{nickname},#{company},#{type},#{linkman},#{phone},#{mobile}</sql>
+<sql id="updateCols">
+     fullname=#{fullname},
+     nickname=#{nickname},
+     company_fk=#{company},
+     type_fk=#{type},
+     linkman=#{linkman},
+     phone=#{phone},
+     mobile=#{mobile}
+</sql>
+<sql id="orderby">fullname</sql>
+
+<resultMap type="DepartmentModel" id="resultMap">
+   <result property="id" column="id" />
+   <result property="fullname" column="fullname"/>
+   <result property="nickname" column="nick"/>
+   <result property="company" column="company_fk" />
+   <result property="type" column="type_fk" />
+   <result property="linkman" column="linkman"/>
+   <result property="phone" column="phone"/>
+   <result property="mobile" column="mobile"/>
 </resultMap>
 
 <select id="selectEqPk"  parameterType="String" resultType="MenuModel" resultMap="resultMap">
@@ -71,17 +84,13 @@
   <include refid="orderby"/>
 </select>
 
-<select id="count" resultType="int">
-   select count(*) from <include refid="table"/>
-</select>
-
 <insert id="insertOne"   parameterType="MenuModel">
    insert into <include refid="table"/> 
      ( <include refid="colums"/> ) values
      ( <include refid="insertCols"/>) 
 </insert>
 
-<update id="updateOne" flushCache="true"  parameterType="MenuModel">
+<update id="updateOne" flushCache="true"  parameterType="MenuModel" >
   update <include refid="table"/> set 
        <include refid="updateCols"/>
        where <include refid="pk" />=#{id}

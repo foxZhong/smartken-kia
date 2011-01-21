@@ -2,8 +2,11 @@ package com.smartken;
 
 import java.util.ArrayList;
 
+import org.apache.ibatis.session.RowBounds;
 
-import com.smartken.kia.dao.sys.TestDao;
+
+
+import com.smartken.kia.dao.TestDao;
 import com.smartken.kia.mapper.sys.IMenuMapper;
 import com.smartken.kia.mapper.sys.IUserMapper;
 import com.smartken.kia.model.sys.MenuModel;
@@ -24,11 +27,12 @@ public class App
 //  m.setName("test2");
 //  m.setParentId("root");
 //  System.out.println(dao.selectSomeRegexp("系统管理"));
-    TestDao td= new TestDao();
+   TestDao td= new TestDao();
     IMenuMapper mapper= td.openSqlSession().getMapper(IMenuMapper.class);
     //IUserMapper um= td.openSqlSession().getMapper(IUserMapper.class);
    // System.out.println(mapper.selectAll().size());
     //System.out.println(um.selectAll().size());
+    
     }
     
 }
