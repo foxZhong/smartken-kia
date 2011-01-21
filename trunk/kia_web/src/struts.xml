@@ -4,8 +4,8 @@
     "http://struts.apache.org/dtds/struts-2.1.dtd">
 <struts>
  
-  <constant name="struts.codebehind.defaultPackage" value="base-package"></constant>
-  <constant name="struts.codebehind.pathPrefix" value="/WEB-INF/jsp/"></constant>
+ 
+   <constant name="struts.enable.SlashesInActionNames" value="true" />
 
 <package name="base-package" extends="struts-default" abstract="true">
    <default-interceptor-ref name="paramsPrepareParamsStack"></default-interceptor-ref>
@@ -17,4 +17,6 @@
 </package>
 
 <include file="com/smartken/kia/web/struts2/sys/struts-sys.xml"></include>
+<include file="com/smartken/kia/web/struts2/fp/struts-fp.xml"></include>
+<include file="com/trusteach/drv/web/action/booked/struts-booked.xml"></include>
 </struts>
