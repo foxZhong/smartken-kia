@@ -1,23 +1,15 @@
 package com.smartken.kia.biz.impl;
 
-import java.awt.List;
+
 import java.util.ArrayList;
-import java.util.Iterator;
-
-import javax.management.modelmbean.ModelMBean;
-
-
-import org.json.*;
-
 import com.smartken.kia.biz.ISysBiz;
-import com.smartken.kia.mapper.IMapper;
+import com.smartken.kia.util.model.impl.BaseCurdBiz;
+import com.smartken.kia.util.page.PageBounds;
 import com.smartken.kia.mapper.sys.IMenuMapper;
 import com.smartken.kia.mapper.sys.IUserMapper;
 import com.smartken.kia.model.sys.MenuModel;
 import com.smartken.kia.model.sys.UserModel;
-import com.smartken.kia.util.EasyUIHelper;
-import com.smartken.kia.util.ObjectHelper;
-import com.smartken.kia.util.StringHelper;
+import com.smartken.kia.util.enums.QueryEnum;
 
 
 public class SysBiz<T> extends BaseCurdBiz<T> implements ISysBiz<T> {
@@ -50,29 +42,20 @@ public class SysBiz<T> extends BaseCurdBiz<T> implements ISysBiz<T> {
 	
 	
 
-	private MenuModel getNewPkMenu(MenuModel pMt)
-	{
-	   //MenuModel lMtParent=(MenuModel) iMenuMapper.selectEqPk(pMt.getParentId());
-       String lPk="";
-	   if(!pMt.getParentId().equalsIgnoreCase("root"))
-	   {
-		   lPk=pMt.getParentId()+"-"+pMt.getId();
-		   pMt.setId(lPk);
-	   }
-	   return pMt;
-	}
+
 
 	@Override
 	public int addModel(T model) throws Exception {
 		// TODO Auto-generated method stub
+	
 		return super.addModel(model);
 	}
 
 	@Override
-	public ArrayList<T> getModelWithId(ArrayList lListIds, int query)
+	public ArrayList<T> getModelWithId(ArrayList lListIds, QueryEnum pQuery,PageBounds pPage)
 			throws Exception {
 		// TODO Auto-generated method stub
-		return super.getModelWithId(lListIds, query);
+		return super.getModelWithId(lListIds, pQuery,pPage);
 	}
 
 	@Override
@@ -82,10 +65,10 @@ public class SysBiz<T> extends BaseCurdBiz<T> implements ISysBiz<T> {
 	}
 
 	@Override
-	public int removeModelWithId(ArrayList lListIds, int query)
+	public int removeModelWithId(ArrayList lListIds,QueryEnum pQuery)
 			throws Exception {
 		// TODO Auto-generated method stub
-		return super.removeModelWithId(lListIds, query);
+		return super.removeModelWithId(lListIds, pQuery);
 	}
 
 
