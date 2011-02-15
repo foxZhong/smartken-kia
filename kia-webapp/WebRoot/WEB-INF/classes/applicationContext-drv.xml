@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+	     http://www.springframework.org/schema/beans 
+	     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	     http://www.springframework.org/schema/context
+         http://www.springframework.org/schema/context/spring-context-3.0.xsd
+         http://www.springframework.org/schema/tx
+         http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+         http://www.springframework.org/schema/jdbc 
+         http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
+         http://www.springframework.org/schema/aop
+         http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+		">
+
+
+   <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"> 
+        <property name="locations"> 
+          <list> 
+            <value>WEB-INF/system.properties</value> 
+            </list> 
+         </property> 
+   </bean>
+   
+   <!--
+   <bean id="baseFpClient" class="com.smartken.kia.util.trustlink.FpClient" abstract="true">
+      <property name="hostName" value="${fp.hostName}"></property>
+      <property name="authenID" value="${fp.authenID}"></property>
+      <property name="authenPwd" value="${fp.authenPwd}"></property>
+      <property name="deviceType" value="${fp.deviceType}"></property>
+      <property name="ocxClassName" value="${fp.ocxClassName}"></property>
+      <property name="ocxEnrollClassID" value="${fp.ocxEnrollClassID}"></property>
+      <property name="ocxVerifyClassID" value="${fp.ocxVerifyClassID}"></property>
+      <property name="port" value="${fp.port}"></property>
+      <property name="productID" value="${fp.productID}"></property>
+   </bean>
+  
+
+
+	<bean id="dataSource-drv" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass" value="${jdbc.driverClassName}" />
+		<property name="jdbcUrl" value="${jdbc.url}" />
+		<property name="user" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<property name="autoCommitOnClose" value="true"/>
+		<property name="checkoutTimeout" value="${cpool.checkoutTimeout}"/>
+		<property name="initialPoolSize" value="${cpool.minPoolSize}"/>
+		<property name="minPoolSize" value="${cpool.minPoolSize}"/>
+		<property name="maxPoolSize" value="${cpool.maxPoolSize}"/>
+		<property name="maxIdleTime" value="${cpool.maxIdleTime}"/>
+		<property name="acquireIncrement" value="${cpool.acquireIncrement}"/>
+		<property name="maxIdleTimeExcessConnections" value="${cpool.maxIdleTimeExcessConnections}"/>
+	</bean>
+     -->
+      <bean id="dataSource-drv" class="org.springframework.jndi.JndiObjectFactoryBean">
+   <property name="jndiName" value="${jndi.oradrvde}"></property>
+ </bean>    
+
+
+<bean class="org.mybatis.spring.SqlSessionFactoryBean" id="sqlSessionFactory-drv">
+       <property name="dataSource" ref="dataSource-drv"></property>
+       <property name="configLocation" value="classpath:com/trusteach/drv/mapper/mybatis3-drv.xml"></property>
+       
+</bean>
+
+ 
+
+
+ 
+	<bean id="txManager-drv" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource-drv"/>
+	</bean>
+	
+
+	<tx:advice id="txAdvice-drv" transaction-manager="txManager-drv">
+		<tx:attributes>
+			<tx:method name="get*" read-only="true"/>
+			<tx:method name="load*" read-only="true"/>
+			<tx:method name="add*" propagation="REQUIRED" />
+			<tx:method name="modify*" propagation="REQUIRED"/>
+			<tx:method name="remove*" propagation="REQUIRED"/>			
+		</tx:attributes>
+	</tx:advice>
+
+	<aop:config>
+		<aop:pointcut expression="execution(* com.trusteach.drv.biz.impl.*.*(..))" id="drvMehtod"/>
+		<aop:advisor advice-ref="txAdvice-drv" pointcut-ref="drvMehtod" />
+		
+	</aop:config>
+
+
+
+ <bean id="drvMapper" class="org.mybatis.spring.mapper.MapperFactoryBean" abstract="true" >
+     <property name="sqlSessionFactory" ref="sqlSessionFactory-drv" />
+   </bean>
+
+<bean id="weekReocrdMapper" parent="drvMapper">
+    <property name="mapperInterface" value="com.trusteach.drv.mapper.booked.IWeekRecordMapper"></property>
+</bean>
+
+<bean id="limitMapper" parent="drvMapper" >
+   <property name="mapperInterface" value="com.trusteach.drv.mapper.booked.ILimitMapper"></property>
+</bean>
+
+<bean id="dictMapper" parent="drvMapper">
+  <property name="mapperInterface" value="com.trusteach.drv.mapper.sys.IDictMapper"></property>
+</bean>
+
+<bean id="departmentMapper" parent="drvMapper">
+  <property name="mapperInterface" value="com.trusteach.drv.mapper.sys.IDepartmentMapper"></property>
+</bean>
+
+
+<bean id="drvBookedBiz" class="com.trusteach.drv.biz.impl.BookedBiz" >
+ <property name="IWeekRecordMapper" ref="weekReocrdMapper"></property>
+ <property name="iLimitMapper" ref="limitMapper"></property>
+</bean>
+
+<bean id="drvSysBiz" class="com.trusteach.drv.biz.impl.DrvSysBiz">
+  <property name="iDictMapper" ref="dictMapper"></property>
+  <property name="iDepartmentMapper" ref="departmentMapper"></property>
+</bean>
+
+
+<bean class="com.trusteach.drv.web.action.booked.WeekPbAction"
+ id="com.trusteach.drv.web.action.booked.WeekPbAction"
+>
+  <property name="iSysBiz" ref="drvSysBiz"></property>
+  <property name="iBookedBiz" ref="drvBookedBiz"></property>
+</bean>
+
+
+</beans>

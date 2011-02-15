@@ -1,0 +1,121 @@
+package com.smartken.kia.web.action;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Map;
+
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+
+
+import org.apache.struts2.ServletActionContext;
+import org.apache.struts2.interceptor.ServletRequestAware;
+import org.apache.struts2.interceptor.ServletResponseAware;
+import org.apache.struts2.interceptor.SessionAware;
+
+import com.opensymphony.xwork2.ActionContext;
+import com.opensymphony.xwork2.ActionInvocation;
+import com.opensymphony.xwork2.ActionSupport;
+import com.opensymphony.xwork2.ModelDriven;
+import com.opensymphony.xwork2.Preparable;
+import com.opensymphony.xwork2.interceptor.Interceptor;
+import com.smartken.kia.core.model.IBaseAction;
+import com.smartken.kia.core.pager.PageBounds;
+
+
+
+public abstract class BaseAction extends ActionSupport 
+implements Preparable,IBaseAction
+{
+
+	protected String format;
+    protected Integer page;
+    protected Integer rows;
+    protected int count;
+
+	
+
+	public abstract void clear();
+	
+	public String to_index() throws Exception
+	{
+		return INPUT;
+	
+	}
+	
+	protected void writeHTML(String lStrHTML)
+	{
+		HttpServletResponse res=this.getResponse();
+		res.setContentType("text/html; charset=UTF-8");
+		try {
+			res.getWriter().write(lStrHTML);
+			res.getWriter().flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	protected void writePlainText(String lStrText)
+	{
+		try {
+				HttpServletResponse res=this.getResponse();
+				res.setContentType("text/plain; charset=UTF-8");
+				PrintWriter pw=res.getWriter();
+				pw.write(lStrText);
+				pw.flush();
+				pw.close();
+		
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	protected void writeScript(String lStrScript)
+	{
+		HttpServletResponse res=this.getResponse();
+		res.setContentType("text/html; charset=UTF-8");
+		try {
+			res.getWriter().println("<script type='text/javascript'>"+lStrScript+"</script>");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public HttpServletRequest getRequest()
+	{
+		return ServletActionContext.getRequest();
+	}
+	
+	public HttpServletResponse getResponse()
+	{
+		return ServletActionContext.getResponse();
+	}
+	
+	
+	public void setFormat(String format) {
+		this.format = format;
+	}
+	
+	
+	
+	public void setPage(Integer page) {
+		this.page = page;
+	}
+	public void setRows(Integer rows) {
+		this.rows = rows;
+	}
+
+	public PageBounds getPager(){
+		PageBounds pb=new PageBounds(this.page==null?PageBounds.NO_ROW_OFFSET:(this.page-1)*this.rows,
+				                     this.rows==null?PageBounds.NO_ROW_LIMIT:this.rows);
+		return pb;
+	}
+	
+
+}
