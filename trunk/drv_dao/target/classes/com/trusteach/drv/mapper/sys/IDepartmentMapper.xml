@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.trusteach.drv.mapper.sys.IDepartmentMapper">
+
+<cache flushInterval="10000" readOnly="true"></cache>
+
+<!-- 
+	private Integer id;
+	private String connector;
+	private String mobile;
+	private String phone;
+	private String companycode;
+	private String depfullname;
+	private String depnickname;
+	private String depcode;
+	private String parentcode;
+	private String deptype;
+	
+ -->
+
+
+<sql id="table">table_departments</sql>
+<sql id="pk">id</sql>
+<sql id="likeCol">depfullname</sql>
+<sql id="colums">
+id,c_connector,c_mobile,c_phone,c_companycode,c_depfullname,c_depnickname,c_depcode,c_parentcode,c_deptype</sql>
+<sql id="insertCols">
+#{id},#{connector},#{mobile},#{phone},#{companycode},#{depfullname},#{depnickname},#{depcode},#{parentcode},#{deptype}
+</sql>
+<sql id="updateCols">
+id=#{id},
+c_connector=#{connector},
+c_mobile=#{mobile},
+c_phone=#{phone},
+c_companycode=#{companycode},
+c_depfullname=#{depfullname},
+c_depnickname=#{depnickname},
+c_depcode=#{depcode},
+c_parentcode=#{parentcode},
+c_deptype=#{deptype},
+</sql>
+<sql id="orderby">c_depfullname</sql>
+
+<resultMap type="DepartmentModel" id="resultMap">
+  <id column="id"  property="id"/>
+  <result column="c_connector" property="connector"/>
+  <result column="c_mobile" property="mobile"/>
+  <result column="c_phone" property="phone"/>
+  <result column="c_companycode" property="companycode"/>
+  <result column="c_depfullname" property="depfullname"/>
+  <result column="c_depnickname" property="depnickname"/>
+  <result column="c_depcode" property="depcode"/> 
+  <result column="c_parentcode" property="parentcode"/> 
+  <result column="c_deptype" property="deptype"/>   
+</resultMap>
+
+
+<select id="select" resultType="ArrayList" resultMap="resultMap">
+   select <include refid="colums" />
+   from <include refid="table" />
+   <trim prefix="where" prefixOverrides="and">
+     <if test="model.id neq null">and id=#{model.id} </if> 
+     <if test="model.deptype neq null">and c_deptype=#{model.deptype}</if>
+     <if test="model.depcode neq null">and c_depcode=#{model.depcode}</if>      
+   </trim>
+
+</select>
+
+<select id="selectEqPk"  parameterType="int" resultMap="resultMap">
+  select <include refid="colums"/> 
+    from <include refid="table"/> 
+  where <include refid="pk" /> = #{pObjPk}
+</select>
+
+<select id="count" resultType="int">
+  select count(*) from <include refid="table"/>
+</select>
+
+<select id="selectLikePk" parameterType="String" resultType="ArrayList" resultMap="resultMap" >
+   select <include refid="colums"/> 
+    from <include refid="table"/>
+   where <include refid="likeCol" /> like #{pStrRegexp}
+</select>
+
+
+<select id="selectInPk" resultType="ArrayList" resultMap="resultMap" >
+   select <include refid="colums"/> 
+    from <include refid="table"/>
+   where <include refid="pk" /> in
+   <foreach item="pk" collection="list" open="(" separator="," close=")">
+      #{pk}
+   </foreach> 
+</select>
+
+<select id="selectNotInPk" resultType="ArrayList" resultMap="resultMap" >
+   select <include refid="colums"/> 
+    from <include refid="table"/>
+   where <include refid="pk" /> not in
+   <foreach item="pk" collection="list" open="(" separator="," close=")">
+      #{pk}
+   </foreach> 
+</select>
+
+<select  id="selectAll"  resultType="ArrayList"  resultMap="resultMap">
+  select <include refid="colums"/> 
+  from <include refid="table"/> 
+  <include refid="orderby"/>
+</select>
+
+
+
+
+</mapper>
