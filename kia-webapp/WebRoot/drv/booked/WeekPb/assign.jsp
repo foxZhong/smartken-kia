@@ -40,13 +40,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
            String aEditLimit="aEditLimit";
            String aRemoveLimit="aRemoveLimit";
            String aAddLimit="aAddLimit";
-           String aRemoveAllLimit="aRemoveAllLimit";
+           String aRemoveLimits="aRemoveLimits";
            String txtSearchDate="txtSearchDate";
            String aBack="aBack";
            String aSaveWeek="aSaveWeek";
+           String txtLimitNum="txtLimitNum";
 
            EasyUiModel searchDateBox=new EasyUiModel(StringUtil.quota("#"+txtSearchDate),EasyUiModel.DateBox.NAME);
            searchDateBox.appendAttrs(EasyUiModel.DateBox.Properties.FORMATTER,"function(date){return date.getFullYear()+\"-\"+(date.getMonth()+1)+\"-\"+date.getDate();}");
+           
+           EasyUiModel numspiLimitNum=new EasyUiModel(StringUtil.quota("."+txtLimitNum),EasyUiModel.NumberSpinner.NAME);
+           numspiLimitNum
+           .appendAttrs(EasyUiModel.Spinner.Properties.MIN,-1)
+           .appendAttrs(EasyUiModel.Spinner.Properties.INCREMENT,10)
+           ;
            
            JsFunctionModel handlerAddLimitClick=new JsFunctionModel(null);
            handlerAddLimitClick
@@ -73,6 +80,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
            
            JQueryModel btnAddLimit=new JQueryModel(StringUtil.quota("."+aAddLimit),JQueryModel.Events.CLICK);
            btnAddLimit.appendParma(handlerAddLimitClick);
+           
+           JsFunctionModel handlerRemoveLimitsClick=new JsFunctionModel(null);
+           handlerRemoveLimitsClick
+            .appendContext("var limitId=$(this).attr('id');")
+            .appendContext("var dw=limitId.split(',')[0];")
+            .appendContext("var km=limitId.split(',')[1];")   
+               //.appendContext("var total=limitId.split(',')[1];")
+           // .appendContext("var ldate=limitId.split(',')[2];")
+            .appendContext("$.get('"+basePath+"booked/WeekPb/do/removeLimits.action',{dw:dw,km:km},function(data){location.href='"+basePath+"booked/WeekPb/reload/assign.action';});")
+           ;
+           
+           JQueryModel btnRemoveLimits=new JQueryModel(StringUtil.quota("."+aRemoveLimits),JQueryModel.Events.CLICK);
+           btnRemoveLimits.appendParma(handlerRemoveLimitsClick);
            
           
            JQueryModel btnEditLimit=new JQueryModel(StringUtil.quota("."+aEditLimit),JQueryModel.Events.CLICK);
@@ -111,6 +131,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                    )
            );
            
+           
            EasyUiModel btnBack=new EasyUiModel(StringUtil.quota("#"+aBack),EasyUiModel.LinkButton.NAME );
            btnBack.appendAttrs(EasyUiModel.LinkButton.Properties.ICON_CLS,EasyUiModel.ICON_BACK,true);
  
@@ -119,12 +140,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         
  
            JsContextModel context=new JsContextModel();
-           context.appendScript(searchDateBox)
+           context
+           .appendScript(searchDateBox)
+           .appendScript(numspiLimitNum)
            .appendScript(btnBack)
            .appendScript(btnSaveWeek)
            .appendScript(btnAddLimit)
            .appendScript(btnEditLimit)
            .appendScript(btnRemoveLimit)
+           .appendScript(btnRemoveLimits)
            ; 
         %>      
        
@@ -158,7 +182,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	          <td  style="width:15%" >星期</td>
   	          <td >科目</td>
   	          <td >总数</td>
-  	          <td colspan="2">分配明细</td>
+  	          <td >已分配</td>
+  	          <td >分配明细</td>
   	        </tr>
   	        
 
@@ -171,21 +196,29 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	           
   	           <s:iterator value="#{'一':1,'二':2,'三':3}" id="km" >
   	           <s:if test="#km.value eq 1">
-  	           <td rowspan="3">星期<s:property value="#dw.key"/> <br/>(<s:date name="monday" format="yyyy-MM-dd"/>)</td>
+  	           <td rowspan="3">星期<s:property value="#dw.key"/> <br/>
+  	             <s:if test="#dw.value eq 1"><s:date name="monday" format="yyyy-MM-dd"/></s:if>
+  	             <s:elseif test="#dw.value eq 2"><s:date name="tuesday" format="yyyy-MM-dd"/></s:elseif>
+  	             <s:elseif test="#dw.value eq 3"><s:date name="wednesday" format="yyyy-MM-dd"/></s:elseif>
+  	             <s:elseif test="#dw.value eq 4"><s:date name="thursday" format="yyyy-MM-dd"/></s:elseif>
+  	             <s:elseif test="#dw.value eq 5"><s:date name="friday" format="yyyy-MM-dd"/></s:elseif>
+  	             <s:elseif test="#dw.value eq 6"><s:date name="saturday" format="yyyy-MM-dd"/></s:elseif>
+  	             <s:elseif test="#dw.value eq 7"><s:date name="sunday" format="yyyy-MM-dd"/></s:elseif>
+  	           </td>
   	           </s:if>
   	           <td>科目<s:property value="#km.key"/></td>
-               <td>&nbsp;${IWeek1Km1Num}</td>
-               <td>&nbsp;${IWeek1Km1Fp}</td>
+               <td>&nbsp;<input value="<s:property value="%" />" class="<%=txtLimitNum %>" /> </td>  
+               <td>&nbsp;</td>
                <td>
-                 <table style="table-layout: fixed;">
-                   <tr>
-                     <td colspan="100">
-                       <a class="kia-icon add <%=aAddLimit %>" title="新增菜单" id="<s:property value="#dw.value"/>,<s:property value="#km.value"/>,<s:property value="value.dateKsrq" />" ></a>
-                       <a class="kia-icon remove <%=aAddLimit %>" title="清空"></a>
-                     </td>
-                   </tr>
-                   <s:iterator value="limits" >
+                 <table style="width: 80%">
+                    <tr>
+                       <td colspan="100">
+                        <a class="kia-icon add <%=aAddLimit %>" title="新增菜单" id="<s:property value="#dw.value"/>,<s:property value="#km.value"/>,<s:property value="value.dateKsrq" />" ></a>
+                       <a class="kia-icon remove <%=aRemoveLimits %>" title="清空" id="<s:property value="#dw.value"/>,<s:property value="#km.value"/>,<s:property value="value.dateKsrq" />"></a>
+                   </td>
+                   <s:iterator value="limits" status="st">
                    <s:if test="value.dayofweek eq #dw.value && value.km eq #km.value">
+                    </tr>
                    <tr>
                      <td><s:property value="value.ksdd" /></td>
                      <td><s:property value="value.kscc" /></td>
