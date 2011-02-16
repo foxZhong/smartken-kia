@@ -1,6 +1,8 @@
 package com.trusteach.drv.web.action.booked;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.time.DateUtils;
@@ -177,6 +179,7 @@ public class WeekPbAction extends BaseAction implements ModelDriven<BookedWeekRe
 		tempLimit=new BookedLimitModel();
 		tempLimit.setDayofweek(ObjectUtil.formatInt(req.getParameter("dw"),1));
 		tempLimit.setKm(ObjectUtil.formatInt(req.getParameter("km"),1));
+		tempLimit.setWeekNum(bookedWeekRecordModel.getIWeekNum());
 		return JSP;
 	}
 
@@ -205,30 +208,42 @@ public class WeekPbAction extends BaseAction implements ModelDriven<BookedWeekRe
     }
     
     public void do_addLimit() throws Exception{
-    	BookedLimitModel editLimit=this.bookedWeekRecordModel.getLimits().get(this.limitKey);
-    	editLimit.setKsccCode(tempLimit.getKsccCode());
-    	editLimit.setKsddCode(tempLimit.getKsddCode());
-    	editLimit.setSchoolCode(tempLimit.getSchoolCode());
-    	editLimit.setTotal(tempLimit.getTotal());
-    	editLimit=iDrvSysBiz.fillObject(editLimit);
-    	this.bookedWeekRecordModel.getLimits().put(this.limitKey, editLimit);
+    	BookedLimitModel addLimit=this.tempLimit;
+    	addLimit=iDrvSysBiz.fillObject(addLimit);
+    	this.bookedWeekRecordModel.getLimits().put((String) addLimit.generalPK(), addLimit);
     	ResultModel result=new ResultModel();
-    	if(editLimit==null)
+    	if(addLimit==null)
     	{
     		result.setCode(ResultModel.CODE_ERROR);
-    		result.setTitle("编辑失败");
-    		result.setMsg("限制项"+editLimit.getDateKsrq()+"不存在");
+    		result.setTitle("添加失败");
+    		result.setMsg("限制项"+addLimit.getDateKsrq()+"不存在");
     	}else
     	{
     		result.setCode(ResultModel.CODE_SUCCESS);
-    		result.setTitle("编辑成功");
-    		result.setMsg("限制项"+editLimit.getDateKsrq()+"保存成功");
+    		result.setTitle("添加成功");
+    		result.setMsg("限制项"+addLimit.getDateKsrq()+"添加成功");
     	}
     	this.writePlainText(result.toJson().toString());
     }
 	
     public void do_removeLimit() throws Exception{
     	this.bookedWeekRecordModel.getLimits().remove(limitKey);
+    }
+    
+    public void do_removeLimits() throws Exception{
+    	HttpServletRequest req=this.getRequest();
+		int dw=ObjectUtil.formatInt(req.getParameter("dw"));
+		int km=ObjectUtil.formatInt(req.getParameter("km"));
+		for(Iterator<String> it=this.bookedWeekRecordModel.getLimits().keySet().iterator();it.hasNext();)
+		{
+			String key=it.next();
+			BookedLimitModel tempLimit=this.bookedWeekRecordModel.getLimits().get(key);
+			if(tempLimit.getKm()==km && tempLimit.getDayofweek() ==dw)
+			{
+				this.bookedWeekRecordModel.getLimits().remove(key);
+			}
+		}
+		this.writePlainText("");
     }
 
 	public void prepare() throws Exception {

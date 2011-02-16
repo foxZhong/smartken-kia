@@ -9,6 +9,19 @@ body
 	white-space: normal;
 }
 
+a{
+	color: #333333;
+
+}
+
+a:HOVER{
+	color: #333360;
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+
+
 .b
 {
 	border: 1px solid #C0C0C0;

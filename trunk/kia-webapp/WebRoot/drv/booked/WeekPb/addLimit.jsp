@@ -49,7 +49,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
            .appendAttrs(EasyUiModel.ComboBox.Properties.EDITABLE,false)
            .appendAttrs(EasyUiModel.ComboBox.Properties.WIDTH,150)
            .appendAttrs(EasyUiModel.ComboBox.Properties.REQUIRED,true)
-           .appendAttrs(EasyUiModel.ComboBox.Properties.VALUE,tempLimit.getKsccCode(),true)
+           .appendAttrs(EasyUiModel.ComboBox.Properties.VALUE,"",true)
            ;
            
            EasyUiModel comboboxKsdd=new EasyUiModel(StringUtil.quota("#"+formEditLimit+"-"+selectKsdd),EasyUiModel.ComboBox.NAME);
@@ -59,7 +59,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
            .appendAttrs(EasyUiModel.ComboBox.Properties.EDITABLE,false)
            .appendAttrs(EasyUiModel.ComboBox.Properties.WIDTH,150)
            .appendAttrs(EasyUiModel.ComboBox.Properties.REQUIRED,true)
-           .appendAttrs(EasyUiModel.ComboBox.Properties.VALUE,tempLimit.getKsddCode(),true)
+           .appendAttrs(EasyUiModel.ComboBox.Properties.VALUE,"",true)
            .appendAttrs(EasyUiModel.ComboBox.Events.ON_LOAD_SUCCESS,new JsFunctionModel(null).appendContext(comboboxKscc))
            ;
               
@@ -70,7 +70,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
            .appendAttrs(EasyUiModel.ComboBox.Properties.EDITABLE,false)
            .appendAttrs(EasyUiModel.ComboBox.Properties.WIDTH,150)
            .appendAttrs(EasyUiModel.ComboBox.Properties.REQUIRED,true)
-           .appendAttrs(EasyUiModel.ComboBox.Properties.VALUE,tempLimit.getSchoolCode(),true)
+           .appendAttrs(EasyUiModel.ComboBox.Properties.VALUE,"",true)
            .appendAttrs(EasyUiModel.ComboBox.Events.ON_LOAD_SUCCESS,new JsFunctionModel(null).appendContext(comboboxKsdd))
            ;
            
@@ -87,7 +87,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
            ;
            
            JsMapModel optEditForm=new JsMapModel();
-           optEditForm.put(EasyUiModel.Form.Properties.URL,basePath+"booked/WeekPb/do/editLimit.action",true);
+           optEditForm.put(EasyUiModel.Form.Properties.URL,basePath+"booked/WeekPb/do/addLimit.action",true);
            optEditForm.put(EasyUiModel.Form.Events.SUCCESS,
                 new JsFunctionModel(new String[]{"data"})
                 .appendContext("var re=eval('('+data+')');")
@@ -140,10 +140,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	         <input type="hidden" name="tempLimit.km" value="${tempLimit.km}">
   	         <input type="hidden" name="tempLimit.dayofweek" value="${tempLimit.dayofweek}">
   	        <input type="hidden" name="tempLimit.dateKsrq" value="${tempLimit.dateKsrq}">
-  	        <input type="hidden" name="tempLimit.weekNum" value="${tempLimit.weekNum}">
-  	         <input type="hidden" name="tempLimit.kscc">
-  	         <input type="hidden" name="tempLimit.ksdd">
-  	         <input type="hidden" name="tempLimit.schoolName">
   	          <table class="editTable">
   	            <tr>
   	              <td>考试场次</td>
@@ -165,7 +161,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	            </tr>
   	            <tr>
   	              <td>分配人数</td>
-  	              <td><input name="tempLimit.total" id="<%=formEditLimit+"-"+txtTotal %>" value="${tempLimit.total}" /></td>
+  	              <td><input name="tempLimit.total" id="<%=formEditLimit+"-"+txtTotal %>" value="1" /></td>
   	            </tr>
   	            <tr>
   	              <td colspan="2">
