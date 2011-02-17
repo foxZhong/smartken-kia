@@ -82,6 +82,8 @@ public class WeekPbAction extends BaseAction implements ModelDriven<BookedWeekRe
 		// TODO Auto-generated method stub
 		iBookedBiz.loadCrudMapper(BookedWeekRecordModel.class);
 		HttpServletRequest req=this.getRequest();
+		if(this.bookedWeekRecordModel==null)
+		{this.bookedWeekRecordModel=new BookedWeekRecordModel();}
 		try{
 		if(req.getMethod().equalsIgnoreCase(METHOD_GET))
 		{
@@ -89,11 +91,7 @@ public class WeekPbAction extends BaseAction implements ModelDriven<BookedWeekRe
 			{
 				int weekNum=ObjectUtil.formatInt(req.getParameter("weekNum"));
 				this.bookedWeekRecordModel=iBookedBiz.getWeekRecord(weekNum);
-			    if(this.bookedWeekRecordModel==null)
-			    {
-			    	this.bookedWeekRecordModel=new BookedWeekRecordModel();
-			    }else
-			    {
+			    if(this.bookedWeekRecordModel!=null){
 			    	this.bookedWeekRecordModel.setLimits(iBookedBiz.getLimits(this.bookedWeekRecordModel.getIWeekNum()));
 			    }
 			}
@@ -110,6 +108,7 @@ public class WeekPbAction extends BaseAction implements ModelDriven<BookedWeekRe
 		}catch(Exception ex)
 		{	
 		}finally{
+	    this.bookedWeekRecordModel.calLimitAssgined();
 		return this.bookedWeekRecordModel;
 		}
 	}
@@ -169,6 +168,7 @@ public class WeekPbAction extends BaseAction implements ModelDriven<BookedWeekRe
 	public String to_editLimit() throws Exception
 	{
 		tempLimit=this.bookedWeekRecordModel.getLimits().get(this.limitKey);
+		this.bookedWeekRecordModel.calLimitAssgined();
 		return JSP;
 	}
 	
@@ -180,6 +180,7 @@ public class WeekPbAction extends BaseAction implements ModelDriven<BookedWeekRe
 		tempLimit.setDayofweek(ObjectUtil.formatInt(req.getParameter("dw"),1));
 		tempLimit.setKm(ObjectUtil.formatInt(req.getParameter("km"),1));
 		tempLimit.setWeekNum(bookedWeekRecordModel.getIWeekNum());
+		this.bookedWeekRecordModel.calLimitAssgined();
 		return JSP;
 	}
 

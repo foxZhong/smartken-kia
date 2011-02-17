@@ -39,6 +39,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
            String divEditLimit="divEditLimit";      
            String aEditLimit="aEditLimit";
            String aRemoveLimit="aRemoveLimit";
+           String aEditFpNum="aEditFpNum";
            String aAddLimit="aAddLimit";
            String aRemoveLimits="aRemoveLimits";
            String txtSearchDate="txtSearchDate";
@@ -90,6 +91,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
            // .appendContext("var ldate=limitId.split(',')[2];")
             .appendContext("$.get('"+basePath+"booked/WeekPb/do/removeLimits.action',{dw:dw,km:km},function(data){location.href='"+basePath+"booked/WeekPb/reload/assign.action';});")
            ;
+
+           JsFunctionModel handlerBtnEditFpNumClick=new JsFunctionModel(null);
+           handlerBtnEditFpNumClick
+           .appendContext("$.post")
+           ;
+           
+           JQueryModel btnEditFpNum=new JQueryModel(StringUtil.formatId(true,"#",null,aEditFpNum));
+
            
            JQueryModel btnRemoveLimits=new JQueryModel(StringUtil.quota("."+aRemoveLimits),JQueryModel.Events.CLICK);
            btnRemoveLimits.appendParma(handlerRemoveLimitsClick);
@@ -180,9 +189,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	     <thead>
   	        <tr>
   	          <td  style="width:15%" >星期</td>
-  	          <td >科目</td>
-  	          <td >总数</td>
-  	          <td >已分配</td>
+  	          <td style="width:8%">科目</td>
+  	          <td style="width:12%">分配总数</td>
+  	          <td style="width:8%">已分配/剩余</td>
   	          <td >分配明细</td>
   	        </tr>
   	        
@@ -207,8 +216,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	           </td>
   	           </s:if>
   	           <td>科目<s:property value="#km.key"/></td>
-               <td>&nbsp;<input value="<s:property value="%" />" class="<%=txtLimitNum %>" /> </td>  
-               <td>&nbsp;</td>
+               <td>&nbsp;
+               <form action="<%=basePath %>booked/WeekPb/reload/assign.action" method="post">
+               <input name="<s:property value="%{'IWeek'+#dw.value+'Km'+#km.value+'Num'}" />" 
+                      value="<s:property value="#request['IWeek'+#dw.value+'Km'+#km.value+'Num']" />" class="<%=txtLimitNum %>" />
+                  &nbsp;<button type="submit">修改</button>
+               </form>
+               </td>  
+               <td>&nbsp;
+                  <s:if test="#request['IWeek'+#dw.value+'Km'+#km.value+'Num'] gte #request['IWeek'+#dw.value+'Km'+#km.value+'Assgined'] ">
+                     <s:property value="#request['IWeek'+#dw.value+'Km'+#km.value+'Assgined']" />/
+                     <s:property value="%{#request['IWeek'+#dw.value+'Km'+#km.value+'Num'] - #request['IWeek'+#dw.value+'Km'+#km.value+'Assgined']}" />
+                  </s:if>
+                  <s:else>
+                     <span style="color:red;">
+                     <s:property value="#request['IWeek'+#dw.value+'Km'+#km.value+'Assgined']" /><br/>
+                     分配数已超过总数
+                     </span>
+                  </s:else>
+               </td>
                <td>
                  <table style="width: 80%">
                     <tr>
