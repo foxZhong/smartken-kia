@@ -6,6 +6,7 @@
 <typeAliases>
    <typeAlias type="com.trusteach.drv.model.BookedWeekRecordModel" alias="BookedWeekRecordModel"/>
    <typeAlias type="com.trusteach.drv.model.BookedLimitModel" alias="BookedLimitModel"/>
+   <typeAlias type="com.trusteach.drv.model.BookedLimitInfoModel" alias="BookedLimitInfoModel"/>
   <typeAlias type="com.trusteach.drv.model.DictModel" alias="DictModel"/>
   <typeAlias type="com.trusteach.drv.model.DepartmentModel" alias="DepartmentModel"/>
 
@@ -33,6 +34,7 @@
 <mappers>
 <mapper resource="com/trusteach/drv/mapper/booked/IWeekRecordMapper.xml"/>
 <mapper resource="com/trusteach/drv/mapper/booked/ILimitMapper.xml"/>
+<mapper resource="com/trusteach/drv/mapper/booked/ILimitInfoMapper.xml"/>
 <mapper resource="com/trusteach/drv/mapper/sys/IDictMapper.xml"/>
 <mapper resource="com/trusteach/drv/mapper/sys/IDepartmentMapper.xml"/>
 </mappers>

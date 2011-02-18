@@ -24,6 +24,7 @@ import com.opensymphony.xwork2.Preparable;
 import com.opensymphony.xwork2.interceptor.Interceptor;
 import com.smartken.kia.core.model.IBaseAction;
 import com.smartken.kia.core.pager.PageBounds;
+import com.smartken.kia.core.util.ObjectUtil;
 
 
 
@@ -31,9 +32,9 @@ public abstract class BaseAction extends ActionSupport
 implements Preparable,IBaseAction
 {
 
-	protected String format;
-    protected Integer page;
-    protected Integer rows;
+	private String dataFormat;
+    private Integer page;
+    private Integer rows;
     protected int count;
 
 	
@@ -98,17 +99,29 @@ implements Preparable,IBaseAction
 	}
 	
 	
-	public void setFormat(String format) {
-		this.format = format;
-	}
-	
-	
 	
 	public void setPage(Integer page) {
-		this.page = page;
+		this.page = ObjectUtil.formatInt(page,PageBounds.NO_ROW_OFFSET);
 	}
 	public void setRows(Integer rows) {
-		this.rows = rows;
+		this.rows = ObjectUtil.formatInt(rows,PageBounds.NO_ROW_LIMIT);
+	}
+	
+	
+
+	public String getDataFormat() {
+		// TODO Auto-generated method stub
+		return this.dataFormat;
+	}
+
+	public Integer getPage() {
+		// TODO Auto-generated method stub
+		return this.page;
+	}
+
+	public Integer getRows() {
+		// TODO Auto-generated method stub
+		return this.rows;
 	}
 
 	public PageBounds getPager(){
@@ -116,6 +129,12 @@ implements Preparable,IBaseAction
 				                     this.rows==null?PageBounds.NO_ROW_LIMIT:this.rows);
 		return pb;
 	}
+
+	public void setDataFormat(String format) {
+		// TODO Auto-generated method stub
+		this.dataFormat = ObjectUtil.formatString(dataFormat, FORMAT_JSON);
+	}
+	
 	
 
 }

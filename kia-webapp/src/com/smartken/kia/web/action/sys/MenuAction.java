@@ -141,12 +141,12 @@ public class MenuAction extends BaseAction
 		PageBounds pb=this.getPager();
 		ArrayList lListMenu=iSysBiz.getModelWithId(StringUtil.toList("root"), QueryEnum.NOTIN,pb);
 		//System.out.println("list:"+lArrJson.toString());
-		if(format==null||format.equalsIgnoreCase(FORMAT_JSON))
+		if(this.getDataFormat().equalsIgnoreCase(FORMAT_JSON))
 		{
 		  JSONObject lJsonDg=this.loadJsonDataGrid(lListMenu);
 		  this.writeHTML(lJsonDg.toString());
 		  return NONE;
-		}else if(format.equalsIgnoreCase(FORMAT_XML))
+		}else if(this.getDataFormat().equalsIgnoreCase(FORMAT_XML))
 		{
 			return NONE;
 		}
@@ -213,7 +213,7 @@ public class MenuAction extends BaseAction
 		JSONArray lListMenu=ObjectUtil.toJsonArray(pListMenu);
 		JSONObject lJsonDg=null;
 		try {
-			lJsonDg = EasyUiUtil.toJsonDataGrid(lListMenu,iSysBiz.countModel());
+			lJsonDg = EasyUiUtil.toJsonDataGrid(lListMenu,iSysBiz.count());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
