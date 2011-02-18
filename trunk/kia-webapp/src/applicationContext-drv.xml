@@ -108,6 +108,10 @@
    <property name="mapperInterface" value="com.trusteach.drv.mapper.booked.ILimitMapper"></property>
 </bean>
 
+<bean id="limitInfoMapper" parent="drvMapper" >
+   <property name="mapperInterface" value="com.trusteach.drv.mapper.booked.ILimitInfoMapper"></property>
+</bean>
+
 <bean id="dictMapper" parent="drvMapper">
   <property name="mapperInterface" value="com.trusteach.drv.mapper.sys.IDictMapper"></property>
 </bean>
@@ -118,8 +122,9 @@
 
 
 <bean id="drvBookedBiz" class="com.trusteach.drv.biz.impl.BookedBiz" >
- <property name="IWeekRecordMapper" ref="weekReocrdMapper"></property>
- <property name="iLimitMapper" ref="limitMapper"></property>
+ <property name="weekRecordMapper" ref="weekReocrdMapper"></property>
+ <property name="limitMapper" ref="limitMapper"></property>
+ <property name="limitInfoMapper" ref="limitInfoMapper"></property>
 </bean>
 
 <bean id="drvSysBiz" class="com.trusteach.drv.biz.impl.DrvSysBiz">

@@ -9,26 +9,35 @@ import java.util.Map;
 import com.smartken.kia.core.model.impl.BaseCurdBiz;
 import com.smartken.kia.core.util.DateTimeUtil;
 import com.trusteach.drv.biz.IBookedBiz;
+import com.trusteach.drv.mapper.booked.ILimitInfoMapper;
 import com.trusteach.drv.mapper.booked.ILimitMapper;
 import com.trusteach.drv.mapper.booked.IWeekRecordMapper;
+import com.trusteach.drv.model.BookedLimitInfoModel;
 import com.trusteach.drv.model.BookedLimitModel;
 import com.trusteach.drv.model.BookedWeekRecordModel;
 
 public class BookedBiz extends BaseCurdBiz implements IBookedBiz {
 
-	private IWeekRecordMapper<BookedWeekRecordModel> iWeekRecordMapper;
-	private ILimitMapper<BookedLimitModel> iLimitMapper;
+	private IWeekRecordMapper<BookedWeekRecordModel> weekRecordMapper;
+	private ILimitMapper<BookedLimitModel> limitMapper;
+	private ILimitInfoMapper<BookedLimitInfoModel> limitInfoMapper;
 	
 	
-	public void setiWeekRecordMapper(IWeekRecordMapper iWeekRecordMapper) {
-		this.iWeekRecordMapper = iWeekRecordMapper;
+	public void setWeekRecordMapper(IWeekRecordMapper iWeekRecordMapper) {
+		this.weekRecordMapper = iWeekRecordMapper;
 	}
 	
 
-	public void setiLimitMapper(ILimitMapper<BookedLimitModel> iLimitMapper) {
-		this.iLimitMapper = iLimitMapper;
+	public void setLimitMapper(ILimitMapper<BookedLimitModel> iLimitMapper) {
+		this.limitMapper = iLimitMapper;
 	}
 
+
+
+	public void setLimitInfoMapper(
+			ILimitInfoMapper<BookedLimitInfoModel> limitInfoMapper) {
+		this.limitInfoMapper = limitInfoMapper;
+	}
 
 
 	@Override
@@ -36,7 +45,7 @@ public class BookedBiz extends BaseCurdBiz implements IBookedBiz {
 		// TODO Auto-generated method stub
 		if(c.equals(BookedWeekRecordModel.class))
 		{
-			this.iCRUDMapper=iWeekRecordMapper;
+			this.iCRUDMapper=weekRecordMapper;
 		}
 	}
 
@@ -48,7 +57,7 @@ public class BookedBiz extends BaseCurdBiz implements IBookedBiz {
 		BookedWeekRecordModel lWeekReurn=new BookedWeekRecordModel();
 		lWeekReurn.setIWeekNum(weekNum);
 		try {
-		ArrayList<BookedWeekRecordModel> lListWeek= iWeekRecordMapper.select(lWeekReurn);
+		ArrayList<BookedWeekRecordModel> lListWeek= weekRecordMapper.select(lWeekReurn);
 		lWeekReurn=lListWeek.get(0);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -62,7 +71,7 @@ public class BookedBiz extends BaseCurdBiz implements IBookedBiz {
 		Map<String, BookedLimitModel> lMapReturn=new HashMap<String, BookedLimitModel>();
 		BookedLimitModel lLimit=new BookedLimitModel();
 		lLimit.setWeekNum(weekNum);
-        ArrayList<BookedLimitModel> lListLimit=iLimitMapper.select(lLimit);
+        ArrayList<BookedLimitModel> lListLimit=limitMapper.select(lLimit);
 		for (BookedLimitModel bookedLimitModel : lListLimit) {
 			   lMapReturn.put((String) bookedLimitModel.generalPK(), bookedLimitModel);	
 		}

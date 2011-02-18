@@ -609,6 +609,134 @@ public class BookedWeekRecordModel extends BaseModel{
 		}
 		
 	}
+	
+	
+
+
+
+	public Integer getIWeek1Km1Assgined() {
+		return IWeek1Km1Assgined;
+	}
+
+
+
+	public Integer getIWeek1Km2Assgined() {
+		return IWeek1Km2Assgined;
+	}
+
+
+
+	public Integer getIWeek1Km3Assgined() {
+		return IWeek1Km3Assgined;
+	}
+
+
+
+	public Integer getIWeek2Km1Assgined() {
+		return IWeek2Km1Assgined;
+	}
+
+
+
+	public Integer getIWeek2Km2Assgined() {
+		return IWeek2Km2Assgined;
+	}
+
+
+
+	public Integer getIWeek2Km3Assgined() {
+		return IWeek2Km3Assgined;
+	}
+
+
+
+	public Integer getIWeek3Km1Assgined() {
+		return IWeek3Km1Assgined;
+	}
+
+
+
+	public Integer getIWeek3Km2Assgined() {
+		return IWeek3Km2Assgined;
+	}
+
+
+
+	public Integer getIWeek3Km3Assgined() {
+		return IWeek3Km3Assgined;
+	}
+
+
+
+	public Integer getIWeek4Km1Assgined() {
+		return IWeek4Km1Assgined;
+	}
+
+
+
+	public Integer getIWeek4Km2Assgined() {
+		return IWeek4Km2Assgined;
+	}
+
+
+
+	public Integer getIWeek4Km3Assgined() {
+		return IWeek4Km3Assgined;
+	}
+
+
+
+	public Integer getIWeek5Km1Assgined() {
+		return IWeek5Km1Assgined;
+	}
+
+
+
+	public Integer getIWeek5Km2Assgined() {
+		return IWeek5Km2Assgined;
+	}
+
+
+
+	public Integer getIWeek5Km3Assgined() {
+		return IWeek5Km3Assgined;
+	}
+
+
+
+	public Integer getIWeek6Km1Assgined() {
+		return IWeek6Km1Assgined;
+	}
+
+
+
+	public Integer getIWeek6Km2Assgined() {
+		return IWeek6Km2Assgined;
+	}
+
+
+
+	public Integer getIWeek6Km3Assgined() {
+		return IWeek6Km3Assgined;
+	}
+
+
+
+	public Integer getIWeek7Km1Assgined() {
+		return IWeek7Km1Assgined;
+	}
+
+
+
+	public Integer getIWeek7Km2Assgined() {
+		return IWeek7Km2Assgined;
+	}
+
+
+
+	public Integer getIWeek7Km3Assgined() {
+		return IWeek7Km3Assgined;
+	}
 
 
 
@@ -656,104 +784,140 @@ public class BookedWeekRecordModel extends BaseModel{
 		return year;
 	}
 	
-	public void calLimitAssgined(Map<String, BookedLimitModel> mapLimt)
+	private void clearAssigned()
 	{
+		this.IWeek1Km1Assgined=0;
+		this.IWeek1Km2Assgined=0;
+		this.IWeek1Km3Assgined=0;
+		
+		this.IWeek2Km1Assgined=0;
+		this.IWeek2Km2Assgined=0;
+		this.IWeek2Km3Assgined=0;
+		
+		this.IWeek3Km1Assgined=0;
+		this.IWeek3Km2Assgined=0;
+		this.IWeek3Km3Assgined=0;
+		
+		this.IWeek4Km1Assgined=0;
+		this.IWeek4Km2Assgined=0;
+		this.IWeek4Km3Assgined=0;
+		
+		this.IWeek5Km1Assgined=0;
+		this.IWeek5Km2Assgined=0;
+		this.IWeek5Km3Assgined=0;
+		
+		this.IWeek6Km1Assgined=0;
+		this.IWeek6Km2Assgined=0;
+		this.IWeek6Km3Assgined=0;
+		
+		this.IWeek7Km1Assgined=0;
+		this.IWeek7Km2Assgined=0;
+		this.IWeek7Km3Assgined=0;
+		
+
+	}
+	
+	public void calLimitAssgined()
+	{
+		if(this.limits==null)return;
+		Map<String, BookedLimitModel> mapLimt =this.limits;
+		this.clearAssigned();
 		for(Iterator<String> itKey=mapLimt.keySet().iterator();itKey.hasNext();)
 		{
 			String tempKey=itKey.next();
 			BookedLimitModel tempLimit=mapLimt.get(tempKey);
 			if(tempLimit.getDayofweek()==1&&tempLimit.getKm()==1)
 			{
-				this.IWeek1Km1Assgined+=tempLimit.getTptotal();
+				this.IWeek1Km1Assgined+=tempLimit.getTotal();
 			}
 			else if(tempLimit.getDayofweek()==1&&tempLimit.getKm()==2)
 			{
-				this.IWeek1Km2Assgined+=tempLimit.getTptotal();
+				this.IWeek1Km2Assgined+=tempLimit.getTotal();
 			}
 			else if(tempLimit.getDayofweek()==1&&tempLimit.getKm()==3)
 			{
-				this.IWeek1Km3Assgined+=tempLimit.getTptotal();
+				this.IWeek1Km3Assgined+=tempLimit.getTotal();
 			}
 			//2
 			else if(tempLimit.getDayofweek()==2&&tempLimit.getKm()==1)
 			{
-				this.IWeek1Km1Assgined+=tempLimit.getTptotal();
+				this.IWeek1Km1Assgined+=tempLimit.getTotal();
 			}
 			else if(tempLimit.getDayofweek()==2&&tempLimit.getKm()==2)
 			{
-				this.IWeek1Km2Assgined+=tempLimit.getTptotal();
+				this.IWeek1Km2Assgined+=tempLimit.getTotal();
 			}
 			else if(tempLimit.getDayofweek()==2&&tempLimit.getKm()==3)
 			{
-				this.IWeek1Km3Assgined+=tempLimit.getTptotal();
+				this.IWeek1Km3Assgined+=tempLimit.getTotal();
 			}
 			
 			//3
 			else if(tempLimit.getDayofweek()==3&&tempLimit.getKm()==1)
 			{
-				this.IWeek3Km1Assgined+=tempLimit.getTptotal();
+				this.IWeek3Km1Assgined+=tempLimit.getTotal();
 			}
 			else if(tempLimit.getDayofweek()==3&&tempLimit.getKm()==2)
 			{
-				this.IWeek3Km2Assgined+=tempLimit.getTptotal();
+				this.IWeek3Km2Assgined+=tempLimit.getTotal();
 			}
 			else if(tempLimit.getDayofweek()==3&&tempLimit.getKm()==3)
 			{
-				this.IWeek3Km3Assgined+=tempLimit.getTptotal();
+				this.IWeek3Km3Assgined+=tempLimit.getTotal();
 			}
 			
 			//4
 			else if(tempLimit.getDayofweek()==4&&tempLimit.getKm()==1)
 			{
-				this.IWeek4Km1Assgined+=tempLimit.getTptotal();
+				this.IWeek4Km1Assgined+=tempLimit.getTotal();
 			}
 			else if(tempLimit.getDayofweek()==4&&tempLimit.getKm()==2)
 			{
-				this.IWeek4Km2Assgined+=tempLimit.getTptotal();
+				this.IWeek4Km2Assgined+=tempLimit.getTotal();
 			}
 			else if(tempLimit.getDayofweek()==4&&tempLimit.getKm()==3)
 			{
-				this.IWeek4Km3Assgined+=tempLimit.getTptotal();
+				this.IWeek4Km3Assgined+=tempLimit.getTotal();
 			}
 			
 			//5
 			else if(tempLimit.getDayofweek()==5&&tempLimit.getKm()==1)
 			{
-				this.IWeek5Km1Assgined+=tempLimit.getTptotal();
+				this.IWeek5Km1Assgined+=tempLimit.getTotal();
 			}
 			else if(tempLimit.getDayofweek()==5&&tempLimit.getKm()==2)
 			{
-				this.IWeek5Km2Assgined+=tempLimit.getTptotal();
+				this.IWeek5Km2Assgined+=tempLimit.getTotal();
 			}
 			else if(tempLimit.getDayofweek()==5&&tempLimit.getKm()==3)
 			{
-				this.IWeek5Km3Assgined+=tempLimit.getTptotal();
+				this.IWeek5Km3Assgined+=tempLimit.getTotal();
 			}
 			//6
 			else if(tempLimit.getDayofweek()==6&&tempLimit.getKm()==1)
 			{
-				this.IWeek6Km1Assgined+=tempLimit.getTptotal();
+				this.IWeek6Km1Assgined+=tempLimit.getTotal();
 			}
 			else if(tempLimit.getDayofweek()==6&&tempLimit.getKm()==2)
 			{
-				this.IWeek6Km2Assgined+=tempLimit.getTptotal();
+				this.IWeek6Km2Assgined+=tempLimit.getTotal();
 			}
 			else if(tempLimit.getDayofweek()==6&&tempLimit.getKm()==3)
 			{
-				this.IWeek6Km3Assgined+=tempLimit.getTptotal();
+				this.IWeek6Km3Assgined+=tempLimit.getTotal();
 			}
 			//7
 			else if(tempLimit.getDayofweek()==7&&tempLimit.getKm()==1)
 			{
-				this.IWeek7Km1Assgined+=tempLimit.getTptotal();
+				this.IWeek7Km1Assgined+=tempLimit.getTotal();
 			}
 			else if(tempLimit.getDayofweek()==7&&tempLimit.getKm()==2)
 			{
-				this.IWeek7Km2Assgined+=tempLimit.getTptotal();
+				this.IWeek7Km2Assgined+=tempLimit.getTotal();
 			}
 			else if(tempLimit.getDayofweek()==7&&tempLimit.getKm()==3)
 			{
-				this.IWeek7Km3Assgined+=tempLimit.getTptotal();
+				this.IWeek7Km3Assgined+=tempLimit.getTotal();
 			}
 			
 			

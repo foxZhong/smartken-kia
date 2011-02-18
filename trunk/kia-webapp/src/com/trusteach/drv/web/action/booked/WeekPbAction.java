@@ -118,7 +118,7 @@ public class WeekPbAction extends BaseAction implements ModelDriven<BookedWeekRe
 		iBookedBiz.loadCrudMapper(BookedWeekRecordModel.class);
 		ArrayList lListWeekRecords=iBookedBiz.getModelWithId(null, QueryEnum.ALL, null);
 		JSONArray lListJson=ObjectUtil.toJsonArray(lListWeekRecords);
-		writeHTML(EasyUiUtil.toJsonDataGrid(lListJson,iBookedBiz.countModel()).toString());
+		writeHTML(EasyUiUtil.toJsonDataGrid(lListJson,iBookedBiz.count()).toString());
 		return NONE;
 	}
 	

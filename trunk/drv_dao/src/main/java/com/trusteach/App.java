@@ -11,9 +11,11 @@ import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
+import com.trusteach.drv.mapper.booked.ILimitInfoMapper;
 import com.trusteach.drv.mapper.booked.ILimitMapper;
 import com.trusteach.drv.mapper.booked.IWeekRecordMapper;
 import com.trusteach.drv.mapper.sys.IDictMapper;
+import com.trusteach.drv.model.BookedLimitInfoModel;
 import com.trusteach.drv.model.BookedLimitModel;
 import com.trusteach.drv.model.BookedWeekRecordModel;
 import com.trusteach.drv.model.DictModel;
@@ -51,6 +53,7 @@ public class App
 		        dm.setTypeName("考试地点");
 		        dms= dictMapper.select(dm);
 		        System.out.println(dms.get(0).toJson().toString());
+		        System.out.println(dms.get(0).toUrlParam());
 		        Element el=dms.get(0).toXmlElement();
 		        System.out.println(el.asXML());
 		        Document doc=dms.get(0).toXmlDocucmnt();
@@ -60,6 +63,8 @@ public class App
 		        IWeekRecordMapper<BookedWeekRecordModel> weekMapper=_SqlSessionFactory.openSession().getMapper(IWeekRecordMapper.class);
 		        ArrayList<BookedWeekRecordModel> listweek=weekMapper.select(week);
 		        System.out.println(listweek.size());
+		        ILimitInfoMapper<BookedLimitInfoModel> llm=_SqlSessionFactory.openSession().getMapper(ILimitInfoMapper.class);
+		        llm.selectAll();
 //		    	for(Iterator<BookedWeekRecordModel> b=bwrs.iterator();b.hasNext();)
 //		    	{
 //		    		String str=b.next().toJson().toString();
