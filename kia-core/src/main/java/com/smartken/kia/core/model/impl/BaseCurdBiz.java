@@ -21,6 +21,11 @@ public abstract class BaseCurdBiz implements IBaseCrudBiz {
 		return lIntSqlResult;
 	}
 
+	public ArrayList getModelWithId(ArrayList lListIds, QueryEnum pQuery) throws Exception{
+		return getModelWithId(lListIds, pQuery,null);
+	}
+
+	
 	@SuppressWarnings("unchecked")
 	public ArrayList getModelWithId(ArrayList lListIds, QueryEnum pQuery,PageBounds pPage)
 			throws Exception {
@@ -81,13 +86,18 @@ public abstract class BaseCurdBiz implements IBaseCrudBiz {
 	
 	
 	
-	public int countModel() throws Exception {
+	public int count() throws Exception {
 		// TODO Auto-generated method stub
 		return iCRUDMapper.count();
 	}
 	
 	public ArrayList getModel(Object model) throws Exception{
-		return iCRUDMapper.select(model);
+		return this.getModel(model,null);
+	}
+	
+	public ArrayList getModel(Object model,PageBounds pPage) throws Exception{
+		pPage=pPage==null?new PageBounds():pPage;
+		return iCRUDMapper.select(model,pPage);
 	}
 
 	public abstract void loadCrudMapper(Class c);

@@ -213,6 +213,18 @@ public class ObjectUtil {
 		}
 		return false;
 	}
+	
+	public static List toList(Map map ){
+		List listReturn=new ArrayList();
+		for(Iterator it=map.keySet().iterator();it.hasNext();)
+		{
+			Object key=it.next();
+			listReturn.add(map.get(key));
+		}
+		return listReturn;
+		
+	}
+	
 
 	public static void main(String[] args)
 	{

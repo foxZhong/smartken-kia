@@ -10,4 +10,5 @@ public interface IFormatterModel {
 	 public JSONObject toJson();
 	 public Document toXmlDocucmnt();
 	 public Element toXmlElement();
+	 public String toUrlParam();
 }

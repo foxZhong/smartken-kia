@@ -8,12 +8,17 @@ import org.dom4j.ElementHandler;
 import org.json.JSONObject;
 
 
+import com.smartken.kia.core.enums.FormatEnum;
 import com.smartken.kia.core.model.IFormatterModel;
+import com.smartken.kia.core.util.StringUtil;
 
 
 import java.io.Serializable;
 import java.lang.reflect.*;
+import java.net.URLEncoder;
+import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 
 
@@ -38,7 +43,7 @@ public abstract class BaseModel implements Serializable ,IFormatterModel{
 			for (int i=0;i<lArrField.length;i++) {
 				String lStrFieldName=lArrField[i].getName();
                 try{
-			    String lStrTempName="get"+lStrFieldName.substring(0, 1).toUpperCase()+lStrFieldName.substring(1);
+			    String lStrTempName="get"+StringUtil.format(lStrFieldName, FormatEnum.UPCASE_FIRST);
 				Method lMth=c.getDeclaredMethod(lStrTempName, null);
 				Object lObjFieldValue=lMth.invoke(this, null);
 				lJsonTemp.put(lStrFieldName, lObjFieldValue==null?"":lObjFieldValue);
@@ -80,7 +85,7 @@ public abstract class BaseModel implements Serializable ,IFormatterModel{
 			String lStrFieldName=lArrField[i].getName();
 			try{
 			
-			String lTempName="get"+lStrFieldName.substring(0, 1).toUpperCase()+lStrFieldName.substring(1);
+			String lTempName="get"+StringUtil.format(lStrFieldName, FormatEnum.UPCASE_FIRST);
 			Method lMth=c.getDeclaredMethod(lTempName, null);
 			Object lObjFieldValue=lMth.invoke(this, null);
 			Element el=DocumentHelper.createElement(lStrFieldName);
@@ -118,6 +123,29 @@ public abstract class BaseModel implements Serializable ,IFormatterModel{
 		return lClassReturn;
 	}
 	
+
+	public String toUrlParam() {
+		// TODO Auto-generated method stub
+		JSONObject json=this.toJson();
+		StringBuffer lSbrParam=new StringBuffer("");
+		
+		for(Iterator it=json.keys();it.hasNext();){
+			String key=it.next().toString();
+			String pattern="{0}={1}";
+			try{
+			lSbrParam.append(
+					 MessageFormat.format(pattern, 
+							 key
+							 ,URLEncoder.encode((String) json.get(key), "UTF-8") )
+			);
+			if(it.hasNext()){
+				lSbrParam.append("&");
+			}
+			}catch(Exception ex){}
+		}
+		
+		return lSbrParam.toString();
+	}
 
 	public abstract Object generalPK() throws NullPointerException;
 	
