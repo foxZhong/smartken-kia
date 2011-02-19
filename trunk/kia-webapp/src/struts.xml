@@ -22,5 +22,4 @@
    </global-results>
 </package>
 <include file="com/smartken/kia/web/action/sys/struts-sys.xml"></include> 
-<include file="com/trusteach/drv/web/action/booked/struts-booked.xml"></include>
 </struts>
