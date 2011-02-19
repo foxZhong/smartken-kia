@@ -71,7 +71,7 @@ public class MenuAction extends BaseAction
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		writeHTML(re+"���˵���¼����ɹ�");
+		writeHTML(re+"");
 		return NONE;
 	}
 
@@ -85,7 +85,7 @@ public class MenuAction extends BaseAction
 		{
              lListIds=StringUtil.splitToList(menuids,",");
              int re=this.iSysBiz.removeModelWithId(lListIds,QueryEnum.IN);
-             writeHTML("�ɹ�ɾ��"+re+"����¼");
+             writeHTML(""+re+"");
              return NONE;
 		}else if(req.getMethod().equalsIgnoreCase(METHOD_POST))
 		{
