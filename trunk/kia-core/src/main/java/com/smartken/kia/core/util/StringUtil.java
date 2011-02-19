@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import com.smartken.kia.core.enums.FormatEnum;
+
 public class StringUtil {
 
 
@@ -55,7 +57,7 @@ public class StringUtil {
 	
 	public static String formatId(String prefix,String spar,Object... subStr)
 	{
-		return formatId(false,prefix, spar,subStr);
+		return formatId(true,prefix, spar,subStr);
 		
 	}
 	
@@ -79,6 +81,31 @@ public class StringUtil {
 		{
 			return lSbrId.toString();
 		}
+	}
+	
+	public static String format(String pStr,FormatEnum fe){
+		if(isBlank(pStr))return "";
+		String lStrFormat="";
+		switch (fe) {
+		case UPCASE_FIRST:
+			lStrFormat=pStr.substring(0, 1).toUpperCase()+pStr.substring(1);
+			break;
+		default:
+			break;
+		}
+		return lStrFormat;
+	}
+	
+	public static String ln(){
+		return ln(1);
+	}
+	
+	public static String ln(int ln){
+		String lnReturn="";
+		for(int i=1;i<=ln;i++){
+			lnReturn+="\n";
+		}
+		return lnReturn;
 	}
 	
 	public static void main(String[] args)

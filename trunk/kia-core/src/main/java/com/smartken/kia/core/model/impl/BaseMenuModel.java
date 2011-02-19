@@ -1,6 +1,11 @@
 package com.smartken.kia.core.model.impl;
 
 public abstract class BaseMenuModel extends BaseModel{
+	
+	public static final String TYPE_FOLDER="folder";
+	public static final String TYPE_TITLE="title";
+	public static final String TYPE_LINK="link";
+	
 	protected Object id;
 	protected String name;
 	protected String descp;
@@ -8,10 +13,27 @@ public abstract class BaseMenuModel extends BaseModel{
 	protected String icon;
 	protected String parma;
 	protected String parentId;
+	protected Integer seqno;
+	protected String type;
 	protected String token;
 	
+	public Integer getSeqno() {
+		return seqno;
+	}
+	public void setSeqno(Integer seqno) {
+		this.seqno = seqno;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	public void setId(Object id) {
+		this.id = id;
+	}
 	public String getToken() {
-		return token==null?"":token;
+		return token;
 	}
 	public void setToken(String token) {
 		this.token = token;
@@ -23,37 +45,37 @@ public abstract class BaseMenuModel extends BaseModel{
 		this.id = id;
 	}
 	public String getName() {
-		return name==null?"":name;
+		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
 	}
 	public String getDescp() {
-		return descp==null?"":descp;
+		return descp;
 	}
 	public void setDescp(String descp) {
 		this.descp = descp;
 	}
 	public String getUrl() {
-		return url==null?"":url;
+		return url;
 	}
 	public void setUrl(String url) {
 		this.url = url;
 	}
 	public String getIcon() {
-		return icon==null?"":icon;
+		return icon;
 	}
 	public void setIcon(String icon) {
 		this.icon = icon;
 	}
 	public String getParma() {
-		return parma==null?"":parma;
+		return parma;
 	}
 	public void setParma(String parma) {
 		this.parma = parma;
 	}
 	public String getParentId() {
-		return parentId==null?"":parentId;
+		return parentId;
 	}
 	public void setParentId(String parentId) {
 		this.parentId = parentId;

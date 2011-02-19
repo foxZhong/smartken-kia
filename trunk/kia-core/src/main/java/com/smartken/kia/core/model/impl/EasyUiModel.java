@@ -131,11 +131,12 @@ public class EasyUiModel implements IScriptModel{
 	
 	
 	
-	public static final String LAYOUT_EAST="east";
-	public static final String LAYOUT_WEST="west";
-	public static final String LAYOUT_SOUTH="south";
-	public static final String LAYOUT_NORTH="north";
-	public static final String LAYOUT_CENTER="center";
+	public static final String REGION_EAST="east";
+	public static final String REGION_WEST="west";
+	public static final String REGION_SOUTH="south";
+	public static final String REGION_NORTH="north";
+	public static final String REGION_CENTER="center";
+	
 	
 	public static final String ICON_ADD="icon-add";
 	public static final String ICON_REMOVE="icon-remove";
@@ -159,31 +160,59 @@ public static final class Panel{
 		public static final String Name="panel";
 		public static  class Properties{
          public static final String TITLE="title";
+		 public static final String TITLE(String value){return toHtmlKeyValue(TITLE, value);}
          public static final String ICON_CLS="iconCls";
+		 public static final String ICON_CLS(String value){return toHtmlKeyValue(ICON_CLS, value);}
          public static final String WIDTH="width";
+		 public static final String WIDTH(int value){return toHtmlKeyValue(WIDTH, value);}
          public static final String HEIGHT="height";
+		 public static final String HEIGHT(int value){return toHtmlKeyValue(HEIGHT, value);}
          public static final String LEFT="left";
+		 public static final String LEFT(int value){return toHtmlKeyValue(LEFT, value);}
          public static final String TOP="top";
+		 public static final String TOP(int value){return toHtmlKeyValue(TOP, value);}
          public static final String CLS="cls";
+		 public static final String CLS(String value){return toHtmlKeyValue(CLS, value);}
          public static final String HEADER_CLS="headerCls";
+		 public static final String HEADER_CLS(String value){return toHtmlKeyValue(HEADER_CLS, value);}
          public static final String BODY_CLS="bodyCls";
+		 public static final String BODY_CLS(String value){return toHtmlKeyValue(BODY_CLS, value);}
          public static final String STYLE="style";
+		 public static final String STYLE(String value){return toHtmlKeyValue(STYLE, value);}
          public static final String FIT="fit";
+		 public static final String FIT(boolean value){return toHtmlKeyValue(FIT, value);}
          public static final String BORDER="border";
+		 public static final String BORDER(boolean value){return toHtmlKeyValue(BORDER, value);}
          public static final String DO_SIZE="doSize";
+		 public static final String DO_SIZE(boolean value){return toHtmlKeyValue(DO_SIZE, value);}
          public static final String NO_HEADER="noheadr";
+		 public static final String NO_HEADER(boolean value){return toHtmlKeyValue(NO_HEADER, value);}
          public static final String CONTENT="content";
+		 public static final String CONTENT(String value){return toHtmlKeyValue(CONTENT, value);}
          public static final String COLLAPSIBLE="collapsible";
+		 public static final String COLLAPSIBLE(boolean value){return toHtmlKeyValue(COLLAPSIBLE, value);}
          public static final String MINIMIZABLE="minimizable";
+		 public static final String MINIMIZABLE(boolean value){return toHtmlKeyValue(MINIMIZABLE, value);}
+         public static final String MAXIMIZABLE="maximizable";
+		 public static final String MAXIMIZABLE(boolean value){return toHtmlKeyValue(MAXIMIZABLE, value);}
          public static final String CLOSABLE="closable";
+		 public static final String CLOSABLE(boolean value){return toHtmlKeyValue(CLOSABLE, value);}
          public static final String TOOLS="tools";
+		 public static final String TOOLS(String value){return toHtmlKeyValue(TOOLS, value);}
          public static final String COLLAPSED="collapsed";
+		 public static final String COLLAPSED(boolean value){return toHtmlKeyValue(COLLAPSED, value);}
          public static final String MINIMIZED="minimized";
+		 public static final String MINIMIZED(boolean value){return toHtmlKeyValue(MINIMIZED, value);}
          public static final String MAXIMIZED="maximized";
+		 public static final String MAXIMIZED(boolean value){return toHtmlKeyValue(MAXIMIZED, value);}
          public static final String CLOSED="closed";
+		 public static final String CLOSED(boolean value){return toHtmlKeyValue(CLOSED, value);}
          public static final String HREF="href";
+		 public static final String HREF(String value){return toHtmlKeyValue(HREF, value);}
          public static final String CACHE="cache";
+		 public static final String CACHE(boolean value){return toHtmlKeyValue(CACHE, value);}
          public static final String LOADING_MESSAGE="loadingMessage";
+		 public static final String LOADING_MESSAGE(String value){return toHtmlKeyValue(LOADING_MESSAGE, value);}
 		}
 		public static  class Events{
 			public static final String ON_LOAD="onLoad";
@@ -226,13 +255,24 @@ public static final class Panel{
 
    public static final class Layout{
 	   public static final String NAME="layout";
+	   public static final String CLASS="easyui-layout";
+	   
+	   public static final String SPLIT(boolean split){
+		   return MessageFormat.format("split=\"{0}\"", split);
+	   }
 	   public static  class Properties {
 		   public static final String TITLE="title";
+		   public static final String TITLE(String value){return toHtmlKeyValue(TITLE, value);}
 		   public static final String REGION="region";
+		   public static final String REGION(String value){return toHtmlKeyValue(REGION, value);}
 		   public static final String BORDER="border";
+		   public static final String BORDER(boolean value){return toHtmlKeyValue(BORDER, value);}
 		   public static final String SPLIT="split";
+		   public static final String SPLIT(boolean value){return toHtmlKeyValue(SPLIT, value);}
 		   public static final String ICON_CLS="iconCls";
+		   public static final String ICON_CLS(String value){return toHtmlKeyValue(ICON_CLS, value);}
 		   public static final String HREF="href";
+		   public static final String HREF(String value){return toHtmlKeyValue(HREF, value);}
 	   }
 
 	   public static class Methods{
@@ -252,13 +292,20 @@ public static final class Panel{
 public static  class Window 
 {
 	public static final String NAME="window";
+	public static final String CLASS="easyui-window";
 	public static  class Properties extends Panel.Properties{
 		public static final String Z_INDEX="zIndex";
+		public static final String Z_INDEX(int value){return toHtmlKeyValue(Z_INDEX, value);}
 		public static final String DRAGGABLE="draggable";
+		public static final String DRAGGABLE(boolean value){return toHtmlKeyValue(DRAGGABLE, value);}
 		public static final String RESIEZABLE="resizable";
+		public static final String RESIEZABLE(boolean value){return toHtmlKeyValue(RESIEZABLE, value);}
 		public static final String SHADOW="shadow";
+		public static final String SHADOW(boolean value){return toHtmlKeyValue(SHADOW, value);}
 		public static final String INLINE="inline";
+		public static final String INLINE(boolean value){return toHtmlKeyValue(INLINE, value);}
 		public static final String MODAL="modal";
+		public static final String MODAL(boolean value){return toHtmlKeyValue(MODAL, value);}
 	}
 	public static  class Events extends Panel.Events{
 	
@@ -293,12 +340,19 @@ public static final class Dialog
    public static final class LinkButton
    {
 		public static final String NAME="linkbutton";
+		public static final String CLASS="easyui-linkbutton";
+
 		public static final class Properties{
 			public static final String ID="id";
+			public static final String ID(String value){return toHtmlKeyValue(ID, value);}
 			public static final String DISABLED="disabled";
+			public static final String DISABLED(boolean value){return toHtmlKeyValue(DISABLED, value);}
 			public static final String PLAIN="plain";
+			public static final String PLAIN(boolean value){return toHtmlKeyValue(PLAIN, value);}
 			public static final String TEXT="text";
+			public static final String TEXT(String value){return toHtmlKeyValue(TEXT, value);}
 			public static final String ICON_CLS="iconCls";
+			public static final String ICON_CLS(String value){return toHtmlKeyValue(ICON_CLS, value);}
 		}
 
 		public static final class Methods{
@@ -307,6 +361,7 @@ public static final class Dialog
 		    public static final String ENABLE="enable";
 			
 		}
+		
    }
 
 
@@ -433,15 +488,24 @@ public static final class Dialog
 	public static final class DateBox
 	{
 		public static final String NAME="datebox";
+		public static final String CLASS="easyui-datebox";
 		public static final class Properties{
 			public static final String PANEL_WIDTH="panelWidth";
+			public static final String PANEL_WIDTH(int value){return toHtmlKeyValue(PANEL_WIDTH, value);}
 			public static final String PANEL_HEIGHT="panelHeight";
+			public static final String PANEL_HEIGHT(int value){return toHtmlKeyValue(PANEL_HEIGHT, value);}
 			public static final String CURRENT_TEXT="currentText";
+			public static final String CURRENT_TEXT(String value){return toHtmlKeyValue(CURRENT_TEXT, value);}
 			public static final String CLOSE_TEXT="closeText";
+			public static final String CLOSE_TEXT(String value){return toHtmlKeyValue(CLOSE_TEXT, value);}
 			public static final String OK_TEXT="okText";
+			public static final String OK_TEXT(String value){return toHtmlKeyValue(OK_TEXT, value);}
 			public static final String DISABLED="disabled";
+			public static final String DISABLED(boolean value){return toHtmlKeyValue(DISABLED, value);}
 			public static final String FORMATTER="formatter";
+			public static final String FORMATTER(String value){return toHtmlKeyValue(FORMATTER, value);}
 			public static final String PARSER="parser";
+			public static final String PARSER(String value){return toHtmlKeyValue(PARSER, value);}
 
 		}
 		public static final class Events{
@@ -457,11 +521,16 @@ public static final class Dialog
 	public static final class ValidateBox
 	{
 		public static final String NAME="validatebox";
+		public static final String CLASS="easyui-validatebox";
 		public static class Properties{
 			public static final String REQUIRED="required";
+			public static final String REQUIRED(boolean value){return toHtmlKeyValue(REQUIRED, value);}
 			public static final String VALID_TYPE="validType";
+			public static final String VALID_TYPE(String value){return toHtmlKeyValue(VALID_TYPE, value);}
 			public static final String MISSING_MESSAGE="missingMessage";
+			public static final String MISSING_MESSAGE(String value){return toHtmlKeyValue(MISSING_MESSAGE, value);}
 			public static final String INVALID_MESSAGE="invalidMessage";
+			public static final String INVALID_MESSAGE(String value){return toHtmlKeyValue(INVALID_MESSAGE, value);}
 		}
 
 		public static class Methods{
@@ -474,17 +543,28 @@ public static final class Dialog
 	public static final class Combo
 	{
 		public static final String NAME="combo";
+		public static final String CLASS="easyui-combo";
 		public static class Properties extends ValidateBox.Properties{
 			public static final String WIDTH="width";
+			public static final String WIDTH(int value){return toHtmlKeyValue(WIDTH, value);}
 			public static final String PANEL_WIDTH="panelWidth";
+			public static final String PANEL_WIDTH(int value){return toHtmlKeyValue(PANEL_WIDTH, value);}
 			public static final String PANEL_HEIGHT="panelHeight";
+			public static final String PANEL_HEIGHT(int value){return toHtmlKeyValue(PANEL_HEIGHT, value);}
 			public static final String MULTIPLE="multiple";
+			public static final String MULTIPLE(boolean value){return toHtmlKeyValue(MULTIPLE, value);}
 			public static final String SEPARATOR="separator";
+			public static final String SEPARATOR(String value){return toHtmlKeyValue(SEPARATOR, value);}
 			public static final String EDITABLE="editable";
+			public static final String EDITABLE(boolean value){return toHtmlKeyValue(EDITABLE, value);}
 			public static final String DISABLED="disabled";
+			public static final String DISABLED(boolean value){return toHtmlKeyValue(DISABLED, value);}
 			public static final String HAS_DOWN_ARROW="hasDownArrow";
+			public static final String HAS_DOWN_ARROW(boolean value){return toHtmlKeyValue(HAS_DOWN_ARROW, value);}
 			public static final String VALUE="value";
+			public static final String VALUE(String value){return toHtmlKeyValue(VALUE, value);}
 			public static final String KEY_HENDLER="keyHandler";
+			public static final String KEY_HENDLER(String value){return toHtmlKeyValue(KEY_HENDLER, value);}
 		}
 		
 		public static class Events{
@@ -515,14 +595,22 @@ public static final class Dialog
 	public static final class ComboBox
 	{
 		public static final String NAME="combobox";
+		public static final String CLASS="easyui-combobox";
 		public static class Properties extends Combo.Properties{
 			public static final String VALUE_FIELD="valueField";
+			public static final String VALUE_FIELD(String value){return toHtmlKeyValue(VALUE_FIELD, value);};
 			public static final String TEXT_FIELD="textField";
+			public static final String TEXT_FIELD(String value){return toHtmlKeyValue(TEXT_FIELD, value);};
 			public static final String MODE="mode";
+			public static final String MODE(boolean value){return toHtmlKeyValue(MODE, value);};
 			public static final String URL="url";
+			public static final String URL(String value){return toHtmlKeyValue(URL, value);};
 			public static final String DATA="data";
+			public static final String DATA(String value){return toHtmlKeyValue(DATA, value);};
 			public static final String FILTER="filter";
+			public static final String FILTER(String value){return toHtmlKeyValue(FILTER, value);};
 			public static final String FORMATTER="formatter";
+			public static final String FORMATTER(String value){return toHtmlKeyValue(FORMATTER, value);};
 		}
 
 		public static class Methods extends Combo.Methods{
@@ -544,15 +632,30 @@ public static final class Dialog
 		}
 	}
 	
+	public static final class ComoboTree{
+		public static final String NAME="combobox";
+		public static final String CLASS="easyui-combotree";
+		public static class Properties extends Combo.Properties{
+			public static final String EDITABLE="editable";
+		}
+		
+		public static class Events extends Combo.Events{}
+	}
+	
 	public static final class NumberBox{
 		
 		public static final String NAME="numberbox";
+		public static final String CLASS="easyui-numberbox";
 		
 		public static class Properties extends ValidateBox.Properties{
 			public static final String DISABLED="disabled";
+			public static final String DISABLED(boolean value){return toHtmlKeyValue(DISABLED, value);};
 			public static final String MIN="min";
+			public static final String MIN(int value){return toHtmlKeyValue(MIN, value);};
 			public static final String MAX="max";
+			public static final String MAX(int value){return toHtmlKeyValue(MAX, value);};
 			public static final String PRECISION="precision";
+			public static final String PRECISION(int value){return toHtmlKeyValue(PRECISION, value);};
 		}
 		
 		public static class Methods extends ValidateBox.Methods{
@@ -566,16 +669,24 @@ public static final class Dialog
 	public static final class Spinner{
 		
 		public static final String NAME="spinner";
-		
+		public static final String CLASS="easyui-spinner";		
 		public static class Properties extends ValidateBox.Properties{
 			public static final String WIDTH="width";
+			public static final String WIDTH(int value){return toHtmlKeyValue(WIDTH, value);};
 			public static final String VALUE="value";
+			public static final String VALUE(String value){return toHtmlKeyValue(VALUE, value);};
 			public static final String MAX="max";
+			public static final String MAX(int value){return toHtmlKeyValue(MAX, value);};
 			public static final String MIN="min";
+			public static final String MIN(int value){return toHtmlKeyValue(MIN, value);};
 			public static final String INCREMENT="increment";
+			public static final String INCREMENT(int value){return toHtmlKeyValue(INCREMENT, value);};
 			public static final String EDITABLE="editable";
+			public static final String EDITABLE(boolean value){return toHtmlKeyValue(EDITABLE, value);};
 			public static final String DISABLED="disabled";
+			public static final String DISABLED(boolean value){return toHtmlKeyValue(DISABLED, value);};
 			public static final String SPIN="spin";
+			public static final String SPIN(String value){return toHtmlKeyValue(SPIN, value);};
 		}
 		
 		public static class Events{
@@ -597,6 +708,10 @@ public static final class Dialog
 	public static final class NumberSpinner{
 		
 		public static final String NAME="numberspinner";
+	}
+	
+	private static String toHtmlKeyValue(String key,Object value){
+		return key+"=\""+value+"\"";
 	}
 	
 //end form
