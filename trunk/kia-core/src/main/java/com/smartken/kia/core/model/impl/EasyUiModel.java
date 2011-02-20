@@ -394,7 +394,14 @@ public static final class Dialog
 			public static final String QUERY_PARAMS="queryParams";
 			public static final String SORT_NAME="sortName";
 			public static final String SORT_ORDER="sortOrder";
+			public static final String TOOLBAR="toolbar";
 
+		}
+		
+		public static final class ToolbarProperties{
+			public static final String TEXT="text";
+			public static final String ICON_CLS="iconCls";
+			public static final String HANDLER="handler";
 		}
 		
 		public static final class ColumnProperties{

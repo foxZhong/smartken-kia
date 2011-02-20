@@ -81,6 +81,8 @@ public class JQueryModel implements IScriptModel {
 	public final static String DOC_READY_START="$(document).ready(function(){ \n\n";
 	public final static String DOC_READY_END="}); //$(document).ready";
 	
+
+	
 	public final static class Events{
 		public final static String CLICK="click";
 	}

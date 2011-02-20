@@ -7,7 +7,6 @@
    <typeAlias type="com.smartken.kia.model.sys.MenuModel" alias="MenuModel"/>
    <typeAlias type="com.smartken.kia.model.sys.UserModel" alias="UserModel"/>
    <typeAlias type="com.smartken.kia.model.sys.DepartmentModel" alias="DepartmentModel"/>
-   <typeAlias type="com.trusteach.drv.model.BookedWeekRecordModel" alias="BookedWeekRecordModel"/>
 </typeAliases>
 
 
