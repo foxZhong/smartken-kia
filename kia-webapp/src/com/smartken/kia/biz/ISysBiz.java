@@ -6,7 +6,7 @@ import java.util.Date;
 import org.json.JSONArray;
 
 import com.smartken.kia.core.model.IBaseCrudBiz;
-import com.trusteach.drv.model.BookedWeekRecordModel;
+
 
 public interface ISysBiz<Model> extends IBaseCrudBiz<Model> {
 

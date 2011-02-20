@@ -1,6 +1,12 @@
 package com.smartken.kia.core.util;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URL;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -8,7 +14,10 @@ import com.smartken.kia.core.enums.FormatEnum;
 
 public class StringUtil {
 
-
+    public final static String UTF8="UTF-8";
+    public final static String GBK="GBK";
+    public final static String GB2312="GB2312";
+	
 	public static ArrayList<String> toList(String pStrVal)
 	{
 		ArrayList<String> lListReturn=new ArrayList<String>();
@@ -108,9 +117,60 @@ public class StringUtil {
 		return lnReturn;
 	}
 	
-	public static void main(String[] args)
+	public static ArrayList<String> format(String pattern,ArrayList pListValue,Object...params){
+		ArrayList<String> lListReturn=new ArrayList(); 
+		for(Iterator it=pListValue.iterator();it.hasNext();){
+		   String tempValue=it.next().toString();
+           ArrayList<String> tempParam=new ArrayList<String>();
+           tempParam.add(tempValue);
+           for(int i=0;i<params.length;i++){
+        	   tempParam.add(params[i].toString());
+           } 
+		   String value=MessageFormat.format(pattern,tempParam.toArray());
+		   lListReturn.add(value);
+		}
+		return lListReturn;
+	}
+	
+	public static String decodeUtf8(String value){
+		String lStrReturn="";
+		if(value==null)return lStrReturn;
+		try {
+			lStrReturn =URLDecoder.decode(value, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return lStrReturn;
+	}
+	
+	public static String encodeUtf8(String value){
+		String lStrReturn="";
+		if(value==null)return lStrReturn;
+		try {
+			lStrReturn =URLEncoder.encode(value, UTF8);
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return lStrReturn;
+	}
+	
+	public static void main(String[] args) 
 	{
 		String lStr=StringUtil.formatId("#", null, "form","aSave");
-		System.out.println(lStr);
+	    ArrayList<String> tempParam=new ArrayList<String>();
+	    tempParam.add("xxx");
+	    tempParam.add("xxgeadg");
+	    ArrayList<String> tp=StringUtil.format("{1}:{0}={2}", tempParam, "admin","caerae");
+	    System.out.println(tp.get(1));
+		String c="å·¥èµ";
+		try {
+			System.out.println(new String(c.getBytes(),GB2312));
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 }

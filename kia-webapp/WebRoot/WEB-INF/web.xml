@@ -45,14 +45,14 @@
      <url-pattern>/*</url-pattern>
   </filter-mapping>
   
- 
+ <!--  
     <jsp-config>
         <taglib>
             <taglib-uri>com/smarkten/kia/tag/easuyi</taglib-uri>
             <taglib-location>classes/com/smartken/kia/core/tag/easyui.tdl</taglib-location>
         </taglib>
     </jsp-config>
- 
+ -->
   
    <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>

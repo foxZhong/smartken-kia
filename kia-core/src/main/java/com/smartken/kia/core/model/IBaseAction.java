@@ -15,7 +15,9 @@ public interface IBaseAction {
     public static String FORMAT_JSON="json";
     public static String FORMAT_XML="xml";
     public static String FORMAT_EASYUI_DATAGRID="easyui_datagrid";
-    
+    public static String QUERY="query";
+    public static String QUERY_EMPTY="empty";
+    public static String QUERY_SEARCH="search";
     
     public HttpServletRequest getRequest();
     public HttpServletResponse getResponse();

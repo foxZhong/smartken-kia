@@ -46,7 +46,12 @@ public abstract class BaseModel implements Serializable ,IFormatterModel{
 			    String lStrTempName="get"+StringUtil.format(lStrFieldName, FormatEnum.UPCASE_FIRST);
 				Method lMth=c.getDeclaredMethod(lStrTempName, null);
 				Object lObjFieldValue=lMth.invoke(this, null);
-				lJsonTemp.put(lStrFieldName, lObjFieldValue==null?"":lObjFieldValue);
+				if(lObjFieldValue instanceof IFormatterModel)
+				{
+					lJsonTemp.put(lStrFieldName, lObjFieldValue==null?"":((IFormatterModel)lObjFieldValue).toJson());
+				}else{
+				   lJsonTemp.put(lStrFieldName, lObjFieldValue==null?"":lObjFieldValue);
+				}
 				}catch(Exception ex){
 					try{
 						String lStrTempName="get"+lStrFieldName;
