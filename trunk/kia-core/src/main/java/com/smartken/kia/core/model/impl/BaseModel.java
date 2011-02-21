@@ -152,6 +152,19 @@ public abstract class BaseModel implements Serializable ,IFormatterModel{
 		return lSbrParam.toString();
 	}
 
+	
+	
+	
+	public void from(Element el) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void from(JSONObject json) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	public abstract Object generalPK() throws NullPointerException;
 	
 }

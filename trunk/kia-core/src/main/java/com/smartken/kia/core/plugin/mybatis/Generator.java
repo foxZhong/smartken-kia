@@ -44,7 +44,7 @@ public class Generator {
 		Connection c=null;
 		try {
 			Class.forName("oracle.jdbc.OracleDriver");
-			c= DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:oradrvde", "aspnet", "stjj117");
+			c= DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:oradrv", "aspnet", "stjj117");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -81,7 +81,7 @@ public class Generator {
 	
 	public static void main(String[] args)
 	{
-        MapperTemplate mt=getMapperTemplate("table_yuyue_info","id");
+        MapperTemplate mt=getMapperTemplate("pp_personc","staff_no");
         System.err.println(mt.getDbCols());
         System.err.println(mt.getInsertCols());
         System.err.println(mt.getUpdateCols());
