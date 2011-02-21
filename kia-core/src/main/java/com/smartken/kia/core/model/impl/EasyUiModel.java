@@ -715,11 +715,14 @@ public static final class Dialog
 	public static final class NumberSpinner{
 		
 		public static final String NAME="numberspinner";
+		public static final String CLASS="easyui-numberspinner";
 	}
 	
 	private static String toHtmlKeyValue(String key,Object value){
 		return key+"=\""+value+"\"";
 	}
+	
+	
 	
 //end form
 	

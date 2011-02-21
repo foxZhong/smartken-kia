@@ -225,6 +225,44 @@ public class ObjectUtil {
 		
 	}
 	
+	
+	public static boolean isInArray(Object obj,Object[] objs){
+		if(obj==null || obj==null) return false;
+		boolean isIn=false;
+		for(int i=objs.length-1;i>=0;i--)
+		{
+			if(obj.equals(objs[i]))
+			{
+				isIn=true;
+				break;
+			}
+		}
+		return isIn;
+	}
+	
+	public static boolean isNotInArray(Object obj,Object[] objs){
+		return  !isInArray(obj, objs);
+	}
+	
+	public static boolean isEquals(Object obj1,Object obj2){
+		if(obj1!=null&&obj2!=null){
+			return obj1.equals(obj2);
+		}
+		else if(obj1==null&&obj2==null){
+			return true;
+		}else if(obj2==null&&obj1!=null){
+			return false;
+		}else if(obj1==null&&obj2!=null){
+			return false;
+		}else{
+			return false;
+		}
+	}
+	
+	public static boolean isNotEquals(Object obj1,Object obj2){
+		return !isEquals(obj1, obj2);
+	}
+	
 
 	public static void main(String[] args)
 	{
