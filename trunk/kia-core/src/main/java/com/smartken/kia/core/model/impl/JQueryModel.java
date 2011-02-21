@@ -8,6 +8,8 @@ import java.util.LinkedList;
 import javax.crypto.spec.OAEPParameterSpec;
 
 import com.smartken.kia.core.model.IScriptModel;
+import com.smartken.kia.core.util.ObjectUtil;
+import com.smartken.kia.core.util.StringUtil;
 
 public class JQueryModel implements IScriptModel {
 
@@ -93,6 +95,14 @@ public class JQueryModel implements IScriptModel {
 	
 	public static final class Ajax{
 		public final static String GET="get";
+	}
+	
+	public static String id(String id){
+		return MessageFormat.format("$(\"#{0}\")", ObjectUtil.formatString(id));
+	}
+	
+	public static String cls(String id){
+		return MessageFormat.format("$(\".{0}\")", ObjectUtil.formatString(id));
 	}
 	
 	public static void main(String[] args)

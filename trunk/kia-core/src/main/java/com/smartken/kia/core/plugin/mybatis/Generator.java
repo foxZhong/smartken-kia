@@ -13,6 +13,32 @@ import com.smartken.kia.core.model.IMapper;
 
 public class Generator {
 
+	private Connection connection;
+	private Class mapperClass;
+	private Class modelClass;
+	
+	
+
+	
+	public Class getMapperClass() {
+		return mapperClass;
+	}
+
+	public void setMapperClass(Class mapperClass) {
+		this.mapperClass = mapperClass;
+	}
+
+	public Class getModelClass() {
+		return modelClass;
+	}
+
+	public void setModelClass(Class modelClass) {
+		this.modelClass = modelClass;
+	}
+
+	public void setConnection(Connection connection) {
+		this.connection = connection;
+	}
 
 	public static Connection getConnection(){
 		Connection c=null;
@@ -56,12 +82,12 @@ public class Generator {
 	public static void main(String[] args)
 	{
         MapperTemplate mt=getMapperTemplate("table_yuyue_info","id");
-        System.out.println(mt.getDbCols());
-        System.out.println(mt.getInsertCols());
-        System.out.println(mt.getUpdateCols());
-        System.out.println(mt.getResultMap());
-        System.out.println(mt.getModelCols());
-        System.out.println(mt.getCondition());
+        System.err.println(mt.getDbCols());
+        System.err.println(mt.getInsertCols());
+        System.err.println(mt.getUpdateCols());
+        System.err.println(mt.getResultMap());
+        System.err.println(mt.getModelCols());
+        System.err.println(mt.getCondition());
         System.out.println(mt.getMapper(IMapper.class));
 	}
 }

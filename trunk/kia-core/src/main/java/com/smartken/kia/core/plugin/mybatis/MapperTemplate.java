@@ -14,13 +14,27 @@ public class MapperTemplate {
 
 	private String table;
 	private String pk;
+	private ColumnTemplate pkColumn=new ColumnTemplate("");
 	private ArrayList<ColumnTemplate> cols=new ArrayList<ColumnTemplate>();
+	private String namespace="";
+	private String modelName="";
 
-	private int rowCount=8;
+	public void setNamespace(String namespace) {
+		this.namespace = namespace;
+	}
+
+	public void setModelName(String modelName) {
+		this.modelName = modelName;
+	}
+
+
+
+	private int rowCount=10;
 	
 	public MapperTemplate(String table,String pk,ArrayList<String> dbCols){
 		this.table=table;
 		this.pk=pk;
+		this.pkColumn=new ColumnTemplate(pk);
         for (String dbCol : dbCols) {
 			this.cols.add(new ColumnTemplate(dbCol));
 		}
@@ -31,7 +45,17 @@ public class MapperTemplate {
 		this.pk=pk;
         for (int i = 0; i < dbCols.size(); i++) {
 			this.cols.add(new ColumnTemplate(dbCols.get(i), dbTypes.get(i)));
+			if(dbCols.get(i).equalsIgnoreCase(pk))
+			{
+				this.pkColumn=new ColumnTemplate(dbCols.get(i), dbTypes.get(i));
+			}
 		}
+	}
+	
+	public String getPkCol(){
+		String pattern="{0},jdbcType={1},javaType={2}";
+		String pk=MessageFormat.format(pattern, this.pkColumn.getJavaName(),this.pkColumn.getJdbcType(),this.pkColumn.getJavaType());
+		return pk;
 	}
 	
 	public String getDbCols(){
@@ -58,19 +82,19 @@ public class MapperTemplate {
 		if(cols==null)return "";
 		StringBuffer lSbrReturn=new StringBuffer("");
 		int colSize=cols.size();
-		String pattern="#'{'{0}'}'";
+		String pattern="#'{'{0},jdbcType={1},javaType={2}'}'";
 		for(int i=0;i<colSize;i++){
 			ColumnTemplate tempCol=cols.get(i);
-			String tempStr=MessageFormat.format(pattern,
-					tempCol.getModColName()  //0
+			String tempStr=MessageFormat.format(pattern
+					,tempCol.getJavaName()  //0
+					,tempCol.getJdbcType()  //1
+					,tempCol.getJavaType()  //2
 			);
 			lSbrReturn.append(tempStr);
 			if(i!=colSize-1)
 			{
-				lSbrReturn.append(",");
-				if(i%rowCount==0&&i!=0){
-				    lSbrReturn.append("\n");
-				}
+				    lSbrReturn.append(",\n");
+
 			}
 		}
 		return lSbrReturn.toString();
@@ -81,13 +105,15 @@ public class MapperTemplate {
 		if(cols==null)return "";
 		StringBuffer lSbrReturn=new StringBuffer("");
 		int colSize=cols.size();
-		String pattern="{0}=#'{'{1}'}'";
+		String pattern="{0}=#'{'{1},jdbcType={2},javaType={3}'}'";
 		for(int i=0;i<colSize;i++){
 			ColumnTemplate tempCol=cols.get(i);
 			if(tempCol.getDbColName().equalsIgnoreCase(pk))continue;
-			String tempStr=MessageFormat.format(pattern,
-					tempCol.getDbColName(),   //0
-					tempCol.getModColName()   //1
+			String tempStr=MessageFormat.format(pattern
+					,tempCol.getDbColName()   //0
+					,tempCol.getJavaName()   //1
+					,tempCol.getJdbcType()  //2
+					,tempCol.getJavaType()
 			);
 			lSbrReturn.append(tempStr);
 			if(i!=colSize-1)
@@ -102,14 +128,15 @@ public class MapperTemplate {
 		if(cols==null)return "";
 		StringBuffer lSbrReturn=new StringBuffer("");
 		int colSize=cols.size();
-		String pattern="<{0} column=\"{1}\"  property=\"{2}\" />";
+		String pattern="<{0} column=\"{1}\"  property=\"{2}\" jdbcType=\"{3}\" javaType=\"{4}\"/>";
 		for(int i=0;i<colSize;i++){
 			ColumnTemplate tempCol=cols.get(i);
 			String tempStr=MessageFormat.format(pattern,
-					tempCol.getDbColName().equalsIgnoreCase(this.pk)?"id":"result",
+					tempCol.getDbColName().equalsIgnoreCase(this.pk)?"id":"result",  //0
 					tempCol.getDbColName(),   //1
-					tempCol.getModColName(),   //2
-					tempCol.getDbColType()
+					tempCol.getJavaName(),   //2
+					tempCol.getJdbcType(),   //3  
+					tempCol.getJavaType()  //4
 			);
 			lSbrReturn.append(tempStr);
 			if(i!=colSize-1)
@@ -130,8 +157,8 @@ public class MapperTemplate {
 		for(int i=0;i<colSize;i++){
 			ColumnTemplate tempCol=cols.get(i);
 			String tempStr=MessageFormat.format(pattern,
-					tempCol.getDbColName().equalsIgnoreCase(this.pk)?"Object":tempCol.getModColType(),  //0
-					tempCol.getModColName()  //1
+					tempCol.getDbColName().equalsIgnoreCase(this.pk)?"Object":tempCol.getJavaType(),  //0
+					tempCol.getJavaName()  //1
 			);
 			lSbrReturn.append(tempStr+"\n");
 		}
@@ -142,12 +169,14 @@ public class MapperTemplate {
 		if(cols==null)return "";
 		StringBuffer lSbrReturn=new StringBuffer("");
 		int colSize=cols.size();
-		String pattern="<if test=\"model.{0} neq null\">and {1}=#'{'model.{0}'}' </if> ";
+		String pattern="<if test=\"model.{0} neq null\">and m.{1}=#'{'model.{0},jdbcType={2} javaType={3} '}' </if> ";
 		for(int i=0;i<colSize;i++){
 			ColumnTemplate tempCol=cols.get(i);
 			String tempStr=MessageFormat.format(pattern,
-					tempCol.getModColName()  //0
+					tempCol.getJavaName()  //0
 					,tempCol.getDbColName()  //1
+					,tempCol.getJdbcType()  //2
+					,tempCol.getJavaType()  //3
 			);
 			lSbrReturn.append(tempStr+"\n");
 		}
@@ -167,33 +196,37 @@ public class MapperTemplate {
     	.append("<sql id=\"colums\">\n{3} \n</sql>").append(StringUtil.ln(2))
     	.append("<sql id=\"insertCols\">\n{4} \n</sql>").append(StringUtil.ln(2))
     	.append("<sql id=\"updateCols\">\n {5}\n</sql>").append(StringUtil.ln(2))
-    	.append("<sql id=\"orderby\"></sql>").append(StringUtil.ln(2))
-    	.append("<resultMap type=\"\" id=\"resultMap\">\n {6}\n </resultMap>").append(StringUtil.ln(3))
-        .append("<select id=\"selectEqPk\" parameterType=\"String\"  resultMap=\"resultMap\">").append(StringUtil.ln())
-        .append("\t select <include refid=\"colums\"/> from <include refid=\"table\"/> where <include refid=\"pk\" /> = #'{'pObjPk'}'").append(StringUtil.ln())
-        .append("</select>").append(StringUtil.ln(2))
-        
+    	.append("<sql id=\"orderby\">order by {2}</sql>").append(StringUtil.ln(2))
+    	.append("<sql id=\"joinColums\"></sql>").append(StringUtil.ln(2))
+    	.append("<sql id=\"join\"></sql>").append(StringUtil.ln(0))
+    	.append("<!-- 别名m已被主表使用  -->").append(StringUtil.ln(2))
+    	.append("<resultMap type=\"{8}\" id=\"resultMap\">\n {6}\n </resultMap>").append(StringUtil.ln(3))
+    
         .append("<select id=\"select\" resultType=\"ArrayList\" resultMap=\"resultMap\">").append(StringUtil.ln())
-        .append("\t select <include refid=\"colums\" /> from <include refid=\"table\" />").append(StringUtil.ln())
+        .append("\t select m.* <include refid=\"joinColums\"/> from <include refid=\"table\" /> m <include refid=\"join\"/> ").append(StringUtil.ln())
         .append("<trim prefix=\"where\" prefixOverrides=\"and\">\n{7}</trim>").append(StringUtil.ln())
         .append("</select>").append(StringUtil.ln())
+        
+        .append("<select id=\"selectEqPk\" parameterType=\"String\"  resultMap=\"resultMap\">").append(StringUtil.ln())
+        .append("\t select <include refid=\"colums\"/> from <include refid=\"table\" /> m <include refid=\"join\"/> where m.<include refid=\"pk\" /> = #'{'{9}'}'").append(StringUtil.ln())
+        .append("</select>").append(StringUtil.ln(2))
         
         .append("<select id=\"count\" resultType=\"int\">").append(StringUtil.ln())
         .append("\t select count(*) from <include refid=\"table\"/>").append(StringUtil.ln())
         .append("</select>").append(StringUtil.ln(2))
         
         .append("<select id=\"selectInPk\" resultType=\"ArrayList\" resultMap=\"resultMap\" >").append(StringUtil.ln())
-        .append("\t select <include refid=\"colums\"/> from <include refid=\"table\"/> where <include refid=\"pk\" /> in").append(StringUtil.ln())
+        .append("\t select m.* <include refid=\"joinColums\"/> from <include refid=\"table\" /> m <include refid=\"join\"/> where m.<include refid=\"pk\" /> in").append(StringUtil.ln())
         .append("<foreach item=\"pk\" collection=\"list\" open=\"(\" separator=\",\" close=\")\"> #'{'pk'}' </foreach> \n<include refid=\"orderby\"/>").append(StringUtil.ln())
         .append("</select>").append(StringUtil.ln(2))
         
         .append("<select id=\"selectNotInPk\" resultType=\"ArrayList\" resultMap=\"resultMap\" >").append(StringUtil.ln())
-        .append("\t select <include refid=\"colums\"/> from <include refid=\"table\"/> where <include refid=\"pk\" /> not in").append(StringUtil.ln())
+        .append("\t select m.* <include refid=\"joinColums\"/> from <include refid=\"table\" /> m <include refid=\"join\"/> where m.<include refid=\"pk\" /> not in").append(StringUtil.ln())
         .append("<foreach item=\"pk\" collection=\"list\" open=\"(\" separator=\",\" close=\")\"> #'{'pk'}' </foreach> \n<include refid=\"orderby\"/>").append(StringUtil.ln())
         .append("</select>").append(StringUtil.ln(2))
         
         .append("<select  id=\"selectAll\"  resultType=\"ArrayList\"  resultMap=\"resultMap\">").append(StringUtil.ln())
-        .append("\t select <include refid=\"colums\"/> from <include refid=\"table\"/> \n <include refid=\"orderby\"/>").append(StringUtil.ln())        
+        .append("\t select m.* <include refid=\"joinColums\"/> from  <include refid=\"table\" /> m <include refid=\"join\"/> \n <include refid=\"orderby\"/>").append(StringUtil.ln())        
         .append("</select>").append(StringUtil.ln(2))
         
         .append("<insert id=\"insertOne\" >").append(StringUtil.ln())
@@ -201,7 +234,7 @@ public class MapperTemplate {
         .append("</insert>").append(StringUtil.ln(2))
         
         .append("<update id=\"updateOne\" flushCache=\"true\" >").append(StringUtil.ln())
-        .append("\t update <include refid=\"table\"/> set <include refid=\"updateCols\"/> where <include refid=\"pk\" />=#'{'id'}'").append(StringUtil.ln())        
+        .append("\t update <include refid=\"table\"/> set <include refid=\"updateCols\"/> where <include refid=\"pk\" />=#'{'{9}'}'").append(StringUtil.ln())        
         .append("</update>").append(StringUtil.ln(2))
         
         .append("<delete id=\"deleteInPk\" flushCache=\"true\">").append(StringUtil.ln())
@@ -212,11 +245,11 @@ public class MapperTemplate {
         .append("<delete id=\"deleteNotInPk\" flushCache=\"true\">").append(StringUtil.ln())
         .append("\t delete from <include refid=\"table\"/> where <include refid=\"pk\" /> not in").append(StringUtil.ln())
         .append("<foreach item=\"pk\" collection=\"list\" open=\"(\" separator=\",\" close=\")\">#'{'pk'}'</foreach>").append(StringUtil.ln())
-        .append("</delete>").append(StringUtil.ln(2))      
-       
+        .append("</delete>").append(StringUtil.ln(4))      
+        .append("</mapper>")
     	;
     	String lStrMapper=MessageFormat.format(pattern.toString(),
-    			nameSpace.getName()   //0
+    			this.namespace  //0
     			,this.table    //1
     			,this.pk         //2
     			,this.getDbCols()  //3
@@ -224,6 +257,8 @@ public class MapperTemplate {
     			,this.getUpdateCols()   //5
     			,this.getResultMap()   //6
     			,this.getCondition()  //7
+    			,this.modelName  //8
+    			,this.getPkCol()  //9
     	);
 		return lStrMapper;
 	   

@@ -25,7 +25,7 @@
 <resultMap type="MenuModel" id="resultMap">
    <result property="id"  column="id"/>
    <result property="name" column="name"/>
-   <result property="descp" column="descp"/>
+   <result property="descp" column="descp"  />
    <result property="url" column="url" />
    <result property="parma" column="parma" />
    <result property="icon" column="icon"/>
