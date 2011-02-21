@@ -7,8 +7,11 @@ import org.json.JSONObject;
 
 public interface IFormatterModel {
   
-	 public JSONObject toJson();
+	 public JSONObject toJson();	 
 	 public Document toXmlDocucmnt();
 	 public Element toXmlElement();
 	 public String toUrlParam();
+	 
+	 public void from(JSONObject json);
+	 public void from(Element el);
 }

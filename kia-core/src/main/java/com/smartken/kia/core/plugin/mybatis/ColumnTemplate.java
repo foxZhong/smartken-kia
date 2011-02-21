@@ -1,5 +1,9 @@
 package com.smartken.kia.core.plugin.mybatis;
 
+import java.math.BigDecimal;
+import java.text.Bidi;
+import java.util.Date;
+
 import com.smartken.kia.core.enums.FormatEnum;
 import com.smartken.kia.core.jdbc.dialect.DB2Dialect;
 import com.smartken.kia.core.util.ObjectUtil;
@@ -14,8 +18,11 @@ public class ColumnTemplate {
 	public static String DB_TYPE_TEXT="TEXT";
 	public static String DB_TYPE_INTEGER="INTEGER";
 	public static String DB_TYPE_NUMBER="NUMBER";
+	public static String DB_TYPE_FLOAT="FLOAT";
+	public static String DB_TYPE_DATE="DATE";
 	public static String MOD_TYPE_STRING="String";
 	public static String MOD_TYPE_INTEGER="Integer";
+
 	
 	private String dbColName;
 	private String dbColType;
@@ -89,15 +96,23 @@ public class ColumnTemplate {
 		if(ObjectUtil.isInArray(lDbType.toUpperCase(), 
 		    new String[]{DB_TYPE_CHAR,DB_TYPE_TEXT,DB_TYPE_VARCHAR2})
 		 ){
-			return MOD_TYPE_STRING;
+			return String.class.getSimpleName();
 		}else if(ObjectUtil.isInArray(lDbType.toUpperCase(), 
 			    new String[]{DB_TYPE_INTEGER,DB_TYPE_NUMBER})
 		 ){
-			return MOD_TYPE_INTEGER;
+			return Integer.class.getSimpleName();
+		}else if(ObjectUtil.isInArray(lDbType.toUpperCase(), 
+                new String[]{DB_TYPE_FLOAT}  )
+           ){
+			return BigDecimal.class.getSimpleName();
+		}else if(ObjectUtil.isInArray(lDbType.toUpperCase(), 
+                new String[]{DB_TYPE_DATE}  )
+        ){
+			return Date.class.getSimpleName();
 		}
 		else 
 		{
-			return MOD_TYPE_STRING;
+			return String.class.getSimpleName();
 		}
 	}
 	
@@ -111,6 +126,14 @@ public class ColumnTemplate {
 			new String[]{DB_TYPE_INTEGER,DB_TYPE_NUMBER})
 		 ){
 			return JdbcType.INTEGER.toString();
+		}else if(ObjectUtil.isInArray(lDbType.toUpperCase(), 
+				new String[]{DB_TYPE_FLOAT})
+		 ){
+			return JdbcType.FLOAT.toString();
+		}else if(ObjectUtil.isInArray(lDbType.toUpperCase(), 
+				new String[]{DB_TYPE_DATE})
+		 ){
+			return JdbcType.DATE.toString();
 		}
 		else 
 		{

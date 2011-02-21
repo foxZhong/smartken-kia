@@ -639,7 +639,7 @@ public static final class Dialog
 		}
 	}
 	
-	public static final class ComoboTree{
+	public static final class ComboTree{
 		public static final String NAME="combobox";
 		public static final String CLASS="easyui-combotree";
 		public static class Properties extends Combo.Properties{

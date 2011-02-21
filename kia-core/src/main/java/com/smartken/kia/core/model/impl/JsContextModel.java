@@ -35,6 +35,11 @@ public class JsContextModel implements IScriptModel {
 		return this;
 	}
 	
+	public JsContextModel appendScript(String pattern,Object...arguments){
+		this.scripts.add(MessageFormat.format(pattern, arguments));
+		return this;
+	}
+	
 	public String toScirpt() {
 		// TODO Auto-generated method stub
 		StringBuffer lSbrScript=new StringBuffer("");

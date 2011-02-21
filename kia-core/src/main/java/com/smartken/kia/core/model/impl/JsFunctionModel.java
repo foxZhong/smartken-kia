@@ -64,6 +64,10 @@ public class JsFunctionModel implements IScriptModel {
 		return this;
 	}
 	
+	public JsFunctionModel appendContext(String pattern,Object...arguments){
+		this.context.append(MessageFormat.format(pattern, arguments));
+		return this;
+	}
 
 	
 	
@@ -84,6 +88,12 @@ public class JsFunctionModel implements IScriptModel {
 	{
 		JsFunctionModel js=new JsFunctionModel(new String[]{"index","data"});
 		js.appendContext("var e=2;").appendContext("var xxx=e;");
+	    js.appendContext("{0}.combotree(\"{1}\",'');\n{0}.combotree(\"{2}\",\"{3}\"+newVal);",
+                  JQueryModel.id("xxx")  //0
+                  ,EasyUiModel.ComboBox.Methods.SET_VALUE  //1
+                  ,EasyUiModel.ComboBox.Methods.RELOAD //2
+                  ,"/select/menuDir.action?pid="
+                  );
 		System.out.println(js.toScirpt());
 	}
 
