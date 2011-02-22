@@ -7,14 +7,12 @@ import com.smartken.kia.core.pager.PageBounds;
 
 public interface IBaseAction {
 
-	public static String CUSTOM="custom";
-	public static String JSP="jsp";
-    public static String TEXT="text";
+	public static String RESULT_CUSTOM="custom";
+	public static String RESULT_JSP="jsp";
     public static String METHOD_GET="GET";
     public static String METHOD_POST="POST";
     public static String FORMAT_JSON="json";
     public static String FORMAT_XML="xml";
-    public static String FORMAT_EASYUI_DATAGRID="easyui_datagrid";
     public static String QUERY="query";
     public static String QUERY_EMPTY="empty";
     public static String QUERY_SEARCH="search";

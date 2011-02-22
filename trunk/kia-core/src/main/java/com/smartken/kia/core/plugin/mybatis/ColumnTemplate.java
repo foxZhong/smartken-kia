@@ -23,12 +23,15 @@ public class ColumnTemplate {
 	public static String MOD_TYPE_STRING="String";
 	public static String MOD_TYPE_INTEGER="Integer";
 
+	public static final int PREC_FLOAT=126;
+	public static final int PREC_INTEGER=38;
 	
 	private String dbColName;
 	private String dbColType;
 	private String javaName;
 	private String javaType;
 	private String jdbcType;
+	private int precision;
 	
 	public ColumnTemplate(String dbColName){
 	
@@ -45,6 +48,16 @@ public class ColumnTemplate {
 		this.javaName=toModelColName(dbColName);
 		this.javaType=toModelType(dbColType);
 		this.jdbcType=toJdbcType(dbColType);
+	}
+	
+	public ColumnTemplate(String dbColName,String dbColType,int perc){
+		this.dbColName=dbColName;
+		this.dbColType=dbColType;
+		this.precision=perc;
+		this.javaName=toModelColName(dbColName);
+		this.javaType=toModelType(dbColType);
+		this.jdbcType=toJdbcType(dbColType);
+		
 	}
 	
 	public String getDbColName() {
@@ -66,6 +79,10 @@ public class ColumnTemplate {
 
 	public String getJdbcType() {
 		return jdbcType;
+	}
+
+	public int getPrecision() {
+		return precision;
 	}
 
 	public static String toModelColName(String lStrDbColName)
@@ -91,20 +108,20 @@ public class ColumnTemplate {
 	}
 	
 	
-	public static String toModelType(String lDbType){
+	public String toModelType(String lDbType){
 		if(StringUtil.isBlank(lDbType))return "";
 		if(ObjectUtil.isInArray(lDbType.toUpperCase(), 
 		    new String[]{DB_TYPE_CHAR,DB_TYPE_TEXT,DB_TYPE_VARCHAR2})
 		 ){
 			return String.class.getSimpleName();
-		}else if(ObjectUtil.isInArray(lDbType.toUpperCase(), 
-			    new String[]{DB_TYPE_INTEGER,DB_TYPE_NUMBER})
-		 ){
-			return Integer.class.getSimpleName();
-		}else if(ObjectUtil.isInArray(lDbType.toUpperCase(), 
-                new String[]{DB_TYPE_FLOAT}  )
-           ){
-			return BigDecimal.class.getSimpleName();
+		}else if(ObjectUtil.isInArray(lDbType.toUpperCase(), new String[]{DB_TYPE_INTEGER,DB_TYPE_NUMBER,DB_TYPE_FLOAT})){
+			String re="";
+			switch (this.precision) {
+			case PREC_FLOAT: re= Float.class.getSimpleName(); break;
+			case PREC_INTEGER: re= Integer.class.getSimpleName();break;
+			default:re= Integer.class.getSimpleName();break;
+			}
+			return re;
 		}else if(ObjectUtil.isInArray(lDbType.toUpperCase(), 
                 new String[]{DB_TYPE_DATE}  )
         ){
@@ -116,21 +133,20 @@ public class ColumnTemplate {
 		}
 	}
 	
-	public static String toJdbcType(String lDbType){
+	public String toJdbcType(String lDbType){
 		if(StringUtil.isBlank(lDbType))return "";
 		if(ObjectUtil.isInArray(lDbType.toUpperCase(), 
 		    new String[]{DB_TYPE_VARCHAR2,DB_TYPE_VARCHAR})
 		 ){
 			return JdbcType.VARCHAR.toString();
-		}else if(ObjectUtil.isInArray(lDbType.toUpperCase(), 
-			new String[]{DB_TYPE_INTEGER,DB_TYPE_NUMBER})
-		 ){
-			return JdbcType.INTEGER.toString();
-		}else if(ObjectUtil.isInArray(lDbType.toUpperCase(), 
-				new String[]{DB_TYPE_FLOAT})
-		 ){
-			return JdbcType.FLOAT.toString();
-		}else if(ObjectUtil.isInArray(lDbType.toUpperCase(), 
+		}else if(ObjectUtil.isInArray(lDbType.toUpperCase(), new String[]{DB_TYPE_INTEGER,DB_TYPE_NUMBER,DB_TYPE_FLOAT}) ){
+			switch (this.precision) {
+			case PREC_FLOAT: return JdbcType.FLOAT.toString();
+			case PREC_INTEGER: return JdbcType.INTEGER.toString();
+			default:return JdbcType.INTEGER.toString();
+			}
+		}
+		else if(ObjectUtil.isInArray(lDbType.toUpperCase(), 
 				new String[]{DB_TYPE_DATE})
 		 ){
 			return JdbcType.DATE.toString();
