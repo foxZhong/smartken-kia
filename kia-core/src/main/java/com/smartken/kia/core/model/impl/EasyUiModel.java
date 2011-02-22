@@ -257,9 +257,6 @@ public static final class Panel{
 	   public static final String NAME="layout";
 	   public static final String CLASS="easyui-layout";
 	   
-	   public static final String SPLIT(boolean split){
-		   return MessageFormat.format("split=\"{0}\"", split);
-	   }
 	   public static  class Properties {
 		   public static final String TITLE="title";
 		   public static final String TITLE(String value){return toHtmlKeyValue(TITLE, value);}
@@ -282,6 +279,64 @@ public static final class Panel{
 			public static final String EXPAND="expand";
 		}
    }
+   
+   public static final class Tabs{
+	   public static final String NAME="tabs";
+	   public static final String CLASS="easyui-tabs";
+	   
+	   public static  class Properties {
+		   public static final String WIDTH="width";
+		   public static final String WIDTH(int value){return toHtmlKeyValue(WIDTH, value);}
+		   public static final String HEIGHT="height";
+		   public static final String HEIGHT(int value){return toHtmlKeyValue(HEIGHT, value);}
+		   public static final String PLAIN="plain";
+		   public static final String PLAIN(boolean value){return toHtmlKeyValue(PLAIN, value);}
+		   public static final String FIT="fit";
+		   public static final String FIT(boolean value){return toHtmlKeyValue(FIT, value);}
+		   public static final String BORDER="border";
+		   public static final String BORDER(boolean value){return toHtmlKeyValue(BORDER, value);}
+		   public static final String SCROLL_INCREMENT="scrollIncrement";
+		   public static final String SCROLL_INCREMENT(int value){return toHtmlKeyValue(SCROLL_INCREMENT, value);}
+		   public static final String SCROLL_DURATION="scrollDuration";
+		   public static final String SCROLL_DURATION(int value){return toHtmlKeyValue(SCROLL_DURATION, value);}
+		   public static final String TOOLS="tools";
+		   public static final String TOOLS(String value){return toHtmlKeyValue(TOOLS, value);}
+
+		   
+	   }
+	   
+	   public static  class TabProperties extends EasyUiModel.Panel.Properties {
+		   public static final String SELECTED="selected";
+		   public static final String SELECTED(boolean value){return toHtmlKeyValue(SELECTED, value);}
+
+	   }
+	   
+	   public static class Events{
+		   public static final String ON_LOAD="onLoad";
+		   public static final String ON_SELECT="onSelect";
+		   public static final String ON_BEFORE_CLOSE="onBeforeClose";
+		   public static final String ON_CLOSE="onClose";
+		   public static final String ON_ADD="onAdd";
+		   public static final String ON_UPDATE="onUpdate";
+		   public static final String ON_CONTEXT_MENU="onContextMenu";
+
+	   }
+
+	   public static class Methods{
+			public static final String OPTIONS="options";
+			public static final String TABS="tabs";
+			public static final String RESIZE="resize";
+			public static final String ADD="add";
+			public static final String CLOSE="close";
+			public static final String GET_TAB="getTab";
+			public static final String GET_SELECTED="getSelected";
+			public static final String SELECT="select";
+			public static final String EXISTS="exists";
+			public static final String UPDATE="update";
+
+
+		}
+   }
 
 
 
@@ -289,7 +344,7 @@ public static final class Panel{
 	
 
 //windows
-public static  class Window 
+public static final  class Window 
 {
 	public static final String NAME="window";
 	public static final String CLASS="easyui-window";

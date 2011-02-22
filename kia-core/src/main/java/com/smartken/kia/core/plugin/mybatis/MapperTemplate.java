@@ -52,6 +52,18 @@ public class MapperTemplate {
 		}
 	}
 	
+	public MapperTemplate(String table,String pk,ArrayList<String> dbCols,ArrayList<String> dbTypes,ArrayList<Integer> precisions){
+		this.table=table;
+		this.pk=pk;
+        for (int i = 0; i < dbCols.size(); i++) {
+			this.cols.add(new ColumnTemplate(dbCols.get(i), dbTypes.get(i),precisions.get(i)));
+			if(dbCols.get(i).equalsIgnoreCase(pk))
+			{
+				this.pkColumn=new ColumnTemplate(dbCols.get(i), dbTypes.get(i),precisions.get(i));
+			}
+		}
+	}
+	
 	public String getPkCol(){
 		String pattern="{0},jdbcType={1},javaType={2}";
 		String pk=MessageFormat.format(pattern, this.pkColumn.getJavaName(),this.pkColumn.getJdbcType(),this.pkColumn.getJavaType());
@@ -153,12 +165,15 @@ public class MapperTemplate {
 		if(cols==null)return "";
 		StringBuffer lSbrReturn=new StringBuffer("");
 		int colSize=cols.size();
-		String pattern="private {0} {1};";
+		String pattern="private {0} {1};         //{2}  {3} {4}";
 		for(int i=0;i<colSize;i++){
 			ColumnTemplate tempCol=cols.get(i);
 			String tempStr=MessageFormat.format(pattern,
 					tempCol.getDbColName().equalsIgnoreCase(this.pk)?"Object":tempCol.getJavaType(),  //0
 					tempCol.getJavaName()  //1
+					,tempCol.getDbColName()  //2
+					,tempCol.getDbColType()  //3
+					,tempCol.getPrecision()  //4
 			);
 			lSbrReturn.append(tempStr+"\n");
 		}
