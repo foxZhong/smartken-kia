@@ -161,7 +161,7 @@ public class MapperTemplate {
 	
 
 	
-	public String getModelCols(){
+	public String getJavaCols(){
 		if(cols==null)return "";
 		StringBuffer lSbrReturn=new StringBuffer("");
 		int colSize=cols.size();
@@ -169,13 +169,32 @@ public class MapperTemplate {
 		for(int i=0;i<colSize;i++){
 			ColumnTemplate tempCol=cols.get(i);
 			String tempStr=MessageFormat.format(pattern,
-					tempCol.getDbColName().equalsIgnoreCase(this.pk)?"Object":tempCol.getJavaType(),  //0
+					tempCol.getJavaType(),  //0
 					tempCol.getJavaName()  //1
 					,tempCol.getDbColName()  //2
 					,tempCol.getDbColType()  //3
 					,tempCol.getPrecision()  //4
 			);
 			lSbrReturn.append(tempStr+"\n");
+		}
+		return lSbrReturn.toString();
+	}
+	
+	public String getModelCols(){
+		if(cols==null)return "";
+		StringBuffer lSbrReturn=new StringBuffer("");
+		int colSize=cols.size();
+		String pattern="{0}";
+		for(int i=0;i<colSize;i++){
+			ColumnTemplate tempCol=cols.get(i);
+			lSbrReturn.append(tempCol.getJavaName());
+			if(i!=colSize-1)
+			{
+				lSbrReturn.append(",");
+				if(i%rowCount==0&&i!=0){
+				    lSbrReturn.append("\n");
+				}
+			}
 		}
 		return lSbrReturn.toString();
 	}
@@ -192,6 +211,21 @@ public class MapperTemplate {
 					,tempCol.getDbColName()  //1
 					,tempCol.getJdbcType()  //2
 					,tempCol.getJavaType()  //3
+			);
+			lSbrReturn.append(tempStr+"\n");
+		}
+		return lSbrReturn.toString();
+	}
+	
+	public String getPropertiesKey(){
+		if(cols==null)return "";
+		StringBuffer lSbrReturn=new StringBuffer("");
+		int colSize=cols.size();
+		String pattern="PersoncModel.Field.{0}={0}";
+		for(int i=0;i<colSize;i++){
+			ColumnTemplate tempCol=cols.get(i);
+			String tempStr=MessageFormat.format(pattern,
+					tempCol.getJavaName()  //0
 			);
 			lSbrReturn.append(tempStr+"\n");
 		}

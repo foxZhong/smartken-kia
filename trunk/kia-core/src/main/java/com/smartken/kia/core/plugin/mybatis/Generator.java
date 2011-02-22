@@ -46,7 +46,7 @@ public class Generator {
 		Connection c=null;
 		try {
 			Class.forName("oracle.jdbc.OracleDriver");
-			c=  DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:oradrvde", "aspnet", "stjj117");
+			c=  DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:oradrv", "aspnet", "stjj117");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -85,13 +85,16 @@ public class Generator {
 	
 	public static void main(String[] args)
 	{
-        MapperTemplate mt=getMapperTemplate("pp_menu_fav","id");
+        MapperTemplate mt=getMapperTemplate("pp_personc","staff_no");
         System.err.println(mt.getDbCols());
         System.err.println(mt.getInsertCols());
         System.err.println(mt.getUpdateCols());
-        System.err.println(mt.getResultMap());
+        System.err.println(mt.getJavaCols());
         System.err.println(mt.getModelCols());
+        System.err.println(mt.getResultMap());
+
         System.err.println(mt.getCondition());
-        System.out.println(mt.getMapper(IMapper.class));
+        System.err.println(mt.getPropertiesKey());
+        //System.out.println(mt.getMapper(IMapper.class));
 	}
 }

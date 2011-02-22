@@ -14,4 +14,7 @@ public interface IFormatterModel {
 	 
 	 public void from(JSONObject json);
 	 public void from(Element el);
+	 
+	 public Object eval(String pattern);
+	 public boolean eval(String pattern,Object obj);
 }
