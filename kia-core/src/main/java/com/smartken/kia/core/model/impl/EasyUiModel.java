@@ -704,6 +704,33 @@ public static final class Dialog
 		public static class Events extends Combo.Events{}
 	}
 	
+	
+	public static final class ComboGrid{
+		public static final String NAME="combogrid";
+		public static final String CLASS="easyui-combogrid";
+		public static class Properties{
+			public static final String LOAD_MSG="loadMsg";
+			public static final String LOAD_MSG(String value){return toHtmlKeyValue(LOAD_MSG, value);};
+			public static final String TEXT_FIELD="textField";
+			public static final String TEXT_FIELD(String value){return toHtmlKeyValue(TEXT_FIELD, value);};
+			public static final String ID_FIELD="idField";
+			public static final String ID_FIELD(String value){return toHtmlKeyValue(ID_FIELD, value);};
+			public static final String MODE="mode";
+			public static final String MODE(String value){return toHtmlKeyValue(MODE, value);};
+			public static final String FILTER="filter";
+			public static final String FILTER(String value){return toHtmlKeyValue(FILTER, value);};
+		}
+		
+		public static class Methods{
+			public static final String OPTIONS="options";
+			public static final String GRID="grid";
+			public static final String SET_VALUES="setValues";
+			public static final String SET_VALUE="setValue";
+			public static final String CLEAR="clear";
+		}
+	}
+
+	
 	public static final class NumberBox{
 		
 		public static final String NAME="numberbox";

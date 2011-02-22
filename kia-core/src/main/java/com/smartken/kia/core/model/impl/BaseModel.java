@@ -165,6 +165,16 @@ public abstract class BaseModel implements Serializable ,IFormatterModel{
 		
 	}
 
+	public boolean eval(String pattern, Object obj) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public Object eval(String pattern) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	public abstract Object generalPK() throws NullPointerException;
 	
 }
