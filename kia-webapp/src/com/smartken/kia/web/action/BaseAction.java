@@ -22,6 +22,7 @@ import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 import com.opensymphony.xwork2.Preparable;
 import com.opensymphony.xwork2.interceptor.Interceptor;
+import com.smartken.kia.core.enums.DataFormatEnum;
 import com.smartken.kia.core.model.IBaseAction;
 import com.smartken.kia.core.pager.PageBounds;
 import com.smartken.kia.core.util.ObjectUtil;
@@ -132,7 +133,7 @@ implements Preparable,IBaseAction
 
 	public void setDataFormat(String format) {
 		// TODO Auto-generated method stub
-		this.dataFormat = ObjectUtil.formatString(dataFormat, FORMAT_JSON);
+		this.dataFormat = ObjectUtil.formatString(dataFormat, DataFormatEnum.json.toString());
 	}
 	
 	

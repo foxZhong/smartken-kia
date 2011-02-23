@@ -17,7 +17,9 @@ import com.smartken.kia.model.sys.MenuModel;
 import com.smartken.kia.core.util.EasyUiUtil;
 import com.smartken.kia.core.util.ObjectUtil;
 import com.smartken.kia.core.util.StringUtil;
+import com.smartken.kia.core.enums.DataFormatEnum;
 import com.smartken.kia.core.enums.QueryEnum;
+import com.smartken.kia.core.enums.ResultEnum;
 import com.smartken.kia.core.pager.PageBounds;
 import com.smartken.kia.web.action.BaseAction;
 
@@ -141,12 +143,12 @@ public class MenuAction extends BaseAction
 		PageBounds pb=this.getPager();
 		ArrayList lListMenu=iSysBiz.getModelWithId(StringUtil.toList("root"), QueryEnum.NOTIN,pb);
 		//System.out.println("list:"+lArrJson.toString());
-		if(this.getDataFormat().equalsIgnoreCase(FORMAT_JSON))
+		if(this.getDataFormat().equalsIgnoreCase(DataFormatEnum.json.toString()))
 		{
 		  JSONObject lJsonDg=this.loadJsonDataGrid(lListMenu);
 		  this.writeHTML(lJsonDg.toString());
 		  return NONE;
-		}else if(this.getDataFormat().equalsIgnoreCase(FORMAT_XML))
+		}else if(this.getDataFormat().equalsIgnoreCase(DataFormatEnum.xml.toString()))
 		{
 			return NONE;
 		}

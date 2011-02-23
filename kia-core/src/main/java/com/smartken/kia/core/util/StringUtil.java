@@ -10,13 +10,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import com.smartken.kia.core.enums.FormatEnum;
+import com.smartken.kia.core.enums.CodeEnum;
+import com.smartken.kia.core.enums.StringFormatEnum;
 
 public class StringUtil {
 
-    public final static String UTF8="UTF-8";
-    public final static String GBK="GBK";
-    public final static String GB2312="GB2312";
 	
 	public static ArrayList<String> toList(String pStrVal)
 	{
@@ -92,11 +90,11 @@ public class StringUtil {
 		}
 	}
 	
-	public static String format(String pStr,FormatEnum fe){
+	public static String format(String pStr,StringFormatEnum fe){
 		if(isBlank(pStr))return "";
 		String lStrFormat="";
 		switch (fe) {
-		case UPCASE_FIRST:
+		case upcaseFirstChar:
 			lStrFormat=pStr.substring(0, 1).toUpperCase()+pStr.substring(1);
 			break;
 		default:
@@ -148,7 +146,7 @@ public class StringUtil {
 		String lStrReturn="";
 		if(value==null)return lStrReturn;
 		try {
-			lStrReturn =URLEncoder.encode(value, UTF8);
+			lStrReturn =URLEncoder.encode(value, CodeEnum.utf8.toString());
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -165,12 +163,8 @@ public class StringUtil {
 	    ArrayList<String> tp=StringUtil.format("{1}:{0}={2}", tempParam, "admin","caerae");
 	    System.out.println(tp.get(1));
 		String c="å·¥èµ";
-		try {
-			System.out.println(new String(c.getBytes(),GB2312));
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+        encodeUtf8("xxx");
+
 		
 	}
 }

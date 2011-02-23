@@ -8,7 +8,7 @@ import org.dom4j.ElementHandler;
 import org.json.JSONObject;
 
 
-import com.smartken.kia.core.enums.FormatEnum;
+import com.smartken.kia.core.enums.StringFormatEnum;
 import com.smartken.kia.core.model.IFormatterModel;
 import com.smartken.kia.core.util.StringUtil;
 
@@ -43,7 +43,7 @@ public abstract class BaseModel implements Serializable ,IFormatterModel{
 			for (int i=0;i<lArrField.length;i++) {
 				String lStrFieldName=lArrField[i].getName();
                 try{
-			    String lStrTempName="get"+StringUtil.format(lStrFieldName, FormatEnum.UPCASE_FIRST);
+			    String lStrTempName="get"+StringUtil.format(lStrFieldName, StringFormatEnum.upcaseFirstChar);
 				Method lMth=c.getDeclaredMethod(lStrTempName, null);
 				Object lObjFieldValue=lMth.invoke(this, null);
 				if(lObjFieldValue instanceof IFormatterModel)
@@ -90,7 +90,7 @@ public abstract class BaseModel implements Serializable ,IFormatterModel{
 			String lStrFieldName=lArrField[i].getName();
 			try{
 			
-			String lTempName="get"+StringUtil.format(lStrFieldName, FormatEnum.UPCASE_FIRST);
+			String lTempName="get"+StringUtil.format(lStrFieldName, StringFormatEnum.upcaseFirstChar);
 			Method lMth=c.getDeclaredMethod(lTempName, null);
 			Object lObjFieldValue=lMth.invoke(this, null);
 			Element el=DocumentHelper.createElement(lStrFieldName);

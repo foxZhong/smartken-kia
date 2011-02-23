@@ -5,9 +5,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.apache.bcel.util.Class2HTML;
 import org.w3c.dom.ls.LSResourceResolver;
 
-import com.smartken.kia.core.enums.FormatEnum;
+import com.smartken.kia.core.enums.StringFormatEnum;
 import com.smartken.kia.core.util.StringUtil;
 
 public class MapperTemplate {
@@ -16,15 +17,16 @@ public class MapperTemplate {
 	private String pk;
 	private ColumnTemplate pkColumn=new ColumnTemplate("");
 	private ArrayList<ColumnTemplate> cols=new ArrayList<ColumnTemplate>();
-	private String namespace="";
-	private String modelName="";
+	private Class namespace;
+	private Class modelClass;
 
-	public void setNamespace(String namespace) {
+	public void setNamespace(Class namespace) {
+		
 		this.namespace = namespace;
 	}
 
-	public void setModelName(String modelName) {
-		this.modelName = modelName;
+	public void setModelName(Class modelClass) {
+		this.modelClass = modelClass;
 	}
 
 
@@ -221,11 +223,12 @@ public class MapperTemplate {
 		if(cols==null)return "";
 		StringBuffer lSbrReturn=new StringBuffer("");
 		int colSize=cols.size();
-		String pattern="PersoncModel.Field.{0}={0}";
+		String pattern="{0}.F.{1}={1}";
 		for(int i=0;i<colSize;i++){
 			ColumnTemplate tempCol=cols.get(i);
 			String tempStr=MessageFormat.format(pattern,
-					tempCol.getJavaName()  //0
+					this.modelClass.getSimpleName()
+					,tempCol.getJavaName()  //0
 			);
 			lSbrReturn.append(tempStr+"\n");
 		}
@@ -233,7 +236,7 @@ public class MapperTemplate {
 	}
 	
 	
-    public String getMapper(Class nameSpace){
+    public String getMapper(){
     	StringBuffer pattern=new StringBuffer("");
     	pattern
     	.append("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>").append("\n")
@@ -298,7 +301,7 @@ public class MapperTemplate {
         .append("</mapper>")
     	;
     	String lStrMapper=MessageFormat.format(pattern.toString(),
-    			this.namespace  //0
+    			this.namespace.getName()  //0
     			,this.table    //1
     			,this.pk         //2
     			,this.getDbCols()  //3
@@ -306,7 +309,7 @@ public class MapperTemplate {
     			,this.getUpdateCols()   //5
     			,this.getResultMap()   //6
     			,this.getCondition()  //7
-    			,this.modelName  //8
+    			,this.modelClass.getName() //8
     			,this.getPkCol()  //9
     	);
 		return lStrMapper;
