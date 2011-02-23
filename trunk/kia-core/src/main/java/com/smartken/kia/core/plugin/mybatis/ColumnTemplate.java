@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.text.Bidi;
 import java.util.Date;
 
-import com.smartken.kia.core.enums.FormatEnum;
+import com.smartken.kia.core.enums.StringFormatEnum;
 import com.smartken.kia.core.jdbc.dialect.DB2Dialect;
 import com.smartken.kia.core.util.ObjectUtil;
 import com.smartken.kia.core.util.StringUtil;
@@ -101,7 +101,7 @@ public class ColumnTemplate {
 				lSbrModelColName.append(lSubName);
 			}
 			else{
-			lSbrModelColName.append(StringUtil.format(lSubName, FormatEnum.UPCASE_FIRST));
+			lSbrModelColName.append(StringUtil.format(lSubName, StringFormatEnum.upcaseFirstChar));
 			}
 		}
 		return lSbrModelColName.toString();

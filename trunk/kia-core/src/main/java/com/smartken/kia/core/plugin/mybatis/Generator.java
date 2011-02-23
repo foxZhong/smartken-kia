@@ -16,55 +16,35 @@ import com.smartken.kia.core.model.IMapper;
 public class Generator {
 
 	private Connection connection;
-	private Class mapperClass;
-	private Class modelClass;
-	
-	
 
 	
-	public Class getMapperClass() {
-		return mapperClass;
-	}
 
-	public void setMapperClass(Class mapperClass) {
-		this.mapperClass = mapperClass;
-	}
-
-	public Class getModelClass() {
-		return modelClass;
-	}
-
-	public void setModelClass(Class modelClass) {
-		this.modelClass = modelClass;
-	}
 
 	public void setConnection(Connection connection) {
 		this.connection = connection;
 	}
 
-	public static Connection getConnection(){
-		Connection c=null;
-		try {
-			Class.forName("oracle.jdbc.OracleDriver");
-			c=  DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:oradrv", "aspnet", "stjj117");
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}finally{return c;}
 
+	
+	public  MapperTemplate getMapperTemplate(String table){
+		return getMapperTemplate(table, "id",null,null);
 	}
 	
-	public static MapperTemplate getMapperTemplate(String table){
-		return getMapperTemplate(table, "id");
+	public  MapperTemplate getMapperTemplate(String table,String pk){
+          return getMapperTemplate(table, pk, null, null);
 	}
 	
-	public static MapperTemplate getMapperTemplate(String table,String pk){
+	public  MapperTemplate getMapperTemplate(String table,String pk,Class nameSpace){
+	   return getMapperTemplate(table, pk, nameSpace,null);
+	}
+	
+	public  MapperTemplate getMapperTemplate(String table,String pk,Class nameSpace,Class modelClass){
 		MapperTemplate mapper=null;
 		try {
-			Connection c=getConnection();
-			String pattern="select * from {0}";
+			
+			String pattern="select * from {0} where 1=2";
 			String querySql=MessageFormat.format(pattern, table);
-		    PreparedStatement ps=  c.prepareStatement(querySql);
+		    PreparedStatement ps=  this.connection.prepareStatement(querySql);
 		    ResultSet rs=  ps.executeQuery();
 		    ResultSetMetaData mtdata= rs.getMetaData();
 		    ArrayList<String> dbColNames=new ArrayList<String>();
@@ -76,6 +56,8 @@ public class Generator {
 				precisions.add(mtdata.getPrecision(i));
 			}
 		    mapper=new MapperTemplate(table, pk, dbColNames,dbColTypes,precisions);
+		    if(modelClass!=null)mapper.setModelName(modelClass);
+		    if(nameSpace!=null)mapper.setNamespace(nameSpace);
 		    return mapper;
 		}  catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -85,16 +67,16 @@ public class Generator {
 	
 	public static void main(String[] args)
 	{
-        MapperTemplate mt=getMapperTemplate("pp_personc","staff_no");
-        System.err.println(mt.getDbCols());
-        System.err.println(mt.getInsertCols());
-        System.err.println(mt.getUpdateCols());
-        System.err.println(mt.getJavaCols());
-        System.err.println(mt.getModelCols());
-        System.err.println(mt.getResultMap());
-
-        System.err.println(mt.getCondition());
-        System.err.println(mt.getPropertiesKey());
-        //System.out.println(mt.getMapper(IMapper.class));
+//        MapperTemplate mt=getMapperTemplate("pp_personc","staff_no");
+//        System.err.println(mt.getDbCols());
+//        System.err.println(mt.getInsertCols());
+//        System.err.println(mt.getUpdateCols());
+//        System.err.println(mt.getJavaCols());
+//        System.err.println(mt.getModelCols());
+//        System.err.println(mt.getResultMap());
+//
+//        System.err.println(mt.getCondition());
+//        System.err.println(mt.getPropertiesKey());
+//        //System.out.println(mt.getMapper(IMapper.class));
 	}
 }
