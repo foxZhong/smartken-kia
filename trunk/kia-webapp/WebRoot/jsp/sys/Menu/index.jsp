@@ -21,7 +21,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
-	<jsp:include page="/plugin/index.jsp?plugin=jquery,easyui"></jsp:include>
+		<jsp:include page="/plugin/index.jsp">
+	  <jsp:param value="jquery,easyui" name="plugin"/>
+	</jsp:include>
    <jsp:include page="/css/index.jsp"></jsp:include>
    <jsp:include page="/js/index.jsp"></jsp:include>
    	<script>

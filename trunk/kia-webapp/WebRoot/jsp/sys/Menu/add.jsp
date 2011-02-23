@@ -16,7 +16,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<jsp:include page="/plugin/index.jsp?plugin=jquery,easyui"></jsp:include>
+	<jsp:include page="/plugin/index.jsp">
+	  <jsp:param value="jquery,easyui" name="plugin"/>
+	</jsp:include>
    <jsp:include page="/css/index.jsp"></jsp:include>
    <jsp:include page="/js/index.jsp"></jsp:include>
    <script type="text/javascript">
