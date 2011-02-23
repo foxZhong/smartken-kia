@@ -135,6 +135,16 @@ implements Preparable,IBaseAction
 		// TODO Auto-generated method stub
 		this.dataFormat = ObjectUtil.formatString(dataFormat, DataFormatEnum.json.toString());
 	}
+
+	public Object getParameter(Enum en) {
+		// TODO Auto-generated method stub
+		return ServletActionContext.getRequest().getParameter(en.name());
+	}
+
+	public Object getParameter(String key) {
+		// TODO Auto-generated method stub
+		return ServletActionContext.getRequest().getParameter(key);
+	}
 	
 	
 

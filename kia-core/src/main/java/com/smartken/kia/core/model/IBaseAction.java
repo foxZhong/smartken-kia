@@ -27,5 +27,8 @@ public interface IBaseAction {
 	public String getDataFormat();
 	
 	public PageBounds getPager();
+	
+	public Object getParameter(Enum en);
+	public Object getParameter(String key);
     
 }
