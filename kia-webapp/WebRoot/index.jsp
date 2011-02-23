@@ -4,7 +4,9 @@
  <html>
  <head>
  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <jsp:include page="/plugin/index.jsp?plugin=jquery,easyui"></jsp:include>
+	<jsp:include page="/plugin/index.jsp">
+	  <jsp:param value="jquery,easyui" name="plugin"/>
+	</jsp:include>
   <jsp:include page="/css/index.jsp"></jsp:include>
   <jsp:include page="/js/index.jsp"></jsp:include>
   <script type="text/javascript">
