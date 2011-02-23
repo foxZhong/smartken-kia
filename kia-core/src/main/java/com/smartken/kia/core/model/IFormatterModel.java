@@ -12,9 +12,11 @@ public interface IFormatterModel {
 	 public Element toXmlElement();
 	 public String toUrlParam();
 	 
-	 public void from(JSONObject json);
-	 public void from(Element el);
+	 public void from(JSONObject json) throws Exception;
+	 public void from(Element el) throws Exception;
 	 
-	 public Object eval(String pattern);
-	 public boolean eval(String pattern,Object obj);
+	 public Object eval(Enum en) throws Exception;
+	 public Object eval(String pattern) throws Exception;
+	 public void eval(Enum en,Object obj) throws Exception;
+	 public void eval(String pattern,Object obj) throws Exception;
 }

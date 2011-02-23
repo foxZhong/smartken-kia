@@ -85,4 +85,6 @@ public abstract class BaseMenuModel extends BaseModel{
 		// TODO Auto-generated method stub
 		return id;
 	}
+	
+	
 }
