@@ -5,8 +5,8 @@ import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.ElementHandler;
+import org.json.JSONException;
 import org.json.JSONObject;
-
 
 import com.smartken.kia.core.enums.StringFormatEnum;
 import com.smartken.kia.core.model.IFormatterModel;
@@ -43,9 +43,7 @@ public abstract class BaseModel implements Serializable ,IFormatterModel{
 			for (int i=0;i<lArrField.length;i++) {
 				String lStrFieldName=lArrField[i].getName();
                 try{
-			    String lStrTempName="get"+StringUtil.format(lStrFieldName, StringFormatEnum.upcaseFirstChar);
-				Method lMth=c.getDeclaredMethod(lStrTempName, null);
-				Object lObjFieldValue=lMth.invoke(this, null);
+                Object lObjFieldValue=eval(lStrFieldName);
 				if(lObjFieldValue instanceof IFormatterModel)
 				{
 					lJsonTemp.put(lStrFieldName, lObjFieldValue==null?"":((IFormatterModel)lObjFieldValue).toJson());
@@ -55,8 +53,7 @@ public abstract class BaseModel implements Serializable ,IFormatterModel{
 				}catch(Exception ex){
 					try{
 						String lStrTempName="get"+lStrFieldName;
-						Method lMth=c.getDeclaredMethod(lStrFieldName, null);
-						Object lObjFieldValue=lMth.invoke(this, null);
+						Object lObjFieldValue=eval(lStrFieldName);
 						lJsonTemp.put(lStrFieldName, lObjFieldValue==null?"":lObjFieldValue);
 					}catch (Exception exx){}
 				}
@@ -90,9 +87,10 @@ public abstract class BaseModel implements Serializable ,IFormatterModel{
 			String lStrFieldName=lArrField[i].getName();
 			try{
 			
-			String lTempName="get"+StringUtil.format(lStrFieldName, StringFormatEnum.upcaseFirstChar);
-			Method lMth=c.getDeclaredMethod(lTempName, null);
-			Object lObjFieldValue=lMth.invoke(this, null);
+			//String lTempName="get"+StringUtil.format(lStrFieldName, StringFormatEnum.upcaseFirstChar);
+			//Method lMth=c.getDeclaredMethod(lTempName, null);
+			//Object lObjFieldValue=lMth.invoke(this, null);
+		    Object lObjFieldValue=	eval(lStrFieldName);
 			Element el=DocumentHelper.createElement(lStrFieldName);
 			el.setText(lObjFieldValue==null?"":lObjFieldValue.toString());
 			el.addAttribute("type", lArrField[i].getType().getSimpleName());
@@ -101,9 +99,10 @@ public abstract class BaseModel implements Serializable ,IFormatterModel{
 			catch(Exception ex)
 			{
 				try{
-			    String lTempName="get"+lStrFieldName;
-				Method lMth=c.getDeclaredMethod(lTempName, null);
-				Object lObjFieldValue=lMth.invoke(this, null);
+			    //String lTempName="get"+lStrFieldName;
+				//Method lMth=c.getDeclaredMethod(lTempName, null);
+				//Object lObjFieldValue=lMth.invoke(this, null);
+				Object lObjFieldValue=	eval(lStrFieldName);
 				Element el=DocumentHelper.createElement(lStrFieldName);
 				el.setData(lObjFieldValue==null?"":lObjFieldValue);
 				el.addAttribute("type", lArrField[i].getType().getSimpleName());
@@ -162,19 +161,68 @@ public abstract class BaseModel implements Serializable ,IFormatterModel{
 
 	public void from(JSONObject json) {
 		// TODO Auto-generated method stub
-		
+		for(Iterator<String> it=json.keys();it.hasNext();){
+			String key=it.next();
+			try {
+				this.eval(key, json.get(key));
+			} catch (Exception e) {}
+		}
 	}
 
-	public boolean eval(String pattern, Object obj) {
+	public void eval(String pattern, Object obj) throws Exception {
 		// TODO Auto-generated method stub
-		return false;
+		boolean isOk=false;
+		ArrayList<Class> lAllClass=this.getAllClass();
+		String lTempName="set"+StringUtil.format(pattern, StringFormatEnum.upcaseFirstChar);
+		for (Class c : lAllClass) {
+			try{
+			Field f=c.getDeclaredField(pattern);
+			Method lMth=c.getDeclaredMethod(lTempName, f.getType());
+			lMth.invoke(this,obj);
+			if(lMth!=null){isOk=true;break;}
+			}catch(Exception ex){}
+		}
+		if(!isOk){ throw new Exception(MessageFormat.format("This Model have not \"{0}\" setter({1})", pattern,obj.getClass().getName()));}
 	}
 
-	public Object eval(String pattern) {
+	public Object eval(String pattern) throws Exception{
 		// TODO Auto-generated method stub
-		return null;
+		boolean isOk=false;
+		ArrayList<Class> lAllClass=this.getAllClass();
+		String lTempName="get"+StringUtil.format(pattern, StringFormatEnum.upcaseFirstChar);
+		Object lObjFieldValue=null;
+		for (Class c : lAllClass) {
+			try{
+			Method lMth=c.getDeclaredMethod(lTempName, null);
+			lObjFieldValue=lMth.invoke(this, null);
+			if(lMth!=null){isOk=true;break;}
+			}catch(Exception ex){}
+		}
+		if(!isOk){ throw new Exception(MessageFormat.format("This Model have not \"{0}\" 's getter", pattern));}
+		return lObjFieldValue;
+	}
+	
+	
+
+	public void eval(Enum en, Object obj) throws Exception {
+		// TODO Auto-generated method stub
+		this.eval(en.toString(), obj);
+	}
+
+	public Object eval(Enum en) throws Exception {
+		// TODO Auto-generated method stub
+		return this.eval(en.toString());
 	}
 
 	public abstract Object generalPK() throws NullPointerException;
 	
+	public Object clone(){
+		Object obj=null;
+		try {
+			obj= org.apache.commons.beanutils.BeanUtils.cloneBean(this);
+		} catch (Exception e) {}
+		finally{return obj;}
+
+	}
+
 }
