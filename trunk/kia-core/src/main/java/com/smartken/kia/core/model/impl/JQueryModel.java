@@ -64,6 +64,12 @@ public class JQueryModel implements IScriptModel {
 		return this;
 	}
 	
+	public JQueryModel appendParma(String pattern,Object...arguments)
+	{
+		return this.appendParma(MessageFormat.format(pattern, arguments));
+	}
+	
+	
 	private String getParmas()
 	{
 		StringBuffer lSbrReturn=new StringBuffer("");
