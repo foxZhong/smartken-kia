@@ -89,16 +89,7 @@ implements Preparable,IBaseAction
 		}
 	}
 	
-	public HttpServletRequest getRequest()
-	{
-		return ServletActionContext.getRequest();
-	}
-	
-	public HttpServletResponse getResponse()
-	{
-		return ServletActionContext.getResponse();
-	}
-	
+
 	
 	
 	public void setPage(Integer page) {
@@ -136,16 +127,51 @@ implements Preparable,IBaseAction
 		this.dataFormat = ObjectUtil.formatString(dataFormat, DataFormatEnum.json.toString());
 	}
 
-	public Object getParameter(Enum en) {
-		// TODO Auto-generated method stub
-		return ServletActionContext.getRequest().getParameter(en.name());
-	}
-
-	public Object getParameter(String key) {
-		// TODO Auto-generated method stub
-		return ServletActionContext.getRequest().getParameter(key);
+	public HttpServletRequest getRequest()
+	{
+		return ServletActionContext.getRequest();
 	}
 	
+	public HttpServletResponse getResponse()
+	{
+		return ServletActionContext.getResponse();
+	}
+	
+	public String getParameter(Enum en) {
+		// TODO Auto-generated method stub
+		return getParameter(en.name());
+	}
+	
+	
+	public String getParameter(String key) {
+		// TODO Auto-generated method stub
+		return ObjectUtil.formatString(this.getRequest().getParameter(key));
+	}
+
+	public Object getRequestAttribute(Enum en) {
+		// TODO Auto-generated method stub
+		return this.getRequestAttribute(en.name());
+	}
+
+	public Object getRequestAttribute(String key) {
+		// TODO Auto-generated method stub
+		return this.getRequest().getAttribute(key);
+	}
+
+	public HttpSession getSession() {
+		// TODO Auto-generated method stub
+		return this.getRequest().getSession();
+	}
+
+	public Object getSessionAttribute(Enum en) {
+		// TODO Auto-generated method stub
+		return this.getSessionAttribute(en.name());
+	}
+
+	public Object getSessionAttribute(String key) {
+		// TODO Auto-generated method stub
+		return this.getSession().getAttribute(key);
+	}
 	
 
 }

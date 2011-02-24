@@ -2,6 +2,7 @@ package com.smartken.kia.core.model;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.smartken.kia.core.pager.PageBounds;
 
@@ -13,8 +14,7 @@ public interface IBaseAction {
     public static String QUERY_EMPTY="empty";
     public static String QUERY_SEARCH="search";
     
-    public HttpServletRequest getRequest();
-    public HttpServletResponse getResponse();
+
     
     public void clear();
     
@@ -28,7 +28,15 @@ public interface IBaseAction {
 	
 	public PageBounds getPager();
 	
-	public Object getParameter(Enum en);
-	public Object getParameter(String key);
+    public HttpServletRequest getRequest();
+    public HttpServletResponse getResponse();
+	public HttpSession getSession();
+	
+    public Object getRequestAttribute(Enum en);
+    public Object getRequestAttribute(String key);
+	public String getParameter(Enum en);
+	public String getParameter(String key);
+	public Object getSessionAttribute(Enum en);
+	public Object getSessionAttribute(String key);
     
 }
