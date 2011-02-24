@@ -30,7 +30,7 @@ public class MenuAction extends BaseAction
 	private String menuids;
 	private MenuModel menu;
 	
-    protected ISysBiz<MenuModel> iSysBiz;
+    protected ISysBiz iSysBiz;
 	
 	public void setMenuid(String menuid) {
 		this.menuid = menuid;

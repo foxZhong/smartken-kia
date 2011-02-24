@@ -24,8 +24,15 @@ public abstract class BaseCurdBiz implements IBaseCrudBiz {
 	public ArrayList getModelWithId(ArrayList lListIds, QueryEnum pQuery) throws Exception{
 		return getModelWithId(lListIds, pQuery,null);
 	}
+	
+	
 
 	
+	public Object getModelEqId(Object id) throws Exception {
+		// TODO Auto-generated method stub
+		return iCRUDMapper.selectEqPk(id);
+	}
+
 	@SuppressWarnings("unchecked")
 	public ArrayList getModelWithId(ArrayList lListIds, QueryEnum pQuery,PageBounds pPage)
 			throws Exception {

@@ -165,6 +165,6 @@ public class StringUtil {
 		String c="å·¥èµ";
         encodeUtf8("xxx");
 
-		
+	
 	}
 }
