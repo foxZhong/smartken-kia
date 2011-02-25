@@ -21,7 +21,8 @@ public interface IMapper<T>{
 	public ArrayList<T> selectInPk(ArrayList pArrPk,PageBounds page) throws Exception;
 	public ArrayList<T> selectNotInPk(ArrayList pArrPk) throws Exception;
 	public ArrayList<T> selectNotInPk(ArrayList pArrPk,PageBounds page) throws Exception;
-	public int updateOne(T obj) throws Exception;
+	public int updateOne(@Param("model")T obj) throws Exception;
+	public int updateOne(@Param("model")T obj,@Param("pk")Object newPk) throws Exception;
 	public int insertOne(T obj) throws Exception;
 	public int deleteInPk(ArrayList pArrPk) throws Exception;
 	public int deleteNotInPk(ArrayList pArrPk) throws Exception;

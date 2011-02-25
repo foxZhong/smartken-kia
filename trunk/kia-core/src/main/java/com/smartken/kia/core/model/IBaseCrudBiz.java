@@ -14,6 +14,7 @@ public interface IBaseCrudBiz {
     public ArrayList getModelWithId(ArrayList lListIds,QueryEnum pQuery,PageBounds pPage) throws Exception;
     public int addModel(Object model) throws Exception;
     public int modifyModel(Object model) throws Exception;
+    public int modifyModel(Object model,Object pk) throws Exception;
     public int removeModelWithId(ArrayList lListIds,QueryEnum pQuery) throws Exception;
     public int count() throws Exception;
     public void loadCrudMapper(Class c);
