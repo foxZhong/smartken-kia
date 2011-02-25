@@ -73,6 +73,15 @@ public abstract class BaseCurdBiz implements IBaseCrudBiz {
 		lIntSqlResult=iCRUDMapper.updateOne(model);
 		return lIntSqlResult;
 	}
+	
+	
+
+	public int modifyModel(Object model, Object pk) throws Exception {
+		// TODO Auto-generated method stub
+		int lIntSqlResult=0;		
+		lIntSqlResult=iCRUDMapper.updateOne(model,pk);
+		return lIntSqlResult;
+	}
 
 	public int removeModelWithId(ArrayList lListIds, QueryEnum pQuery) throws Exception {
 		// TODO Auto-generated method stub
@@ -106,6 +115,8 @@ public abstract class BaseCurdBiz implements IBaseCrudBiz {
 		pPage=pPage==null?new PageBounds():pPage;
 		return iCRUDMapper.select(model,pPage);
 	}
+	
+	
 
 	public abstract void loadCrudMapper(Class c);
 }

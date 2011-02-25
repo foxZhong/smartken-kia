@@ -122,10 +122,13 @@ public class MapperTemplate {
 		String pattern="{0}=#'{'{1},jdbcType={2},javaType={3}'}'";
 		for(int i=0;i<colSize;i++){
 			ColumnTemplate tempCol=cols.get(i);
-			if(tempCol.getDbColName().equalsIgnoreCase(pk))continue;
+			if(tempCol.getDbColName().equalsIgnoreCase(pk)){
+				lSbrReturn.append(MessageFormat.format("<if test=\"pk neq null\">{0}=#'{'pk'}',</if>\n",pk));
+				continue;
+			}
 			String tempStr=MessageFormat.format(pattern
 					,tempCol.getDbColName()   //0
-					,tempCol.getJavaName()   //1
+					,"model."+tempCol.getJavaName()   //1
 					,tempCol.getJdbcType()  //2
 					,tempCol.getJavaType()
 			);
@@ -286,7 +289,7 @@ public class MapperTemplate {
         .append("</insert>").append(StringUtil.ln(2))
         
         .append("<update id=\"updateOne\" flushCache=\"true\" >").append(StringUtil.ln())
-        .append("\t update <include refid=\"table\"/> set <include refid=\"updateCols\"/> where <include refid=\"pk\" />=#'{'{9}'}'").append(StringUtil.ln())        
+        .append("\t update <include refid=\"table\"/> set <include refid=\"updateCols\"/> where <include refid=\"pk\" />=#'{'model.{9}'}'").append(StringUtil.ln())        
         .append("</update>").append(StringUtil.ln(2))
         
         .append("<delete id=\"deleteInPk\" flushCache=\"true\">").append(StringUtil.ln())
