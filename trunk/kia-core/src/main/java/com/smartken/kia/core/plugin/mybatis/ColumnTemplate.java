@@ -19,6 +19,7 @@ public class ColumnTemplate {
 	public static String DB_TYPE_INTEGER="INTEGER";
 	public static String DB_TYPE_NUMBER="NUMBER";
 	public static String DB_TYPE_FLOAT="FLOAT";
+	public static String DB_TYPE_DOUBLE="DOUBLE";
 	public static String DB_TYPE_DATE="DATE";
 	public static String MOD_TYPE_STRING="String";
 	public static String MOD_TYPE_INTEGER="Integer";
@@ -114,10 +115,10 @@ public class ColumnTemplate {
 		    new String[]{DB_TYPE_CHAR,DB_TYPE_TEXT,DB_TYPE_VARCHAR2})
 		 ){
 			return String.class.getSimpleName();
-		}else if(ObjectUtil.isInArray(lDbType.toUpperCase(), new String[]{DB_TYPE_INTEGER,DB_TYPE_NUMBER,DB_TYPE_FLOAT})){
+		}else if(ObjectUtil.isInArray(lDbType.toUpperCase(), new String[]{DB_TYPE_INTEGER,DB_TYPE_NUMBER,DB_TYPE_FLOAT,DB_TYPE_DOUBLE})){
 			String re="";
 			switch (this.precision) {
-			case PREC_FLOAT: re= Float.class.getSimpleName(); break;
+			case PREC_FLOAT: re= Double.class.getSimpleName(); break;
 			case PREC_INTEGER: re= Integer.class.getSimpleName();break;
 			default:re= Integer.class.getSimpleName();break;
 			}
