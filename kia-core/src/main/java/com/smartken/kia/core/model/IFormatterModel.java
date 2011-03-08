@@ -11,6 +11,7 @@ public interface IFormatterModel {
 	 public Document toXmlDocucmnt();
 	 public Element toXmlElement();
 	 public String toUrlParam();
+     public String toCsv(String[] fields);
 	 
 	 public void from(JSONObject json) throws Exception;
 	 public void from(Element el) throws Exception;
