@@ -6,10 +6,10 @@ import java.util.Date;
 
 public class DateTimeModel extends Date{
 	
-    private String[] gArrWeekDaysCn=new String[]{"ÈÕ","Ò»","¶þ","Èý","ËÄ","Îå","Áù"};
+    private String[] gArrWeekDaysCn=new String[]{"æ—¥","ä¸€","äºŒ","ä¸‰","å››","äº”","å…­"};
     private int[] gArrWeekdays=new int[]{0,1,2,3,4,5,6};
 	public String getDayOfWeekCN() {
-       return getDayOfWeekCN("ÐÇÆÚ");
+       return getDayOfWeekCN("æ˜ŸæœŸ");
 	}
 	
 	public String getDayOfWeekCN(String prefix) {

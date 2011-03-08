@@ -1,5 +1,7 @@
 package com.smartken.kia.core.model.impl;
 
+import java.text.MessageFormat;
+
 public class ResultModel extends BaseModel{
 
 	public static int CODE_SUCCESS=0;
@@ -46,6 +48,10 @@ public class ResultModel extends BaseModel{
 	public void setTitle(String title) {
 		this.title = title;
 	}
+	
+	public void setTitle(String pattern,Object...arguments){
+		this.title=MessageFormat.format(pattern, arguments);
+	}
 
 	public String getMsg() {
 		return msg;
@@ -53,6 +59,10 @@ public class ResultModel extends BaseModel{
 
 	public void setMsg(String msg) {
 		this.msg = msg;
+	}
+	
+	public void setMsg(String pattern,Object...arguments){
+		this.msg=MessageFormat.format(pattern, arguments);
 	}
 
 	@Override

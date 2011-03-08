@@ -67,6 +67,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
          lStrPlugFloder=basePath+"/json";
          lSbrScript.append(getScriptTag(lStrPlugFloder+"/json.js"));
      }
+     
+     if(isExist(lArrPlugins,"jsjava"))
+     {
+         lStrPlugFloder=basePath+"/jsjava/jslib";
+         lSbrScript.append(getScriptTag(lStrPlugFloder+"/jsjava-core.js"));
+     }
         _PW.write(lSbrScript.toString());
 
 %>

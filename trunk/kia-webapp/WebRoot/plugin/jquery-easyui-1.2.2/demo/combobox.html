@@ -8,8 +8,9 @@
 	<script type="text/javascript" src="../jquery.easyui.min.js"></script>
 	<script>
 		function loadData(){
-			$('#cc').combobox({
-				url:'combobox_data.json',
+			$('#vv').combobox({
+				//url:'combobox_data.json',
+				data:[{"id":"1","text":"Java"},{"id":"2","text":"C#"},{"id":"3","text":"Ruby","selected":true},{"id":"4","text":"Perl"},{"id":"5","text":"Basic"}],
 				valueField:'id',
 				textField:'text'
 			});
@@ -18,8 +19,12 @@
 			$('#cc').combobox('setValue','bitem3');
 		}
 		function getValue(){
-			var val = $('#cc').combobox('getValue');
-			alert(val);
+			var data = $('#vv').combobox('getData');
+			for(var dd in data)
+			{
+			  alert(data[dd]['text']);
+			  
+			}
 		}
 		function disable(){
 			$('#cc').combobox('disable');
@@ -94,9 +99,8 @@
 	</select>
 	
 	<span>Multiple: </span>
-	<input class="easyui-combobox" 
+	<input class="easyui-combobox" id="vv"
 			name="language"
-			url="combobox_data.json" 
 			valueField="id" 
 			textField="text" 
 			multiple="true" 

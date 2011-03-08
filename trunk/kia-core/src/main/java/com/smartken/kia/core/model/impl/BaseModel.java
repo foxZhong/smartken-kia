@@ -8,6 +8,8 @@ import org.dom4j.ElementHandler;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import au.com.bytecode.opencsv.CSVWriter;
+
 import com.smartken.kia.core.enums.StringFormatEnum;
 import com.smartken.kia.core.model.IFormatterModel;
 import com.smartken.kia.core.util.StringUtil;
@@ -154,6 +156,12 @@ public abstract class BaseModel implements Serializable ,IFormatterModel{
 	
 	
 	
+	public String toCsv(String[] fields) {
+		// TODO Auto-generated method stub
+		
+		return null;
+	}
+
 	public void from(Element el) {
 		// TODO Auto-generated method stub
 		
@@ -214,7 +222,13 @@ public abstract class BaseModel implements Serializable ,IFormatterModel{
 		return this.eval(en.toString());
 	}
 
-	public abstract Object generalPK() throws NullPointerException;
+	public  Object generalPK() throws NullPointerException{
+		return pk;
+	}
+	
+	public  boolean validate() throws Exception{
+		return true;
+	}
 	
 	public Object clone(){
 		Object obj=null;
