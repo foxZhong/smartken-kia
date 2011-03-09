@@ -1,5 +1,7 @@
 package com.smartken.kia.core.util;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -15,10 +17,12 @@ public class DateTimeUtil {
 	public static final int THURSDAY=3;
 	public static final int FRIDAY=4;
 	public static final int SATURDAY=5;
-	public static final String DATE_FORMAT = "yyyy-MM-dd";
-	public static final String TIME_FORMAT = "HH:mm:ss";
-	public static final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
-	public static final String TIMESTAMP_FORMAT = "yyyy-MM-dd HH:mm:ss.S";
+	public static final String DATE_FORMAT_DB = "yyyy-MM-dd";
+	public static final String DATE_FORMAT_YMD = "yyyy/MM/dd";
+	public static final String DATE_FORMAT_DMY = "dd/MM/yyyy";
+	public static final String TIME_FORMAT_DB = "HH:mm:ss";
+	public static final String DATE_TIME_FORMAT_DB = "yyyy-MM-dd HH:mm:ss";
+	public static final String TIMESTAMP_FORMAT_DB = "yyyy-MM-dd HH:mm:ss.S";
 	
 	public static ArrayList<Date> getWeekDays(Date pDt)
 	{
@@ -64,6 +68,44 @@ public class DateTimeUtil {
 		c.setTime(date);
 		return c.get(Calendar.WEEK_OF_YEAR);
 	}
+	
+	
+	public static java.util.Date parse(String dateString){
+		java.util.Date dateReturn=null;
+		ArrayList<String> listDateFormat=new ArrayList<String>();
+		listDateFormat.add(DATE_FORMAT_DB);
+		listDateFormat.add(DATE_FORMAT_DMY);
+		listDateFormat.add(DATE_FORMAT_YMD);
+		for (String dateFormat : listDateFormat) {
+			try {
+				java.util.Date dateTemp=parse(dateString, dateFormat,java.util.Date.class);
+				dateReturn=dateTemp;
+			} catch (Exception e) {
+				dateReturn=null;
+				e.printStackTrace();
+			}
+			if(dateReturn!=null)break;
+		}
+		return dateReturn;
+	}
+	
+	
+	public static java.util.Date parse(String dateString,String dateFormat) throws Exception {
+		return parse(dateString, dateFormat,java.util.Date.class);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static <T extends java.util.Date> T parse(String dateString,String dateFormat,Class<T> targetResultType) throws Exception {
+		if(StringUtil.isBlank(dateString))
+			return null;
+		DateFormat df = new SimpleDateFormat(dateFormat);
+		long time = df.parse(dateString).getTime();
+		java.util.Date t = targetResultType.getConstructor(long.class).newInstance(time);
+		return (T)t;
+
+	}
+	
+	
 	
 	public static void main(String[] args)
 	{
