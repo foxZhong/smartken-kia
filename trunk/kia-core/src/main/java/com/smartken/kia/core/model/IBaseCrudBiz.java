@@ -7,15 +7,20 @@ import com.smartken.kia.core.pager.PageBounds;
 
 public interface IBaseCrudBiz {
 
-	public ArrayList getModel(Object model) throws Exception;
-	public ArrayList getModel(Object model,PageBounds pPage) throws Exception;
-	public Object getModelEqId(Object id) throws Exception;
-	public ArrayList getModelWithId(ArrayList lListIds,QueryEnum pQuery) throws Exception;
-    public ArrayList getModelWithId(ArrayList lListIds,QueryEnum pQuery,PageBounds pPage) throws Exception;
+ 
+    public void loadCrudMapper(Class c) throws NullPointerException;
+	public void setCrudMapper(IMapper crudMapper);
+    public ArrayList getModel(Object model) throws Exception;
+    public ArrayList getModel(Object model,PageBounds pPage) throws Exception;
+    public Object getModelEqPk(Object pk) throws Exception;
+    public ArrayList getModelInPk(ArrayList listPk) throws Exception;
+    public ArrayList getModelInPk(ArrayList listPk,PageBounds pPage) throws Exception;
+    public ArrayList getModelNotInPk(ArrayList listPk) throws Exception;
+    public ArrayList getModelNotInPk(ArrayList listPk,PageBounds pPage) throws Exception;
+    public int removeModelInPk(ArrayList listPk) throws Exception;
+    public int removeModelNotInPk(ArrayList listPk) throws Exception;
     public int addModel(Object model) throws Exception;
     public int modifyModel(Object model) throws Exception;
-    public int modifyModel(Object model,Object pk) throws Exception;
-    public int removeModelWithId(ArrayList lListIds,QueryEnum pQuery) throws Exception;
+    public int modifyModel(Object model,Object pkNew) throws Exception; 
     public int count() throws Exception;
-    public void loadCrudMapper(Class c);
 }

@@ -33,47 +33,14 @@ public class SysBiz extends BaseCurdBiz implements ISysBiz {
 		
 		if(c.equals(MenuModel.class))
 		{
-			this.iCRUDMapper=iMenuMapper;
+			this.setCrudMapper(iMenuMapper);
 		}else if(c.equals(UserModel.class))
 		{
-		    this.iCRUDMapper=iUserMapper;	
+			this.setCrudMapper(iUserMapper);	
 		}
 	}
 	
 	
-
-
-
-	@Override
-	public int addModel(Object model) throws Exception {
-		// TODO Auto-generated method stub
-	
-		return super.addModel(model);
-	}
-
-	@Override
-	public ArrayList getModelWithId(ArrayList lListIds, QueryEnum pQuery,PageBounds pPage)
-			throws Exception {
-		// TODO Auto-generated method stub
-		return super.getModelWithId(lListIds, pQuery,pPage);
-	}
-
-	@Override
-	public int modifyModel(Object model) throws Exception {
-		// TODO Auto-generated method stub
-		return super.modifyModel(model);
-	}
-
-	@Override
-	public int removeModelWithId(ArrayList lListIds,QueryEnum pQuery)
-			throws Exception {
-		// TODO Auto-generated method stub
-		return super.removeModelWithId(lListIds, pQuery);
-	}
-
-
-
-
 
 
 
