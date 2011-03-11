@@ -86,13 +86,13 @@ public class MenuAction extends BaseAction
 	    if(menuids!=null&&req.getMethod().equalsIgnoreCase(METHOD_GET))
 		{
              lListIds=StringUtil.splitToList(menuids,",");
-             int re=this.iSysBiz.removeModelWithId(lListIds,QueryEnum.IN);
+             int re=this.iSysBiz.removeModelInPk(lListIds);
              writeHTML(""+re+"");
              return NONE;
 		}else if(req.getMethod().equalsIgnoreCase(METHOD_POST))
 		{
 	    	lListIds.add(menu.getId());
-	    	this.iSysBiz.removeModelWithId(lListIds,QueryEnum.EQ);;
+	    	this.iSysBiz.removeModelInPk(lListIds);
 	    	return INPUT;
 		} 
 		}catch(Exception e)
@@ -120,7 +120,7 @@ public class MenuAction extends BaseAction
 	
 	public String list_Tree() throws Exception{
 		ArrayList lListToken=StringUtil.toList("root");
-		ArrayList<MenuModel> lListMenu=iSysBiz.getModelWithId(lListToken,QueryEnum.NOTIN,null);
+		ArrayList<MenuModel> lListMenu=iSysBiz.getModelNotInPk(lListToken);
 		JSONArray lJsonMenu=this.loadTreeNode(lListMenu,"root");
 		this.writeHTML(lJsonMenu.toString());
 		return NONE;
@@ -129,7 +129,7 @@ public class MenuAction extends BaseAction
 	
 	public String list_ComboTree() throws Exception{
 		ArrayList lListIds=StringUtil.toList((String) menu.getId());
-	    ArrayList<MenuModel> lListMenu =iSysBiz.getModelWithId(lListIds,QueryEnum.NOTIN,null);
+	    ArrayList<MenuModel> lListMenu =iSysBiz.getModelNotInPk(lListIds);
 	    JSONArray lJsonMenu=this.loadTreeNode(lListMenu,"");
 	    this.writeHTML(lJsonMenu.toString());
 		return NONE;
@@ -141,7 +141,7 @@ public class MenuAction extends BaseAction
 	public String list_DataGrid() throws Exception {
 		// TODO Auto-generated method stub
 		PageBounds pb=this.getPager();
-		ArrayList lListMenu=iSysBiz.getModelWithId(StringUtil.toList("root"), QueryEnum.NOTIN,pb);
+		ArrayList lListMenu=iSysBiz.getModelNotInPk(StringUtil.toList("root"),pb);
 		//System.out.println("list:"+lArrJson.toString());
 		if(this.getDataFormat().equalsIgnoreCase(DataFormatEnum.json.toString()))
 		{
@@ -164,8 +164,8 @@ public class MenuAction extends BaseAction
 		String lStrId=ObjectUtil.formatString(this.menuid);
 		if(lStrId.length()>0)
 		{
-			ArrayList<MenuModel> lListMenu=iSysBiz.getModelWithId(StringUtil.toList(this.menuid),QueryEnum.EQ,null);
-		    this.menu=ObjectUtil.isEmpty(lListMenu)?new MenuModel():lListMenu.get(0);
+			MenuModel m=(MenuModel) iSysBiz.getModelEqPk(this.menuid);
+		    this.menu=m;
 		
 		}else
 		{

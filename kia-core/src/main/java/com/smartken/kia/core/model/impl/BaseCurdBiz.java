@@ -1,6 +1,10 @@
 package com.smartken.kia.core.model.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.swing.text.MaskFormatter;
 
 
 
@@ -12,111 +16,86 @@ import com.smartken.kia.core.model.IMapper;
 
 public abstract class BaseCurdBiz implements IBaseCrudBiz {
 	
-	protected IMapper iCRUDMapper;
-	
-	public int addModel(Object model) throws Exception {
-		// TODO Auto-generated method stub
-		int lIntSqlResult=0;		
-		lIntSqlResult=iCRUDMapper.insertOne(model);
-		return lIntSqlResult;
-	}
-
-	public ArrayList getModelWithId(ArrayList lListIds, QueryEnum pQuery) throws Exception{
-		return getModelWithId(lListIds, pQuery,null);
-	}
-	
-	
-
-	
-	public Object getModelEqId(Object id) throws Exception {
-		// TODO Auto-generated method stub
-		return iCRUDMapper.selectEqPk(id);
-	}
-
-	@SuppressWarnings("unchecked")
-	public ArrayList getModelWithId(ArrayList lListIds, QueryEnum pQuery,PageBounds pPage)
-			throws Exception {
-		// TODO Auto-generated method stub
-		ArrayList lListModel=null;
-		pPage=pPage==null?new PageBounds():pPage;
-		switch(pQuery)
-		{
-		  case IN:{
-			  lListModel=iCRUDMapper.selectInPk(lListIds,pPage);break;
-		  }
-		  case NOTIN:{
-			  lListModel=iCRUDMapper.selectNotInPk(lListIds,pPage);break;
-		  }
-		  case EQ:{
-			    //String lStrPk=lListIds.get(0).toString();
-				Object model=iCRUDMapper.selectEqPk(lListIds.get(0));
-				lListModel=new ArrayList();
-				lListModel.add(model);
-				break;
-		  }
-		  case LIKE:{
-			  String lStrPk=lListIds.get(0).toString();
-			  lListModel=iCRUDMapper.selectLike(lStrPk);
-		  }
-		  case ALL:{
-			  lListModel=iCRUDMapper.selectAll(pPage);
-			   break;
-		  }
-		  default:break;
-		}
-		return lListModel;
-	}
-
-	public int modifyModel(Object model) throws Exception {
-		// TODO Auto-generated method stub
-		int lIntSqlResult=0;		
-		lIntSqlResult=iCRUDMapper.updateOne(model);
-		return lIntSqlResult;
-	}
-	
-	
-
-	public int modifyModel(Object model, Object pk) throws Exception {
-		// TODO Auto-generated method stub
-		int lIntSqlResult=0;		
-		lIntSqlResult=iCRUDMapper.updateOne(model,pk);
-		return lIntSqlResult;
-	}
-
-	public int removeModelWithId(ArrayList lListIds, QueryEnum pQuery) throws Exception {
-		// TODO Auto-generated method stub
-		int lIntSqlResult=0;
-        switch(pQuery)
-        {
-	        case IN:{
-	        	lIntSqlResult=iCRUDMapper.deleteInPk(lListIds);
-	        	break;
-	        }
-	        case NOTIN:{
-	        	lIntSqlResult=iCRUDMapper.deleteNotInPk(lListIds);
-	        }
-	        default:break;
-        }
-		return lIntSqlResult;
-	}
-	
+	private IMapper crudMapper;
 	
 	
 	public int count() throws Exception {
 		// TODO Auto-generated method stub
-		return iCRUDMapper.count();
+		return this.crudMapper.count();
+	}
+	public ArrayList getModel(Object model, PageBounds pPage) throws Exception {
+		// TODO Auto-generated method stub
+		if(model==null){
+			return this.crudMapper.selectAll(pPage);
+		}else {
+			return this.crudMapper.select(model, pPage);
+		}
 	}
 	
-	public ArrayList getModel(Object model) throws Exception{
-		return this.getModel(model,null);
+	public ArrayList getModel(Object model) throws Exception {
+		// TODO Auto-generated method stub
+		if(model==null){
+			return this.crudMapper.selectAll();
+		}else {
+			return this.crudMapper.select(model);
+		}
 	}
 	
-	public ArrayList getModel(Object model,PageBounds pPage) throws Exception{
-		pPage=pPage==null?new PageBounds():pPage;
-		return iCRUDMapper.select(model,pPage);
+	public Object getModelEqPk(Object pk) throws Exception {
+		// TODO Auto-generated method stub
+		return this.crudMapper.selectEqPk(pk);
 	}
+	public ArrayList getModelInPk(ArrayList listPk, PageBounds pPage)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return this.crudMapper.selectInPk(listPk,pPage);
+	}
+	public ArrayList getModelInPk(ArrayList listPk) throws Exception {
+		// TODO Auto-generated method stub
+		return this.crudMapper.selectInPk(listPk);
+	}
+	public ArrayList getModelNotInPk(ArrayList listPk, PageBounds pPage)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return this.crudMapper.selectNotInPk(listPk,pPage);
+	}
+	public ArrayList getModelNotInPk(ArrayList listPk) throws Exception {
+		// TODO Auto-generated method stub
+		return this.crudMapper.selectNotInPk(listPk);
+	}
+
+	public int modifyModel(Object model, Object pkNew) throws Exception {
+		// TODO Auto-generated method stub
+		return this.crudMapper.updateOne(model, pkNew);
+	}
+	public int modifyModel(Object model) throws Exception {
+		// TODO Auto-generated method stub
+		return this.crudMapper.updateOne(model);
+	}
+	public int removeModelInPk(ArrayList listPk) throws Exception {
+		// TODO Auto-generated method stub
+		return this.crudMapper.deleteInPk(listPk);
+	}
+	public int removeModelNotInPk(ArrayList listPk) throws Exception {
+		// TODO Auto-generated method stub
+		return this.crudMapper.deleteNotInPk(listPk);
+	}
+	
+	
+	
+	public int addModel(Object model) throws Exception {
+		// TODO Auto-generated method stub
+		return this.crudMapper.insertOne(model);
+	}
+	public abstract void loadCrudMapper(Class c) throws NullPointerException;
+	
+	
+	public void setCrudMapper(IMapper crudMapper) {
+		this.crudMapper = crudMapper;
+	}
+	
 	
 	
 
-	public abstract void loadCrudMapper(Class c);
+
 }
