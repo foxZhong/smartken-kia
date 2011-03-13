@@ -72,19 +72,23 @@ public class DateTimeUtil {
 	
 	public static java.util.Date parse(String dateString){
 		java.util.Date dateReturn=null;
-		ArrayList<String> listDateFormat=new ArrayList<String>();
-		listDateFormat.add(DATE_FORMAT_DB);
-		listDateFormat.add(DATE_FORMAT_DMY);
-		listDateFormat.add(DATE_FORMAT_YMD);
+		try{
+			dateReturn=new SimpleDateFormat().parse(dateString);
+		}catch(Exception ex){
+			ArrayList<String> listDateFormat=new ArrayList<String>();
+			listDateFormat.add(DATE_FORMAT_DB);
+			listDateFormat.add(DATE_FORMAT_DMY);
+			listDateFormat.add(DATE_FORMAT_YMD);
 		for (String dateFormat : listDateFormat) {
 			try {
 				java.util.Date dateTemp=parse(dateString, dateFormat,java.util.Date.class);
 				dateReturn=dateTemp;
 			} catch (Exception e) {
 				dateReturn=null;
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
 			if(dateReturn!=null)break;
+		}
 		}
 		return dateReturn;
 	}
@@ -101,6 +105,9 @@ public class DateTimeUtil {
 		DateFormat df = new SimpleDateFormat(dateFormat);
 		long time = df.parse(dateString).getTime();
 		java.util.Date t = targetResultType.getConstructor(long.class).newInstance(time);
+		Calendar cale=Calendar.getInstance();
+		cale.setTime(t);
+		if(cale.get(Calendar.YEAR)<1000) throw new Exception();
 		return (T)t;
 
 	}
@@ -109,16 +116,18 @@ public class DateTimeUtil {
 	
 	public static void main(String[] args)
 	{
-		Calendar c=Calendar.getInstance();
-		Date d=new Date();
-		int dw=c.get(Calendar.DAY_OF_WEEK);
-		ArrayList<Date> ld=DateTimeUtil.getWeekDays(d);
-		ld=DateTimeUtil.getWeekDays(2011, 30);
-		Iterator<Date> it=ld.iterator();
-		while(it.hasNext())
-		{
-			System.out.println(it.next().toString());
-		}
-	
+//		Calendar c=Calendar.getInstance();
+//		Date d=new Date();
+//		int dw=c.get(Calendar.DAY_OF_WEEK);
+//		ArrayList<Date> ld=DateTimeUtil.getWeekDays(d);
+//		ld=DateTimeUtil.getWeekDays(2011, 30);
+//		Iterator<Date> it=ld.iterator();
+//		while(it.hasNext())
+//		{
+//			System.out.println(it.next().toString());
+//		}
+	    String dt="2011/03/09";
+	    Date date=parse(dt);
+	    System.out.println(date);
 	}
 }

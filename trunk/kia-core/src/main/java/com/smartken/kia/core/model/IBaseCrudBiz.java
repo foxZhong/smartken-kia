@@ -9,6 +9,7 @@ public interface IBaseCrudBiz {
 
  
     public void loadCrudMapper(Class c) throws NullPointerException;
+    public void addCrudMapper(Class c,IMapper mapper) ;
 	public void setCrudMapper(IMapper crudMapper);
     public ArrayList getModel(Object model) throws Exception;
     public ArrayList getModel(Object model,PageBounds pPage) throws Exception;

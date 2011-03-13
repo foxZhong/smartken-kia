@@ -158,6 +158,7 @@ public class EasyUiModel implements IScriptModel{
 public static final class Panel{
 		
 		public static final String Name="panel";
+		public static final String CLASS="easyui-panel";
 		public static  class Properties{
          public static final String TITLE="title";
 		 public static final String TITLE(String value){return toHtmlKeyValue(TITLE, value);}
@@ -468,6 +469,10 @@ public static final class Dialog
 			public static final String ALIGN="align";
 			public static final String SORTABLE="sortable";
 			public static final String CHECKBOX="checkbox";
+			public static final String STYLER="styler";
+			public static final String FORMATTER="formatter";
+			public static final String SORTER="sorter";
+			public static final String EDITOR="editor";
 			
 		}
 		public static final class Events{
