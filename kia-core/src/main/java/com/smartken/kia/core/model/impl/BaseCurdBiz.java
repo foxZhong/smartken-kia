@@ -17,7 +17,7 @@ import com.smartken.kia.core.model.IMapper;
 public abstract class BaseCurdBiz implements IBaseCrudBiz {
 	
 	private IMapper crudMapper;
-	
+	private Map<Class,IMapper> mappers=new HashMap<Class, IMapper>();
 	
 	public int count() throws Exception {
 		// TODO Auto-generated method stub
@@ -87,11 +87,17 @@ public abstract class BaseCurdBiz implements IBaseCrudBiz {
 		// TODO Auto-generated method stub
 		return this.crudMapper.insertOne(model);
 	}
-	public abstract void loadCrudMapper(Class c) throws NullPointerException;
+	public void loadCrudMapper(Class c) throws NullPointerException{
+		this.crudMapper=mappers.get(c);
+	};
 	
 	
 	public void setCrudMapper(IMapper crudMapper) {
 		this.crudMapper = crudMapper;
+	}
+	public void addCrudMapper(Class c, IMapper mapper){
+		// TODO Auto-generated method stub
+		mappers.put(c, mapper);
 	}
 	
 	
