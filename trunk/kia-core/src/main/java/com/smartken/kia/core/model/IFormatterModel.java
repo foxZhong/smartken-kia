@@ -1,5 +1,7 @@
 package com.smartken.kia.core.model;
 
+import java.lang.reflect.Type;
+
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.json.JSONArray;
@@ -20,4 +22,5 @@ public interface IFormatterModel {
 	 public Object eval(String pattern) throws Exception;
 	 public void eval(Enum en,Object obj) throws Exception;
 	 public void eval(String pattern,Object obj) throws Exception;
+	 
 }
