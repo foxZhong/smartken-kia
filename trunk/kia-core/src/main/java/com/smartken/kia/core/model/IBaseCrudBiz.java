@@ -23,5 +23,11 @@ public interface IBaseCrudBiz {
     public int addModel(Object model) throws Exception;
     public int modifyModel(Object model) throws Exception;
     public int modifyModel(Object model,Object pkNew) throws Exception; 
+    
+    public int addOrModifyModel(Object model) throws Exception;
+    public int addOrModifyModel(Object model,Object pkNewPk) throws Exception;
+    
+    public int modifyOrAddModel(Object model) throws Exception;
+    public int modifyOrAddModel(Object model,Object pkNewPk) throws Exception;
     public int count() throws Exception;
 }
