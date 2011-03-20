@@ -87,6 +87,42 @@ public abstract class BaseCurdBiz implements IBaseCrudBiz {
 		// TODO Auto-generated method stub
 		return this.crudMapper.insertOne(model);
 	}
+	
+	
+	
+	
+	public int addOrModifyModel(Object model, Object pkNewPk) throws Exception {
+		// TODO Auto-generated method stub
+		int re=addModel(model);
+		if(re==0){
+			re=modifyModel(model,pkNewPk);
+		}
+		return re;
+	}
+	public int addOrModifyModel(Object model) throws Exception {
+		// TODO Auto-generated method stub
+		int re=addModel(model);
+		if(re==0){
+			re=modifyModel(model);
+		}
+		return re;
+	}
+	public int modifyOrAddModel(Object model, Object pkNewPk) throws Exception {
+		// TODO Auto-generated method stub
+		int re=modifyModel(model,pkNewPk);
+		if(re==0){
+			re=addModel(model);
+		}
+		return re;
+	}
+	public int modifyOrAddModel(Object model) throws Exception {
+		// TODO Auto-generated method stub
+		int re=modifyModel(model);
+		if(re==0){
+			re=addModel(model);
+		}
+		return re;
+	}
 	public void loadCrudMapper(Class c) throws NullPointerException{
 		this.crudMapper=mappers.get(c);
 	};

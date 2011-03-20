@@ -12,6 +12,8 @@ import org.json.JSONObject;
 
 import com.smartken.kia.core.enums.StringFormatEnum;
 import com.smartken.kia.core.model.IFormatterModel;
+import com.smartken.kia.core.util.DateTimeUtil;
+import com.smartken.kia.core.util.ObjectUtil;
 import com.smartken.kia.core.util.StringUtil;
 
 
@@ -20,6 +22,7 @@ import java.lang.reflect.*;
 import java.net.URLEncoder;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 
 
@@ -185,8 +188,23 @@ public abstract class BaseModel implements Serializable ,IFormatterModel{
 		for (Class c : lAllClass) {
 			try{
 			Field f=c.getDeclaredField(pattern);
+			Class t=f.getType();
 			Method lMth=c.getDeclaredMethod(lTempName, f.getType());
+			if(obj instanceof String && !t.equals(String.class)){
+				if(t.equals(Date.class))
+				{Date d=DateTimeUtil.parse(obj.toString());
+				lMth.invoke(this, d);
+				}else if(t.equals(Double.class))
+				{
+				  Double d=ObjectUtil.formatDouble(obj.toString());
+				  lMth.invoke(this, d);
+				}else if(t.equals(Integer.class)){
+					Integer i=ObjectUtil.formatInt(obj.toString());
+					lMth.invoke(this, i);
+				}
+			}else{
 			lMth.invoke(this,obj);
+			}
 			if(lMth!=null){isOk=true;break;}
 			}catch(Exception ex){}
 		}
