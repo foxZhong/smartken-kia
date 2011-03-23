@@ -123,8 +123,14 @@ public abstract class BaseCurdBiz implements IBaseCrudBiz {
 		}
 		return re;
 	}
-	public void loadCrudMapper(Class c) throws NullPointerException{
-		this.crudMapper=mappers.get(c);
+	public boolean loadCrudMapper(Class c) throws NullPointerException{
+		IMapper mapper=mappers.get(c);
+		if(mapper==null){
+			return false;
+		}else{
+			this.crudMapper=mappers.get(c);
+			return true;
+		}
 	};
 	
 	
