@@ -29,15 +29,7 @@ import java.util.Iterator;
 
 public abstract class BaseModel implements Serializable ,IFormatterModel{
 
-	private String pk;
-	
-	public String getPk() {
-		return pk;
-	}
 
-	public void setPk(String pk) {
-		this.pk = pk;
-	}
 
 	public JSONObject toJson()
 	{
@@ -241,9 +233,7 @@ public abstract class BaseModel implements Serializable ,IFormatterModel{
 	}
 
 	
-	public  Object generalPK() throws NullPointerException{
-		return pk;
-	}
+	public abstract  Object generalPK() throws NullPointerException;
 	
 	public  boolean validate() throws Exception{
 		return true;
@@ -258,4 +248,11 @@ public abstract class BaseModel implements Serializable ,IFormatterModel{
 
 	}
 
+	public Enum[] enumFields() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
+	
 }

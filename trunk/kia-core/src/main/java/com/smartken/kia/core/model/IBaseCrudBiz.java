@@ -8,7 +8,7 @@ import com.smartken.kia.core.pager.PageBounds;
 public interface IBaseCrudBiz {
 
  
-    public void loadCrudMapper(Class c) throws NullPointerException;
+    public boolean loadCrudMapper(Class c) throws NullPointerException;
     public void addCrudMapper(Class c,IMapper mapper) ;
 	public void setCrudMapper(IMapper crudMapper);
     public ArrayList getModel(Object model) throws Exception;

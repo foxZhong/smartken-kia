@@ -28,17 +28,7 @@ public class SysBiz extends BaseCurdBiz implements ISysBiz {
 	}
 
 
-	public void loadCrudMapper(Class c)
-	{
-		
-		if(c.equals(MenuModel.class))
-		{
-			this.setCrudMapper(iMenuMapper);
-		}else if(c.equals(UserModel.class))
-		{
-			this.setCrudMapper(iUserMapper);	
-		}
-	}
+
 	
 	
 
