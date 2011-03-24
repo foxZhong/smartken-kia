@@ -13,10 +13,16 @@ public class ResultModel extends BaseModel{
 	public static String ICON_QUESTION="question";
 	public static String ICON_WARNING="warning";
 	
+	public static String ACTION_SHOW="show";
+	public static String ACTION_CONFIRM="confirm";
+	public static String ACTION_ALERT="alert";
+	public static String ACTION_PROMPT="prompt";
+	
     private Integer code;
     private String icon;
     private String title;
     private String msg;
+    private String action;
 	
     public ResultModel(){
     	this.code=CODE_SUCCESS;
