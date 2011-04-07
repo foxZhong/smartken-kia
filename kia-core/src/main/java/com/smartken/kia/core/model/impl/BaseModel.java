@@ -224,16 +224,18 @@ public abstract class BaseModel implements Serializable ,IFormatterModel{
 
 	public void eval(Enum en, Object obj) throws Exception {
 		// TODO Auto-generated method stub
-		this.eval(en.toString(), obj);
+		this.eval(en.name(), obj);
 	}
 
 	public Object eval(Enum en) throws Exception {
 		// TODO Auto-generated method stub
-		return this.eval(en.toString());
+		return this.eval(en.name());
 	}
 
 	
 	public abstract  Object generalPK() throws NullPointerException;
+	
+ 
 	
 	public  boolean validate() throws Exception{
 		return true;
