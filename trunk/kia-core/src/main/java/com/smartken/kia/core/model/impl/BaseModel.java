@@ -248,7 +248,7 @@ public abstract class BaseModel implements Serializable ,IFormatterModel{
 
 	}
 
-	public Enum[] enumFields() {
+	public  Enum[] enumFields() {
 		// TODO Auto-generated method stub
 		return null;
 	}

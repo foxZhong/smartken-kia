@@ -137,9 +137,15 @@ public abstract class BaseCurdBiz implements IBaseCrudBiz {
 	public void setCrudMapper(IMapper crudMapper) {
 		this.crudMapper = crudMapper;
 	}
+	
+	
+	
 	public void addCrudMapper(Class c, IMapper mapper){
 		// TODO Auto-generated method stub
 		mappers.put(c, mapper);
+	}
+	public Map<Class, IMapper> getMappers() {
+		return mappers;
 	}
 	
 	
