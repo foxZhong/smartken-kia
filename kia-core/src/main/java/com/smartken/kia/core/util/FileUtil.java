@@ -1,6 +1,9 @@
 package com.smartken.kia.core.util;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -43,5 +46,22 @@ public class FileUtil {
 		URL parentUrl=new URL(url.getProtocol(), url.getHost(), parentPath);
 		return parentUrl;
 	}
+	
+	public static boolean saveFile(String path,byte[] bytes) throws IOException{
+		File file=new File(path);
+		FileOutputStream fos=null;
+		if(!file.exists()){
+			file.createNewFile();
+		}else if(!file.isFile()){
+			return false;
+		}
+	    fos=new FileOutputStream(file);
+		fos.write(bytes);
+		fos.flush();
+		fos.close();
+        return true;
+	}
+	
+	
 	
 }

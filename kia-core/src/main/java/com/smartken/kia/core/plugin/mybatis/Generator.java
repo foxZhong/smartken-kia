@@ -53,7 +53,11 @@ public class Generator {
 		    for (int i = 1; i <= mtdata.getColumnCount(); i++) {
 				dbColNames.add(mtdata.getColumnName(i));
 				dbColTypes.add(mtdata.getColumnTypeName(i));
+				try{
 				precisions.add(mtdata.getPrecision(i));
+				}catch (NumberFormatException nfe){
+					precisions.add(100);
+				}
 			}
 		    mapper=new MapperTemplate(table, pk, dbColNames,dbColTypes,precisions);
 		    if(modelClass!=null)mapper.setModelName(modelClass);
