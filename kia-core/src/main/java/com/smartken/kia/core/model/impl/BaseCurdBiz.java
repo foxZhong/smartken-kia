@@ -8,7 +8,9 @@ import javax.swing.text.MaskFormatter;
 
 
 
+import com.smartken.kia.core.pager.PageArrayList;
 import com.smartken.kia.core.pager.PageBounds;
+import com.smartken.kia.core.pager.PageList;
 import com.smartken.kia.core.enums.QueryEnum;
 import com.smartken.kia.core.model.IBaseCrudBiz;
 import com.smartken.kia.core.model.IMapper;
@@ -19,79 +21,195 @@ public abstract class BaseCurdBiz implements IBaseCrudBiz {
 	private IMapper crudMapper;
 	private Map<Class,IMapper> mappers=new HashMap<Class, IMapper>();
 	
-	public int count() throws Exception {
+	public int count()  {
 		// TODO Auto-generated method stub
-		return this.crudMapper.count();
-	}
-	public ArrayList getModel(Object model, PageBounds pPage) throws Exception {
-		// TODO Auto-generated method stub
-		if(model==null){
-			return this.crudMapper.selectAll(pPage);
-		}else {
-			return this.crudMapper.select(model, pPage);
+		int count=0;
+		try{
+			count+=this.crudMapper.count();
+		}catch(Exception ex){
+			ex.printStackTrace();
+			return 0;
+		}finally{
+			return count;
 		}
 	}
 	
-	public ArrayList getModel(Object model) throws Exception {
-		// TODO Auto-generated method stub
-		if(model==null){
-			return this.crudMapper.selectAll();
-		}else {
-			return this.crudMapper.select(model);
-		}
-	}
 	
-	public Object getModelEqPk(Object pk) throws Exception {
+	
+	public ArrayList getModel() {
 		// TODO Auto-generated method stub
-		return this.crudMapper.selectEqPk(pk);
-	}
-	public ArrayList getModelInPk(ArrayList listPk, PageBounds pPage)
-			throws Exception {
-		// TODO Auto-generated method stub
-		return this.crudMapper.selectInPk(listPk,pPage);
-	}
-	public ArrayList getModelInPk(ArrayList listPk) throws Exception {
-		// TODO Auto-generated method stub
-		return this.crudMapper.selectInPk(listPk);
-	}
-	public ArrayList getModelNotInPk(ArrayList listPk, PageBounds pPage)
-			throws Exception {
-		// TODO Auto-generated method stub
-		return this.crudMapper.selectNotInPk(listPk,pPage);
-	}
-	public ArrayList getModelNotInPk(ArrayList listPk) throws Exception {
-		// TODO Auto-generated method stub
-		return this.crudMapper.selectNotInPk(listPk);
+		ArrayList list=new ArrayList();
+		try{
+			list=this.crudMapper.selectAll();
+		}catch(Exception ex){
+			ex.printStackTrace();
+			return new ArrayList();
+		}finally{
+			return list;
+		}
 	}
 
-	public int modifyModel(Object model, Object pkNew) throws Exception {
+
+
+	public ArrayList getModel(PageBounds pPage) {
 		// TODO Auto-generated method stub
-		return this.crudMapper.updateOne(model, pkNew);
+		ArrayList list=new ArrayList();
+		try{
+			list=this.crudMapper.selectAll(pPage);
+		}catch(Exception ex){
+			ex.printStackTrace();
+			return new ArrayList();
+		}finally{
+			return list;
+		}
 	}
-	public int modifyModel(Object model) throws Exception {
+
+
+	public ArrayList getModel(Object model) {
 		// TODO Auto-generated method stub
-		return this.crudMapper.updateOne(model);
+		ArrayList list=new ArrayList();
+		try{
+			if(model==null){
+				list=this.crudMapper.selectAll();
+			}else{
+			    list= this.crudMapper.select(model);
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
+			return new ArrayList();
+		}finally{
+			return list;
+		}
 	}
-	public int removeModelInPk(ArrayList listPk) throws Exception {
+	
+
+	public PageArrayList getModel(Object model, PageBounds pPage) {
 		// TODO Auto-generated method stub
-		return this.crudMapper.deleteInPk(listPk);
+          ArrayList list=this.getModel(model);
+          PageArrayList pageList=new PageArrayList(list, pPage);
+          return pageList;
 	}
-	public int removeModelNotInPk(ArrayList listPk) throws Exception {
+	
+
+	
+	public Object getModelEqPk(Object pk) {
 		// TODO Auto-generated method stub
-		return this.crudMapper.deleteNotInPk(listPk);
+		Object obj=null;
+		try{
+			obj=this.crudMapper.selectEqPk(pk);
+		}catch(Exception ex){
+			ex.printStackTrace();
+			return null;
+		}finally{
+			return obj;
+		}
 	}
+
 	
 	
-	
-	public int addModel(Object model) throws Exception {
+	public ArrayList getModelInPk(ArrayList listPk)  {
 		// TODO Auto-generated method stub
-		return this.crudMapper.insertOne(model);
+		ArrayList list=new ArrayList();
+		try{
+			list=this.crudMapper.selectInPk(listPk);
+		}catch(Exception ex){
+			ex.printStackTrace();
+			return new ArrayList();
+		}
+		return list;
+	}
+	public PageArrayList getModelInPk(ArrayList listPk, PageBounds pPage)
+	 {
+		// TODO Auto-generated method stub
+		ArrayList list = this.getModelInPk(listPk);
+		PageArrayList pageList = new PageArrayList(list, pPage);
+		return pageList;
+     }
+	
+	
+	public PageArrayList getModelNotInPk(ArrayList listPk, PageBounds pPage) {
+		// TODO Auto-generated method stub
+        ArrayList list=this.getModelNotInPk(listPk);
+        PageArrayList pageList=new PageArrayList(list, pPage);
+        return pageList;
+	}
+	
+	public ArrayList getModelNotInPk(ArrayList listPk)  {
+		// TODO Auto-generated method stub
+		ArrayList list=new ArrayList();
+		try{
+			list=this.crudMapper.selectNotInPk(listPk);
+		}catch(Exception ex){
+			ex.printStackTrace();
+			return new ArrayList();
+		}
+		return list;
+	}
+
+	public int modifyModel(Object model, Object pkNew) {
+		// TODO Auto-generated method stub
+		int re=0;
+		try{
+			re+=this.crudMapper.updateOne(model,pkNew);
+		}catch(Exception ex){
+			ex.printStackTrace();
+			return 0;
+		}
+		return re;
+	}
+	public int modifyModel(Object model) {
+		// TODO Auto-generated method stub
+		int re=0;
+		try{
+			re+=this.crudMapper.updateOne(model);
+		}catch(Exception ex){
+			ex.printStackTrace();
+			return 0;
+		}
+		return re;
+	}
+	
+	public int removeModelInPk(ArrayList listPk)  {
+		// TODO Auto-generated method stub
+		int re=0;
+		try{
+			re+=this.crudMapper.deleteInPk(listPk);
+		}catch(Exception ex){
+			ex.printStackTrace();
+			return 0;
+		}
+		return re;
+	}
+	public int removeModelNotInPk(ArrayList listPk) {
+		// TODO Auto-generated method stub
+		int re=0;
+		try{
+			re+=this.crudMapper.deleteNotInPk(listPk);
+		}catch(Exception ex){
+			ex.printStackTrace();
+			return 0;
+		}
+		return re;
+	}
+	
+	
+	
+	public int addModel(Object model)  {
+		// TODO Auto-generated method stub
+		int re=0;
+		try{
+			re+=this.crudMapper.insertOne(model);
+		}catch(Exception ex){
+			ex.printStackTrace();
+			return 0;
+		}
+	    return re;
 	}
 	
 	
 	
 	
-	public int addOrModifyModel(Object model, Object pkNewPk) throws Exception {
+	public int addOrModifyModel(Object model, Object pkNewPk)  {
 		// TODO Auto-generated method stub
 		int re=addModel(model);
 		if(re==0){
@@ -99,7 +217,7 @@ public abstract class BaseCurdBiz implements IBaseCrudBiz {
 		}
 		return re;
 	}
-	public int addOrModifyModel(Object model) throws Exception {
+	public int addOrModifyModel(Object model)  {
 		// TODO Auto-generated method stub
 		int re=addModel(model);
 		if(re==0){
@@ -107,7 +225,7 @@ public abstract class BaseCurdBiz implements IBaseCrudBiz {
 		}
 		return re;
 	}
-	public int modifyOrAddModel(Object model, Object pkNewPk) throws Exception {
+	public int modifyOrAddModel(Object model, Object pkNewPk)  {
 		// TODO Auto-generated method stub
 		int re=modifyModel(model,pkNewPk);
 		if(re==0){
@@ -115,7 +233,7 @@ public abstract class BaseCurdBiz implements IBaseCrudBiz {
 		}
 		return re;
 	}
-	public int modifyOrAddModel(Object model) throws Exception {
+	public int modifyOrAddModel(Object model)  {
 		// TODO Auto-generated method stub
 		int re=modifyModel(model);
 		if(re==0){

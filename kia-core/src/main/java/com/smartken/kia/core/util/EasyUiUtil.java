@@ -7,6 +7,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONStringer;
 
+import com.smartken.kia.core.pager.PageArrayList;
+
 public class EasyUiUtil {
 
 
@@ -40,5 +42,6 @@ public class EasyUiUtil {
 		return lJsonDataGrid;
 		
 	}
+	
 	
 }

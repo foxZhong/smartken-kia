@@ -21,9 +21,13 @@ public class ColumnTemplate {
 	public static String DB_TYPE_FLOAT="FLOAT";
 	public static String DB_TYPE_DOUBLE="DOUBLE";
 	public static String DB_TYPE_DATE="DATE";
-	public static String MOD_TYPE_STRING="String";
-	public static String MOD_TYPE_INTEGER="Integer";
+	public static String DB_TYPE_BLOB="BLOB";
+	public static String JAVA_TYPE_STRING="String";
+	public static String JAVA_TYPE_INTEGER="Integer";
+	public static String JAVA_TYPE_BYTES="byte[]";
 
+	
+	
 	public static final int PREC_FLOAT=126;
 	public static final int PREC_INTEGER=38;
 	
@@ -38,16 +42,16 @@ public class ColumnTemplate {
 	
 		this.dbColName=dbColName;
 		this.dbColType=DB_TYPE_VARCHAR;
-		this.javaName=toModelColName(dbColName);
-		this.javaType=MOD_TYPE_STRING;
+		this.javaName=toJavaColName(dbColName);
+		this.javaType=JAVA_TYPE_STRING;
 		this.jdbcType=toJdbcType(DB_TYPE_VARCHAR);
 	}
 	
 	public ColumnTemplate(String dbColName,String dbColType){
 		this.dbColName=dbColName;
 		this.dbColType=dbColType;
-		this.javaName=toModelColName(dbColName);
-		this.javaType=toModelType(dbColType);
+		this.javaName=toJavaColName(dbColName);
+		this.javaType=toJavaType(dbColType);
 		this.jdbcType=toJdbcType(dbColType);
 	}
 	
@@ -55,8 +59,8 @@ public class ColumnTemplate {
 		this.dbColName=dbColName;
 		this.dbColType=dbColType;
 		this.precision=perc;
-		this.javaName=toModelColName(dbColName);
-		this.javaType=toModelType(dbColType);
+		this.javaName=toJavaColName(dbColName);
+		this.javaType=toJavaType(dbColType);
 		this.jdbcType=toJdbcType(dbColType);
 		
 	}
@@ -86,7 +90,7 @@ public class ColumnTemplate {
 		return precision;
 	}
 
-	public static String toModelColName(String lStrDbColName)
+	public static String toJavaColName(String lStrDbColName)
 	{
 		if(StringUtil.isBlank(lStrDbColName))return "";
 		StringBuffer lSbrModelColName=new StringBuffer("");
@@ -109,7 +113,7 @@ public class ColumnTemplate {
 	}
 	
 	
-	public String toModelType(String lDbType){
+	public String toJavaType(String lDbType){
 		if(StringUtil.isBlank(lDbType))return "";
 		if(ObjectUtil.isInArray(lDbType.toUpperCase(), 
 		    new String[]{DB_TYPE_CHAR,DB_TYPE_TEXT,DB_TYPE_VARCHAR2})
@@ -127,6 +131,9 @@ public class ColumnTemplate {
                 new String[]{DB_TYPE_DATE}  )
         ){
 			return Date.class.getSimpleName();
+		}else if(ObjectUtil.isInArray(lDbType.toUpperCase(),
+				new String[]{DB_TYPE_BLOB})){
+			return JAVA_TYPE_BYTES;
 		}
 		else 
 		{
@@ -151,6 +158,11 @@ public class ColumnTemplate {
 				new String[]{DB_TYPE_DATE})
 		 ){
 			return JdbcType.DATE.toString();
+		}
+		else if(ObjectUtil.isInArray(lDbType.toUpperCase(), 
+				new String[]{DB_TYPE_BLOB})
+		 ){
+			return JdbcType.BLOB.toString();
 		}
 		else 
 		{

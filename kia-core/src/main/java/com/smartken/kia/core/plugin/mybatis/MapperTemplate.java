@@ -55,6 +55,7 @@ public class MapperTemplate {
 	}
 	
 	public MapperTemplate(String table,String pk,ArrayList<String> dbCols,ArrayList<String> dbTypes,ArrayList<Integer> precisions){
+	
 		this.table=table;
 		this.pk=pk;
         for (int i = 0; i < dbCols.size(); i++) {
