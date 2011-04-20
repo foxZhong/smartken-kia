@@ -17,6 +17,8 @@ import org.w3c.dom.ls.LSResourceResolver;
 
 import com.smartken.kia.core.model.IFormatterModel;
 import com.smartken.kia.core.model.IScriptModel;
+import com.smartken.kia.core.pager.PageBounds;
+import com.smartken.kia.core.pager.PageList;
 
 
 public class ObjectUtil {
@@ -264,7 +266,16 @@ public class ObjectUtil {
 	}
 	
 
-	
+	public static PageList toPageList(List list,PageBounds pageBounds){
+		PageList pList=new PageList();
+		int limit= pageBounds.getLimit();
+		int offset= pageBounds.getOffset();
+		int index=limit*offset;
+		for(int i=index;i<index+limit;i++){
+			pList.add(list.get(i));
+		}
+		return pList;
+	}
 	
 	
 	public static void main(String[] args)
