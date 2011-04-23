@@ -14,7 +14,9 @@ public interface IBaseAction {
     public static String QUERY_EMPTY="empty";
     public static String QUERY_SEARCH="search";
     
-
+    public static String CONTENT_TYPE_TEXT="text/plain; charset=UTF-8";
+    public static String CONTENT_TYPE_HTML="text/html; charset=UTF-8";
+    public static String CONTENT_TYPE_IMG="image; charset=UTF-8";
     
     public void clear();
     
@@ -39,4 +41,12 @@ public interface IBaseAction {
 	public Object getSessionAttribute(Enum en);
 	public Object getSessionAttribute(String key);
     
+	public void setSessionAttribute(Enum en,Object obj);
+	public void setSessionAttribute(String key,Object obj);
+    public void setRequestAttribute(Enum en,Object obj);
+    public void setRequestAttribute(String key,Object obj);
+    
+    public void outputImage(byte[] image);   
+	public void writePlainText(String lStrText);
+	public void writeScript(String lStrScript);
 }

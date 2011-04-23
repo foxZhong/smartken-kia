@@ -56,11 +56,12 @@
         </dependency>
   
    
-   
         <dependency>
-        	<groupId>maven</groupId>
+        	<groupId>dom4j</groupId>
         	<artifactId>dom4j</artifactId>
-        	<version>1.7-20060614</version>
+        	<version>1.6.1</version>
+        	<type>jar</type>
+        	<scope>compile</scope>
         </dependency>
         <dependency>
         	<groupId>javax.servlet</groupId>
