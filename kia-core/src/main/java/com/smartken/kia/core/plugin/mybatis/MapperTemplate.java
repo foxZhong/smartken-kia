@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.apache.bcel.util.Class2HTML;
 import org.w3c.dom.ls.LSResourceResolver;
 
 import com.smartken.kia.core.enums.StringFormatEnum;

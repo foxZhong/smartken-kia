@@ -63,5 +63,14 @@ public class FileUtil {
 	}
 	
 	
+	public static byte[]  toBytes(String path) throws IOException{
+		File file=new File(path);
+		if(!file.exists()||!file.isFile())	throw new IOException();
+		FileInputStream fis=new FileInputStream(file);
+		byte[] bytes=new byte[fis.available()];
+		fis.read(bytes);
+		fis.close();
+		return bytes;
+	}
 	
 }
