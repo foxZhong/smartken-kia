@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 
 
+import java.text.SimpleDateFormat;
 import com.smartken.kia.core.enums.StringFormatEnum;
 import com.smartken.kia.core.model.IFormatterModel;
 import com.smartken.kia.core.util.DateTimeUtil;
@@ -24,6 +25,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.Random;
 
 
 
@@ -233,7 +235,21 @@ public abstract class BaseModel implements Serializable ,IFormatterModel{
 	}
 
 	
-	public abstract  Object generalPK() throws NullPointerException;
+	public Object generalPK() throws NullPointerException{
+		String pk="";
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmmss");
+		Random r=new Random();
+		int randomInt=r.nextInt(1000);
+		String code=String.valueOf(randomInt);
+		while(code.length()<3){
+			code="0"+code;
+		}
+		pk=MessageFormat.format("{0}{1}", 
+		   		sdf.format(new Date()),
+		   		code
+		);
+		return pk;
+	}
 	
  
 	

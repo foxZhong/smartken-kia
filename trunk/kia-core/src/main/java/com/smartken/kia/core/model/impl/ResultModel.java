@@ -71,10 +71,15 @@ public class ResultModel extends BaseModel{
 		this.msg=MessageFormat.format(pattern, arguments);
 	}
 
-	@Override
-	public Object generalPK() throws NullPointerException {
-		// TODO Auto-generated method stub
-		return null;
+	public String getAction() {
+		return action;
 	}
+
+	public void setAction(String action) {
+		this.action = action;
+	}
+
+
+	
 
 }

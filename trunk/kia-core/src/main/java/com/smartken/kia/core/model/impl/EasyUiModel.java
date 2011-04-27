@@ -20,7 +20,7 @@ import com.smartken.kia.core.util.StringUtil;
 
 public class EasyUiModel implements IScriptModel{
 
-	private String regexp;
+	private String object;
 	private String uiName;
 	private String method="";
 	private StringBuffer parma=new StringBuffer("");
@@ -28,16 +28,16 @@ public class EasyUiModel implements IScriptModel{
 	private JsMapModel<String, Object> attrs=new JsMapModel<String, Object>();
 	
 	
-	public EasyUiModel(String regexp,String uiName)
+	public EasyUiModel(String object,String uiName)
 	{
-		this.regexp=regexp;
+		this.object=object;
 		this.uiName=uiName;
 		this.isMethod=false;
 	}
 	
-	public EasyUiModel(String regexp,String uiName,String method,String... parmas)
+	public EasyUiModel(String object,String uiName,String method,String... parmas)
 	{
-		this.regexp=regexp;
+		this.object=object;
 		this.uiName=uiName;
 		this.method=method;
 		if(parmas!=null)
@@ -52,14 +52,10 @@ public class EasyUiModel implements IScriptModel{
 	
 	
 
-	public String getRegexp() {
-		return regexp;
-	}
 
 
-
-	public void setRegexp(String regexp) {
-		this.regexp = regexp;
+	public void setObject(String object) {
+		this.object = object;
 	}
 
 
@@ -106,10 +102,10 @@ public class EasyUiModel implements IScriptModel{
 		String lScriptRe="";
 		if(this.isMethod)
 		{
-		    lScriptRe="$({0}).{1}(\"{2}\" {3} \n);    //   end:$({0}).{1}";
+		    lScriptRe="{0}.{1}(\"{2}\" {3} \n);    //   end:{0}.{1}";
 		    String parmas="";
 			lStrReturn=MessageFormat.format(lScriptRe,
-					                       this.regexp,  //0
+					                       this.object,  //0
 			                               this.uiName,  //1	      
 			                               this.method,   //2
 			                               this.parma.toString() //3
@@ -117,9 +113,9 @@ public class EasyUiModel implements IScriptModel{
 		}
 		else
 		{
-		    lScriptRe="$({0}).{1}({2} \n);    //   end:$({0}).{1}";
+		    lScriptRe="{0}.{1}({2} \n);    //   end:{0}.{1}";
 			lStrReturn=MessageFormat.format(lScriptRe,
-					                       this.regexp,  //0
+					                       this.object,  //0
 			                               this.uiName,  //1	      
 			                               this.attrs.toScirpt()   //2
 			);
@@ -444,7 +440,6 @@ public static final class Dialog
 			public static final String FIT="fit";
 			public static final String FIT_COLUMNS="fitColumns";
 			public static final String PAGE_NUMBER="pageNumber";
-			public static final String NO_WRAP="nowrap";
 			public static final String PAGE_SIZE="pageSize";
 			public static final String PAGE_LIST="pageList";
 			public static final String QUERY_PARAMS="queryParams";
@@ -808,6 +803,9 @@ public static final class Dialog
 	private static String toHtmlKeyValue(String key,Object value){
 		return key+"=\""+value+"\"";
 	}
+	
+	
+	
 	
 	
 	

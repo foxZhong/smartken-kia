@@ -40,13 +40,17 @@ public interface IBaseAction {
 	public String getParameter(String key);
 	public Object getSessionAttribute(Enum en);
 	public Object getSessionAttribute(String key);
-    
-	public void setSessionAttribute(Enum en,Object obj);
-	public void setSessionAttribute(String key,Object obj);
+	
     public void setRequestAttribute(Enum en,Object obj);
     public void setRequestAttribute(String key,Object obj);
+	public void setSessionAttribute(Enum en,Object obj);
+	public void setSessionAttribute(String key,Object obj);
+	
+	public boolean isPost();
+	public boolean isGet();
     
-    public void outputImage(byte[] image);   
+    
+    public void writeStream(byte[] image);   
 	public void writePlainText(String lStrText);
 	public void writeScript(String lStrScript);
 }
