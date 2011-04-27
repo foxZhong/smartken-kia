@@ -1,6 +1,7 @@
 package com.smartken.kia.core.plugin.mybatis;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.text.Bidi;
 import java.util.Date;
 
@@ -21,6 +22,7 @@ public class ColumnTemplate {
 	public static String DB_TYPE_FLOAT="FLOAT";
 	public static String DB_TYPE_DOUBLE="DOUBLE";
 	public static String DB_TYPE_DATE="DATE";
+	public static String DB_TYPE_TIMESTAMP="TIMESTAMP";
 	public static String DB_TYPE_BLOB="BLOB";
 	public static String JAVA_TYPE_STRING="String";
 	public static String JAVA_TYPE_INTEGER="Integer";
@@ -131,7 +133,12 @@ public class ColumnTemplate {
                 new String[]{DB_TYPE_DATE}  )
         ){
 			return Date.class.getSimpleName();
-		}else if(ObjectUtil.isInArray(lDbType.toUpperCase(),
+		}else if(ObjectUtil.isInArray(lDbType.toUpperCase(), 
+                new String[]{DB_TYPE_TIMESTAMP}  )
+        ){
+			return Timestamp.class.getSimpleName();
+		}
+		else if(ObjectUtil.isInArray(lDbType.toUpperCase(),
 				new String[]{DB_TYPE_BLOB})){
 			return JAVA_TYPE_BYTES;
 		}
@@ -158,6 +165,11 @@ public class ColumnTemplate {
 				new String[]{DB_TYPE_DATE})
 		 ){
 			return JdbcType.DATE.toString();
+		}
+		else if(ObjectUtil.isInArray(lDbType.toUpperCase(), 
+				new String[]{DB_TYPE_TIMESTAMP})
+		 ){
+			return JdbcType.TIMESTAMP.toString();
 		}
 		else if(ObjectUtil.isInArray(lDbType.toUpperCase(), 
 				new String[]{DB_TYPE_BLOB})

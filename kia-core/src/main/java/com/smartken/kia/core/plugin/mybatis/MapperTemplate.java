@@ -8,6 +8,7 @@ import java.util.Map;
 import org.w3c.dom.ls.LSResourceResolver;
 
 import com.smartken.kia.core.enums.StringFormatEnum;
+import com.smartken.kia.core.util.ObjectUtil;
 import com.smartken.kia.core.util.StringUtil;
 
 public class MapperTemplate {
@@ -209,13 +210,19 @@ public class MapperTemplate {
 		StringBuffer lSbrReturn=new StringBuffer("");
 		int colSize=cols.size();
 		String pattern="<if test=\"model.{0} neq null\">and m.{1}=#'{'model.{0},jdbcType={2} javaType={3} '}' </if> ";
+		String datePattern="<if test=\"model.{0} neq null\">and to_char(m.{1},{4})= to_char(#'{'model.{0},jdbcType={2} javaType={3} '}',{4}) </if> ";
 		for(int i=0;i<colSize;i++){
 			ColumnTemplate tempCol=cols.get(i);
-			String tempStr=MessageFormat.format(pattern,
+			String tempPattern=pattern;
+			if(ObjectUtil.isInArray(tempCol.getDbColType().toUpperCase(), new String[]{ ColumnTemplate.DB_TYPE_DATE,ColumnTemplate.DB_TYPE_TIMESTAMP}) ){
+				tempPattern=datePattern;
+			}
+			String tempStr=MessageFormat.format(tempPattern,
 					tempCol.getJavaName()  //0
 					,tempCol.getDbColName()  //1
 					,tempCol.getJdbcType()  //2
 					,tempCol.getJavaType()  //3
+					,"'YYYY-MM-DD'"
 			);
 			lSbrReturn.append(tempStr+"\n");
 		}

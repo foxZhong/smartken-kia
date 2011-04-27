@@ -14,27 +14,27 @@ import com.smartken.kia.core.util.StringUtil;
 public class JQueryModel implements IScriptModel {
 
 	
-	private String regexp;
+	private String object;
 	private String method;
 	private ArrayList<Object> parmas=new ArrayList<Object>();
 	
 	public JQueryModel(String method)
 	{
-		this.regexp="";
+		this.object="$";
 		this.method=method;
 	}
 	
-	public JQueryModel(String regexp,String method)
+	public JQueryModel(String object,String method)
 	{
-		this.regexp="("+regexp+")";
+		this.object=object;
 		this.method=method;
 	}
 	
 	public String toScirpt() {
 		// TODO Auto-generated method stub
-		String lStrRege="${0}.{1}(\n {2} \n);  // end:$(\"{0}\").{1}";
+		String lStrRege="{0}.{1}(\n {2} \n);  // end:$(\"{0}\").{1}";
 		String lStrReturn=MessageFormat.format(lStrRege, 
-				this.regexp,   //0
+				this.object,   //0
 				this.method,  //1
 				this.getParmas() //2
 				);
@@ -109,6 +109,10 @@ public class JQueryModel implements IScriptModel {
 	
 	public static String cls(String id){
 		return MessageFormat.format("$(\".{0}\")", ObjectUtil.formatString(id));
+	}
+	
+	public static String regexp(String regexp){
+		return MessageFormat.format("$(\"{0}\")", ObjectUtil.formatString(regexp));
 	}
 	
 	public static void main(String[] args)
