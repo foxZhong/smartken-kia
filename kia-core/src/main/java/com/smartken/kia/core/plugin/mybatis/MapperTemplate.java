@@ -1,13 +1,22 @@
 package com.smartken.kia.core.plugin.mybatis;
 
+import java.io.BufferedOutputStream;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.mybatis.generator.api.dom.java.Interface;
 import org.w3c.dom.ls.LSResourceResolver;
 
+import com.smartken.kia.core.enums.CodeEnum;
 import com.smartken.kia.core.enums.StringFormatEnum;
+import com.smartken.kia.core.util.FileUtil;
 import com.smartken.kia.core.util.ObjectUtil;
 import com.smartken.kia.core.util.StringUtil;
 
@@ -146,11 +155,33 @@ public class MapperTemplate {
 		if(cols==null)return "";
 		StringBuffer lSbrReturn=new StringBuffer("");
 		int colSize=cols.size();
-		String pattern="<{0} column=\"{1}\"  property=\"{2}\" jdbcType=\"{3}\" javaType=\"{4}\"/>";
+		String patternId="<id column=\"{0}\"  property=\"{1}\" jdbcType=\"{2}\" javaType=\"{3}\"/>";
+		String patternResult="<result column=\"{0}\"  property=\"{1}\" jdbcType=\"{2}\" javaType=\"{3}\"/>";
+		String patternResult4bytes="<result column=\"{0}\"  property=\"{1}\" jdbcType=\"{2}\" />";
+
 		for(int i=0;i<colSize;i++){
 			ColumnTemplate tempCol=cols.get(i);
-			String tempStr=MessageFormat.format(pattern,
-					tempCol.getDbColName().equalsIgnoreCase(this.pk)?"id":"result",  //0
+			if(!tempCol.getDbColName().equalsIgnoreCase(this.pk))continue;
+				String tempStr=MessageFormat.format(patternId,
+						tempCol.getDbColName(),   //1
+						tempCol.getJavaName(),   //2
+						tempCol.getJdbcType(),   //3  
+						tempCol.getJavaType()  //4
+				);
+				lSbrReturn.append(tempStr);
+				if(i!=colSize-1)
+				{
+					lSbrReturn.append("\n");
+				}
+				break;
+			
+		}
+		
+		
+		for(int i=0;i<colSize;i++){
+			ColumnTemplate tempCol=cols.get(i);
+			if(tempCol.getDbColName().equalsIgnoreCase(this.pk))continue;
+			String tempStr=MessageFormat.format(patternResult,
 					tempCol.getDbColName(),   //1
 					tempCol.getJavaName(),   //2
 					tempCol.getJdbcType(),   //3  
@@ -166,6 +197,25 @@ public class MapperTemplate {
 	}
 	
 
+//	public String getRefColumn(){
+//		StringBuffer lSbrReturn=new StringBuffer("");
+//		String pattern="<sql id=\"{0}Col\">#'{'{0},jdbcType={1},javaType={2}'}'</sql>";
+//		String pattern4bytes="<sql id=\"{0}Col\">#'{'{0},jdbcType={1}'}'</sql>";
+//		for(int i=0;i<cols.size();i++){
+//			ColumnTemplate tempCol=cols.get(i);
+//			String tempPattern=pattern;
+//			if(ColumnTemplate.DB_TYPE_BLOB.equalsIgnoreCase(tempCol.getDbColType())){
+//				tempPattern=pattern4bytes;
+//			}
+//			String tempStr=MessageFormat.format(tempPattern
+//					,tempCol.getJavaName()  //0
+//					,tempCol.getJdbcType()  //1
+//					,tempCol.getJavaType()  //2
+//			);
+//			
+//		}
+//		return lSbrReturn.toString();
+//	}
 	
 	public String getJavaCols(){
 		if(cols==null)return "";
@@ -186,7 +236,7 @@ public class MapperTemplate {
 		return lSbrReturn.toString();
 	}
 	
-	public String getModelCols(){
+	public String getEnum(){
 		if(cols==null)return "";
 		StringBuffer lSbrReturn=new StringBuffer("");
 		int colSize=cols.size();
@@ -246,10 +296,15 @@ public class MapperTemplate {
 	}
 	
 	
+	
+	
     public String getMapper(){
     	StringBuffer pattern=new StringBuffer("");
     	pattern
     	.append("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>").append("\n")
+        .append("<!-- \n class:{8} \n ").append(StringUtil.ln())
+        .append(" public static enum F '{' \n  {11}  \n '}' ").append(StringUtil.ln(2))
+        .append("{10} -->").append(StringUtil.ln(2))
     	.append("<!DOCTYPE mapper PUBLIC \"-//mybatis.org//DTD Mapper 3.0//EN\" \"http://mybatis.org/dtd/mybatis-3-mapper.dtd\">").append(StringUtil.ln())
     	.append("<mapper namespace=\"{0}\">").append(StringUtil.ln(2))
     	.append("<cache flushInterval=\"30000\" readOnly=\"true\"></cache>").append(StringUtil.ln(3))
@@ -258,37 +313,37 @@ public class MapperTemplate {
     	.append("<sql id=\"colums\">\n{3} \n</sql>").append(StringUtil.ln(2))
     	.append("<sql id=\"insertCols\">\n{4} \n</sql>").append(StringUtil.ln(2))
     	.append("<sql id=\"updateCols\">\n {5}\n</sql>").append(StringUtil.ln(2))
-    	.append("<sql id=\"orderby\">order by {2}</sql>").append(StringUtil.ln(2))
+    	.append("<sql id=\"orderby\">order by {2} desc </sql>").append(StringUtil.ln(2))
     	.append("<sql id=\"joinColums\"></sql>").append(StringUtil.ln(2))
     	.append("<sql id=\"join\"></sql>").append(StringUtil.ln(0))
     	.append("<!-- 别名m已被主表使用  -->").append(StringUtil.ln(2))
     	.append("<resultMap type=\"{8}\" id=\"resultMap\">\n {6}\n </resultMap>").append(StringUtil.ln(3))
     
         .append("<select id=\"select\" resultType=\"ArrayList\" resultMap=\"resultMap\">").append(StringUtil.ln())
-        .append("\t select m.* <include refid=\"joinColums\"/> from <include refid=\"table\" /> m <include refid=\"join\"/> ").append(StringUtil.ln())
+        .append("\t select m.* from <include refid=\"table\" /> m ").append(StringUtil.ln())
         .append("<trim prefix=\"where\" prefixOverrides=\"and\">\n{7}</trim>").append(StringUtil.ln())
         .append("</select>").append(StringUtil.ln())
-        
+                
         .append("<select id=\"selectEqPk\" parameterType=\"String\"  resultMap=\"resultMap\">").append(StringUtil.ln())
-        .append("\t select <include refid=\"colums\"/> from <include refid=\"table\" /> m <include refid=\"join\"/> where m.<include refid=\"pk\" /> = #'{'{9}'}'").append(StringUtil.ln())
-        .append("</select>").append(StringUtil.ln(2))
-        
-        .append("<select id=\"count\" resultType=\"int\">").append(StringUtil.ln())
-        .append("\t select count(*) from <include refid=\"table\"/>").append(StringUtil.ln())
+        .append("\t select m.* from <include refid=\"table\" /> m  where m.<include refid=\"pk\" /> = #'{'{9}'}'").append(StringUtil.ln())
         .append("</select>").append(StringUtil.ln(2))
         
         .append("<select id=\"selectInPk\" resultType=\"ArrayList\" resultMap=\"resultMap\" >").append(StringUtil.ln())
-        .append("\t select m.* <include refid=\"joinColums\"/> from <include refid=\"table\" /> m <include refid=\"join\"/> where m.<include refid=\"pk\" /> in").append(StringUtil.ln())
+        .append("\t select m.* from <include refid=\"table\" /> m  where m.<include refid=\"pk\" /> in").append(StringUtil.ln())
         .append("<foreach item=\"pk\" collection=\"list\" open=\"(\" separator=\",\" close=\")\"> #'{'pk'}' </foreach> \n<include refid=\"orderby\"/>").append(StringUtil.ln())
         .append("</select>").append(StringUtil.ln(2))
         
         .append("<select id=\"selectNotInPk\" resultType=\"ArrayList\" resultMap=\"resultMap\" >").append(StringUtil.ln())
-        .append("\t select m.* <include refid=\"joinColums\"/> from <include refid=\"table\" /> m <include refid=\"join\"/> where m.<include refid=\"pk\" /> not in").append(StringUtil.ln())
+        .append("\t select m.* from <include refid=\"table\" /> m  where m.<include refid=\"pk\" /> not in").append(StringUtil.ln())
         .append("<foreach item=\"pk\" collection=\"list\" open=\"(\" separator=\",\" close=\")\"> #'{'pk'}' </foreach> \n<include refid=\"orderby\"/>").append(StringUtil.ln())
         .append("</select>").append(StringUtil.ln(2))
         
         .append("<select  id=\"selectAll\"  resultType=\"ArrayList\"  resultMap=\"resultMap\">").append(StringUtil.ln())
-        .append("\t select m.* <include refid=\"joinColums\"/> from  <include refid=\"table\" /> m <include refid=\"join\"/> \n <include refid=\"orderby\"/>").append(StringUtil.ln())        
+        .append("\t select m.* from  <include refid=\"table\" /> m  \n <include refid=\"orderby\"/>").append(StringUtil.ln())        
+        .append("</select>").append(StringUtil.ln(2))
+        
+        .append("<select id=\"count\" resultType=\"int\">").append(StringUtil.ln())
+        .append("\t select count(*) from <include refid=\"table\"/>").append(StringUtil.ln())
         .append("</select>").append(StringUtil.ln(2))
         
         .append("<insert id=\"insertOne\" >").append(StringUtil.ln())
@@ -308,6 +363,33 @@ public class MapperTemplate {
         .append("\t delete from <include refid=\"table\"/> where <include refid=\"pk\" /> not in").append(StringUtil.ln())
         .append("<foreach item=\"pk\" collection=\"list\" open=\"(\" separator=\",\" close=\")\">#'{'pk'}'</foreach>").append(StringUtil.ln())
         .append("</delete>").append(StringUtil.ln(4))      
+        
+        
+        .append("<resultMap type=\"{8}\" id=\"viewMap\">\n {6}\n </resultMap>").append(StringUtil.ln(3))
+        
+        .append("<select id=\"selectView\" resultType=\"ArrayList\" resultMap=\"viewMap\">").append(StringUtil.ln())
+        .append("\t select m.* <include refid=\"joinColums\"/> from <include refid=\"table\" /> m <include refid=\"join\"/> ").append(StringUtil.ln())
+        .append("<trim prefix=\"where\" prefixOverrides=\"and\">\n{7}</trim>").append(StringUtil.ln())
+        .append("</select>").append(StringUtil.ln())
+        
+        .append("<select id=\"selectViewEqPk\" parameterType=\"String\"  resultMap=\"viewMap\">").append(StringUtil.ln())
+        .append("\t select m.* <include refid=\"joinColums\"/> from <include refid=\"table\" /> m <include refid=\"join\"/> where m.<include refid=\"pk\" /> = #'{'{9}'}'").append(StringUtil.ln())
+        .append("</select>").append(StringUtil.ln(2))
+        
+        .append("<select id=\"selectViewInPk\" resultType=\"ArrayList\" resultMap=\"viewMap\" >").append(StringUtil.ln())
+        .append("\t select m.* <include refid=\"joinColums\"/> from <include refid=\"table\" /> m <include refid=\"join\"/> where m.<include refid=\"pk\" /> in").append(StringUtil.ln())
+        .append("<foreach item=\"pk\" collection=\"list\" open=\"(\" separator=\",\" close=\")\"> #'{'pk'}' </foreach> \n<include refid=\"orderby\"/>").append(StringUtil.ln())
+        .append("</select>").append(StringUtil.ln(2))
+        
+        .append("<select id=\"selectViewNotInPk\" resultType=\"ArrayList\" resultMap=\"viewMap\" >").append(StringUtil.ln())
+        .append("\t select m.* <include refid=\"joinColums\"/> from <include refid=\"table\" /> m <include refid=\"join\"/> where m.<include refid=\"pk\" /> not in").append(StringUtil.ln())
+        .append("<foreach item=\"pk\" collection=\"list\" open=\"(\" separator=\",\" close=\")\"> #'{'pk'}' </foreach> \n<include refid=\"orderby\"/>").append(StringUtil.ln())
+        .append("</select>").append(StringUtil.ln(2))
+        
+        .append("<select  id=\"selectViewAll\"  resultType=\"ArrayList\"  resultMap=\"viewMap\">").append(StringUtil.ln())
+        .append("\t select m.* <include refid=\"joinColums\"/> from  <include refid=\"table\" /> m <include refid=\"join\"/> \n <include refid=\"orderby\"/>").append(StringUtil.ln())        
+        .append("</select>").append(StringUtil.ln(2))
+        
         .append("</mapper>")
     	;
     	String lStrMapper=MessageFormat.format(pattern.toString(),
@@ -321,11 +403,48 @@ public class MapperTemplate {
     			,this.getCondition()  //7
     			,this.modelClass.getName() //8
     			,this.getPkCol()  //9
+    			,this.getJavaCols() //10
+    			,this.getEnum()  //11
     	);
 		return lStrMapper;
 	   
    }
-	
+    public boolean generalMapplerXML(String srcPath){
+    	String refPath= FileUtil.toPath(namespace);
+    	return this.generalMapplerXML(srcPath, refPath);
+    }
+    
+    
+   public boolean generalMapplerXML(String srcPath,String refPath){
+	   boolean isSuccess=false;
+	  
+	   //String path= FileUtil.toPath(namespace);
+	   String xmlPath=srcPath+refPath+".xml";
+	   String strMapper=this.getMapper();
+	   System.err.println(xmlPath);
+	   File xmlFile=new File(xmlPath);
+	   OutputStreamWriter osw=null;
+	   //BufferedOutputStream bos=new BufferedOutputStream(os);
+	   BufferedWriter bw=null;
+	   try {
+		if(xmlFile.exists()&&xmlFile.isFile())
+		{ 
+			xmlFile.delete();
+			isSuccess=true;
+		}
+		xmlFile.createNewFile();
+		osw=new OutputStreamWriter(new FileOutputStream(xmlFile),CodeEnum.utf8.name());
+		bw=new BufferedWriter(osw);
+		bw.write(strMapper);
+		bw.flush();
+		bw.close();
+		osw.close();
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	   return isSuccess;
+   }
 
 	
 	public static void main(String[] args){

@@ -69,6 +69,9 @@ public class Generator {
 		}finally{return mapper;}
 	}
 	
+	
+	
+	
 	public static void main(String[] args)
 	{
 //        MapperTemplate mt=getMapperTemplate("pp_personc","staff_no");

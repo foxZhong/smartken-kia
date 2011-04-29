@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import com.smartken.kia.core.enums.StringFormatEnum;
 import com.smartken.kia.core.model.IFormatterModel;
@@ -46,7 +47,22 @@ public abstract class BaseModel implements Serializable ,IFormatterModel{
 				if(lObjFieldValue instanceof IFormatterModel)
 				{
 					lJsonTemp.put(lStrFieldName, lObjFieldValue==null?"":((IFormatterModel)lObjFieldValue).toJson());
-				}else{
+				}else if(lObjFieldValue instanceof Date || lObjFieldValue instanceof Timestamp){
+					if(lObjFieldValue!=null){
+						Date d=(Date)lObjFieldValue;
+						lJsonTemp.put(lStrFieldName, DateTimeUtil.format(d, DateTimeUtil.DATE_TIME_FORMAT_DB));
+					}else{
+						lJsonTemp.put(lStrFieldName,"");
+					}
+				}else if(lObjFieldValue instanceof Timestamp){
+					if(lObjFieldValue!=null){
+						Timestamp t=(Timestamp)lObjFieldValue;
+						lJsonTemp.put(lStrFieldName, DateTimeUtil.format(t, DateTimeUtil.TIMESTAMP_FORMAT_DB));
+					}else{
+						lJsonTemp.put(lStrFieldName,"");
+					}
+				}
+				else{
 				   lJsonTemp.put(lStrFieldName, lObjFieldValue==null?"":lObjFieldValue);
 				}
 				}catch(Exception ex){

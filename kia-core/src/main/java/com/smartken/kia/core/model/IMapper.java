@@ -21,6 +21,14 @@ public interface IMapper<T>{
 	public ArrayList<T> selectInPk(ArrayList pArrPk,PageBounds page) throws Exception;
 	public ArrayList<T> selectNotInPk(ArrayList pArrPk) throws Exception;
 	public ArrayList<T> selectNotInPk(ArrayList pArrPk,PageBounds page) throws Exception;
+	public ArrayList<T> selectView(@Param("model") T pModel) throws Exception;
+	public ArrayList<T> selectView(@Param("model") T pModel,PageBounds page) throws Exception;
+	public ArrayList<T> selectViewAll() throws Exception;
+	public ArrayList<T> selectViewAll(PageBounds page) throws Exception;
+	public ArrayList<T> selectViewInPk(ArrayList pArrPk) throws Exception;
+	public ArrayList<T> selectViewInPk(ArrayList pArrPk,PageBounds page) throws Exception;
+	public ArrayList<T> selectViewNotInPk(ArrayList pArrPk) throws Exception;
+	public ArrayList<T> selectViewNotInPk(ArrayList pArrPk,PageBounds page) throws Exception;
 	public int updateOne(@Param("model")T obj) throws Exception;
 	public int updateOne(@Param("model")T obj,@Param("pk")Object newPk) throws Exception;
 	public int insertOne(T obj) throws Exception;
