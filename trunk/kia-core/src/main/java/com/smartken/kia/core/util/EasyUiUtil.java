@@ -33,6 +33,11 @@ public class EasyUiUtil {
 		return toJsonDataGrid(jarr);
 	}
 	
+	public static JSONObject toJsonDataGrid(ArrayList<IFormatterModel> list,int pIntTotal){
+		JSONArray jarr=ObjectUtil.toJsonArray(list);
+		return toJsonDataGrid(jarr,pIntTotal);
+	}
+	
 	public static JSONObject toJsonDataGrid(JSONArray lArrRows)
 	{
          return toJsonDataGrid(lArrRows, lArrRows.length());		
@@ -56,20 +61,31 @@ public class EasyUiUtil {
 		return createTextColumn(field, false);
 	}
 	
+	public static JsMapModel createTextColumn(Enum en){
+		return createTextColumn(en.name(), true);
+	}
+	
 	public static JsMapModel createTextColumn(String field,boolean isStr){
 		JsMapModel column=new JsMapModel();
 		column.put(EasyUiModel.DataGrid.ColumnProperties.FIELD, field,isStr);
 		column.put(EasyUiModel.DataGrid.ColumnProperties.WIDTH, 200);
+		column.put(EasyUiModel.DataGrid.ColumnProperties.EDITOR,"text",true);
 		return column;
 	}
 	
 	public static JsMapModel createIntColumn(String field){
 		return createIntColumn(field,false);
 	}
+	
+	public static JsMapModel createIntColumn(Enum en){
+		return createIntColumn(en.name(), true);
+	}
+	
 	public static JsMapModel createIntColumn(String field,boolean isStr){
 		JsMapModel column=new JsMapModel();
 		column.put(EasyUiModel.DataGrid.ColumnProperties.FIELD, field,isStr);
 		column.put(EasyUiModel.DataGrid.ColumnProperties.WIDTH, 200);
+		column.put(EasyUiModel.DataGrid.ColumnProperties.EDITOR,"kiaIntbox",true);
 		return column;
 	}
 	
@@ -77,10 +93,15 @@ public class EasyUiUtil {
 		return createDoubleColumn(field, false);
 	}
 	
+	public static JsMapModel createDoubleColumn(Enum en){
+		return createDoubleColumn(en.name(), true);
+	}
+	
 	public static JsMapModel createDoubleColumn(String field,boolean isStr){
 		JsMapModel column=new JsMapModel();
 		column.put(EasyUiModel.DataGrid.ColumnProperties.FIELD, field,isStr);
 		column.put(EasyUiModel.DataGrid.ColumnProperties.WIDTH, 200);
+		column.put(EasyUiModel.DataGrid.ColumnProperties.EDITOR,"kiaDoublebox",true);
 		return column;
 	}
 	
@@ -88,14 +109,41 @@ public class EasyUiUtil {
 		return createDateTimeColumn(field, false);
 	}
 	
+	public static JsMapModel createDateTimeColumn(Enum en){
+		return createDateTimeColumn(en.name(), true);
+	}
+	
 	public static JsMapModel createDateTimeColumn(String field,boolean isStr){
 		JsMapModel column=new JsMapModel();
 		column.put(EasyUiModel.DataGrid.ColumnProperties.FIELD, field,isStr);
 		column.put(EasyUiModel.DataGrid.ColumnProperties.WIDTH, 150);
-		column.put(EasyUiModel.DataGrid.ColumnProperties.FORMATTER, "dateboxFormatter");
+		//column.put(EasyUiModel.DataGrid.ColumnProperties.FORMATTER, "dateboxFormatter");
 		return column;	
 	}
 	
+	public static JsMapModel createCheckBoxColumn(String field){
+		return createCheckBoxColumn(field, false);
+	}
 	
+	public static JsMapModel createCheckBoxColumn(Enum en){
+		return createCheckBoxColumn(en.name(), true);
+	}
+	
+	public static JsMapModel createCheckBoxColumn(String field,boolean isStr){
+		JsMapModel column=new JsMapModel();
+		column.put(EasyUiModel.DataGrid.ColumnProperties.FIELD, field,isStr);
+		column.put(EasyUiModel.DataGrid.ColumnProperties.CHECKBOX, true);
+		//column.put(EasyUiModel.DataGrid.ColumnProperties.FORMATTER, "dateboxFormatter");
+		return column;	
+	}
+	
+	public static JsMapModel createOperaColumn(){
+		JsMapModel column=new JsMapModel();
+		column.put(EasyUiModel.DataGrid.ColumnProperties.TITLE,"操作",true);
+		column.put(EasyUiModel.DataGrid.ColumnProperties.WIDTH,60);
+		column.put(EasyUiModel.DataGrid.ColumnProperties.FIELD,"xx",true);
+		column.put(EasyUiModel.DataGrid.ColumnProperties.FORMATTER,"operaFormatter");
+		return column;
+	}
 	
 }

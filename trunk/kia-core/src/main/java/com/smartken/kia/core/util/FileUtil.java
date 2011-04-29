@@ -18,6 +18,12 @@ public class FileUtil {
 		return c.getClassLoader().getResource("");
 	}
 	
+	public static String toPath(Class c){
+		String cls=c.getName();
+	   return cls.replace(".", "/");
+		
+	}
+	
 	public static URL getParentDir(URL url) throws MalformedURLException{
 		return getParentDir(url,1);
 	}
