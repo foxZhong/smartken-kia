@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.mybatis.generator.api.dom.java.Interface;
+
 import org.w3c.dom.ls.LSResourceResolver;
 
 import com.smartken.kia.core.enums.CodeEnum;

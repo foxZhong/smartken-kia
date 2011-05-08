@@ -147,7 +147,6 @@ public abstract class BaseModel implements Serializable ,IFormatterModel{
 		// TODO Auto-generated method stub
 		JSONObject json=this.toJson();
 		StringBuffer lSbrParam=new StringBuffer("");
-		
 		for(Iterator it=json.keys();it.hasNext();){
 			String key=it.next().toString();
 			String pattern="{0}={1}";
@@ -198,7 +197,7 @@ public abstract class BaseModel implements Serializable ,IFormatterModel{
 		for (Class c : lAllClass) {
 			try{
 			Field f=c.getDeclaredField(pattern);
-			Class t=f.getType();
+			Type t=f.getType();
 			Method lMth=c.getDeclaredMethod(lTempName, f.getType());
 			if(obj instanceof String && !t.equals(String.class)){
 				if(t.equals(Date.class))
@@ -285,6 +284,42 @@ public abstract class BaseModel implements Serializable ,IFormatterModel{
 	public  Enum[] enumFields() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+
+
+
+
+
+	public Type type(Enum en) throws Exception {
+		// TODO Auto-generated method stub
+		return this.type(en.name());
+	}
+
+
+
+
+
+
+	public Type type(String pattern) throws Exception {
+		// TODO Auto-generated method stub
+		boolean isOk=false;
+		ArrayList<Class> lAllClass=this.getAllClass();
+		Type t=null;
+		//String lTempName="set"+StringUtil.format(pattern, StringFormatEnum.upcaseFirstChar);
+		for (Class c : lAllClass) {
+			try{
+			Field f=c.getDeclaredField(pattern);
+			 if(f!=null){
+				 t=f.getType();
+				 isOk=true;
+				 break;
+			 }                   
+			}catch(Exception ex){}
+		}
+		if(!isOk){ throw new Exception(MessageFormat.format("This Model have not \"{0}\" ", pattern));}
+        
+		return t;	
 	}
 
 	

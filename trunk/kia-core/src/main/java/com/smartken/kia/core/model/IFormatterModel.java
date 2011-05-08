@@ -23,5 +23,8 @@ public interface IFormatterModel {
 	 public void eval(Enum en,Object obj) throws Exception;
 	 public void eval(String pattern,Object obj) throws Exception;
 	 
+	 public Type type(Enum en) throws Exception;
+	 public Type type(String pattern) throws Exception ;
+	 
 	 public Enum[] enumFields();
 }
