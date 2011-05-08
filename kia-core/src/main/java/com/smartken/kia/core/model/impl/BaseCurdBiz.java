@@ -63,7 +63,7 @@ public abstract class BaseCurdBiz implements IBaseCrudBiz {
 			return list;
 		}
 	}
-
+ 
 
 	public ArrayList getModel(Object model) {
 		// TODO Auto-generated method stub

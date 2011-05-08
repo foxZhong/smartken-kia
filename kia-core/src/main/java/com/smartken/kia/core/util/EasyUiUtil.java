@@ -121,6 +121,22 @@ public class EasyUiUtil {
 		return column;	
 	}
 	
+	public static JsMapModel createDateColumn(String field){
+		return createDateColumn(field, false);
+	}
+	
+	public static JsMapModel createDateColumn(Enum en){
+		return createDateColumn(en.name(), true);
+	}
+	
+	public static JsMapModel createDateColumn(String field,boolean isStr){
+		JsMapModel column=new JsMapModel();
+		column.put(EasyUiModel.DataGrid.ColumnProperties.FIELD, field,isStr);
+		column.put(EasyUiModel.DataGrid.ColumnProperties.WIDTH, 100);
+		column.put(EasyUiModel.DataGrid.ColumnProperties.FORMATTER, "dateboxFormatter");
+		return column;	
+	}
+	
 	public static JsMapModel createCheckBoxColumn(String field){
 		return createCheckBoxColumn(field, false);
 	}
