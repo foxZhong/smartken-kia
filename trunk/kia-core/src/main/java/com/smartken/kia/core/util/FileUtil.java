@@ -9,6 +9,8 @@ import java.net.URL;
 
 import javax.mail.URLName;
 
+import com.smartken.kia.core.model.impl.JsMapModel;
+
 
 
 public class FileUtil {
@@ -20,8 +22,8 @@ public class FileUtil {
 	
 	public static String toPath(Class c){
 		String cls=c.getName();
-	   return cls.replace(".", "/");
-		
+		cls=cls.substring(0,cls.lastIndexOf("."));
+	   return cls.replace(".", "/");	
 	}
 	
 	public static URL getParentDir(URL url) throws MalformedURLException{

@@ -2,6 +2,9 @@ package com.smartken.kia.core.model.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.text.MaskFormatter;
@@ -169,6 +172,18 @@ public abstract class BaseCurdBiz implements IBaseCrudBiz {
 		return re;
 	}
 	
+	public int removeModelEqPk(Object pk) {
+		// TODO Auto-generated method stub
+		int re=0;
+		try{
+			re+=this.crudMapper.deleteEqPk(pk);
+		}catch(Exception ex){
+			ex.printStackTrace();
+			return 0;
+		}
+		return re;
+	}
+	
 	public int removeModelInPk(ArrayList listPk)  {
 		// TODO Auto-generated method stub
 		int re=0;
@@ -265,6 +280,38 @@ public abstract class BaseCurdBiz implements IBaseCrudBiz {
 	public Map<Class, IMapper> getMappers() {
 		return mappers;
 	}
+
+
+
+	public PageArrayList getUnionModel(List listQuery, PageBounds pPage) {
+		// TODO Auto-generated method stub
+		ArrayList listModel=this.getUnionModel(listQuery);
+        PageArrayList pageList=new PageArrayList(listModel, pPage);
+        return pageList;
+	}
+
+
+
+	public ArrayList getUnionModel(List listQuery) {
+		// TODO Auto-generated method stub
+		ArrayList listModel=new ArrayList();
+		if(listQuery==null||listQuery.isEmpty()) return listModel;
+        for (Object query : listQuery) {
+		   ArrayList tempListModel=new ArrayList();
+		   tempListModel=this.getModel(query);
+		   if(tempListModel.isEmpty()) continue;
+		   listModel.addAll(tempListModel);
+		}
+		return listModel;
+	}
+
+
+
+
+
+
+
+
 	
 	
 	
