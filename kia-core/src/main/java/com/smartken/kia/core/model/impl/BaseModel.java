@@ -50,16 +50,10 @@ public abstract class BaseModel implements Serializable ,IFormatterModel{
 				}else if(lObjFieldValue instanceof Date || lObjFieldValue instanceof Timestamp){
 					if(lObjFieldValue!=null){
 						Date d=(Date)lObjFieldValue;
-						lJsonTemp.put(lStrFieldName, DateTimeUtil.format(d, DateTimeUtil.DATE_TIME_FORMAT_DB));
+						//d.getTime();
+						lJsonTemp.put(lStrFieldName, d.getTime());
 					}else{
-						lJsonTemp.put(lStrFieldName,"");
-					}
-				}else if(lObjFieldValue instanceof Timestamp){
-					if(lObjFieldValue!=null){
-						Timestamp t=(Timestamp)lObjFieldValue;
-						lJsonTemp.put(lStrFieldName, DateTimeUtil.format(t, DateTimeUtil.TIMESTAMP_FORMAT_DB));
-					}else{
-						lJsonTemp.put(lStrFieldName,"");
+						lJsonTemp.put(lStrFieldName,0);
 					}
 				}
 				else{

@@ -7,7 +7,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -300,9 +302,11 @@ public class MapperTemplate {
 	
     public String getMapper(){
     	StringBuffer pattern=new StringBuffer("");
+    	SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
     	pattern
     	.append("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>").append("\n")
-        .append("<!-- \n class:{8} \n ").append(StringUtil.ln())
+        .append("<!--  create date:").append(sdf.format(new Date()))
+    	.append(" \n class:{8} \n ").append(StringUtil.ln())
         .append(" public static enum F '{' \n  {11}  \n '}' ").append(StringUtil.ln(2))
         .append("{10} -->").append(StringUtil.ln(2))
     	.append("<!DOCTYPE mapper PUBLIC \"-//mybatis.org//DTD Mapper 3.0//EN\" \"http://mybatis.org/dtd/mybatis-3-mapper.dtd\">").append(StringUtil.ln())
@@ -346,13 +350,17 @@ public class MapperTemplate {
         .append("\t select count(*) from <include refid=\"table\"/>").append(StringUtil.ln())
         .append("</select>").append(StringUtil.ln(2))
         
-        .append("<insert id=\"insertOne\" >").append(StringUtil.ln())
+        .append("<insert id=\"insertOne\" flushCache=\"true\" >").append(StringUtil.ln())
         .append("\t insert into <include refid=\"table\"/> ( <include refid=\"colums\"/> ) values ( <include refid=\"insertCols\"/>) ").append(StringUtil.ln())
         .append("</insert>").append(StringUtil.ln(2))
         
         .append("<update id=\"updateOne\" flushCache=\"true\" >").append(StringUtil.ln())
         .append("\t update <include refid=\"table\"/> set <include refid=\"updateCols\"/> where <include refid=\"pk\" />=#'{'model.{9}'}'").append(StringUtil.ln())        
         .append("</update>").append(StringUtil.ln(2))
+        
+        .append("<delete id=\"deleteEqPk\" flushCache=\"true\">").append(StringUtil.ln())
+        .append("\t delete from <include refid=\"table\"/> where <include refid=\"pk\" /> =#'{'{9}'}'").append(StringUtil.ln())
+        .append("</delete>").append(StringUtil.ln(2))
         
         .append("<delete id=\"deleteInPk\" flushCache=\"true\">").append(StringUtil.ln())
         .append("\t delete from <include refid=\"table\"/> where <include refid=\"pk\" /> in").append(StringUtil.ln())
@@ -409,17 +417,28 @@ public class MapperTemplate {
 		return lStrMapper;
 	   
    }
+    
     public boolean generalMapplerXML(String srcPath){
+    	return this.generalMapplerXML(srcPath,"");
+    }
+    
+    public boolean generalMapplerXML(String srcPath,String subPath){
     	String refPath= FileUtil.toPath(namespace);
-    	return this.generalMapplerXML(srcPath, refPath);
+    	return this.generalMapplerXML(srcPath, refPath,subPath);
     }
     
     
-   public boolean generalMapplerXML(String srcPath,String refPath){
+   public boolean generalMapplerXML(String srcPath,String refPath,String subPath){
 	   boolean isSuccess=false;
-	  
+	   subPath=ObjectUtil.formatString(subPath);
 	   //String path= FileUtil.toPath(namespace);
-	   String xmlPath=srcPath+refPath+".xml";
+	   //String xmlPath=srcPath+refPath+".xml";
+	   String xmlPath=MessageFormat.format("{0}{1}/{2}/{3}.xml",
+		   srcPath
+		   ,refPath
+		   ,subPath
+		   ,namespace.getSimpleName()
+	   );
 	   String strMapper=this.getMapper();
 	   System.err.println(xmlPath);
 	   File xmlFile=new File(xmlPath);
