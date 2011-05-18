@@ -13,6 +13,7 @@ public interface IMapper<T>{
 	public T selectEqPk(Object pObjPk) throws Exception;
 	public ArrayList<T> select(@Param("model") T pModel) throws Exception;
 	public ArrayList<T> select(@Param("model") T pModel,PageBounds page) throws Exception;
+	public ArrayList<T> selectUnion(ArrayList<T> querys);
 	public ArrayList<T> selectAll() throws Exception;
 	public ArrayList<T> selectAll(PageBounds page) throws Exception;
 	public ArrayList<T> selectInPk(ArrayList pArrPk) throws Exception;
@@ -21,6 +22,7 @@ public interface IMapper<T>{
 	public ArrayList<T> selectNotInPk(ArrayList pArrPk,PageBounds page) throws Exception;
 	public ArrayList<T> selectView(@Param("model") T pModel) throws Exception;
 	public ArrayList<T> selectView(@Param("model") T pModel,PageBounds page) throws Exception;
+	public ArrayList<T> selectViewUnion(ArrayList<T> querys) throws Exception;
 	public ArrayList<T> selectViewAll() throws Exception;
 	public ArrayList<T> selectViewAll(PageBounds page) throws Exception;
 	public ArrayList<T> selectViewInPk(ArrayList pArrPk) throws Exception;

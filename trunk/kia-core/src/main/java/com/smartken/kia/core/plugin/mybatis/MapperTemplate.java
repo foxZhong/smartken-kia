@@ -327,6 +327,15 @@ public class MapperTemplate {
         .append("\t select m.* from <include refid=\"table\" /> m ").append(StringUtil.ln())
         .append("<trim prefix=\"where\" prefixOverrides=\"and\">\n{7}</trim>").append(StringUtil.ln())
         .append("</select>").append(StringUtil.ln())
+        
+        .append("<select id=\"selectUnion\" resultType=\"ArrayList\" resultMap=\"resultMap\">").append(StringUtil.ln())
+        .append("<trim prefixOverrides=\"union\">").append(StringUtil.ln())
+        .append("\t <foreach collection=\"list\" item=\"model\">").append(StringUtil.ln())
+        .append("\t\t <if test=\"model neq null\">").append(StringUtil.ln())
+        .append("\t\t\t union select m.* from <include refid=\"table\" /> m ").append(StringUtil.ln())
+        .append("<trim prefix=\"where\" prefixOverrides=\"and\">\n{7}</trim>").append(StringUtil.ln())
+        .append("</if>\n</foreach>\n</trim>").append(StringUtil.ln())
+        .append("</select>").append(StringUtil.ln())
                 
         .append("<select id=\"selectEqPk\" parameterType=\"String\"  resultMap=\"resultMap\">").append(StringUtil.ln())
         .append("\t select m.* from <include refid=\"table\" /> m  where m.<include refid=\"pk\" /> = #'{'{9}'}'").append(StringUtil.ln())
@@ -378,6 +387,15 @@ public class MapperTemplate {
         .append("<select id=\"selectView\" resultType=\"ArrayList\" resultMap=\"viewMap\">").append(StringUtil.ln())
         .append("\t select m.* <include refid=\"joinColums\"/> from <include refid=\"table\" /> m <include refid=\"join\"/> ").append(StringUtil.ln())
         .append("<trim prefix=\"where\" prefixOverrides=\"and\">\n{7}</trim>").append(StringUtil.ln())
+        .append("</select>").append(StringUtil.ln())
+        
+        .append("<select id=\"selectViewUnion\" resultType=\"ArrayList\" resultMap=\"viewMap\">").append(StringUtil.ln())
+        .append("<trim prefixOverrides=\"union\">").append(StringUtil.ln())
+        .append("\t <foreach collection=\"list\" item=\"model\">").append(StringUtil.ln())
+        .append("\t\t <if test=\"model neq null\">").append(StringUtil.ln())
+        .append("\t union select m.* <include refid=\"joinColums\"/> from <include refid=\"table\" /> m <include refid=\"join\"/> ").append(StringUtil.ln())
+        .append("<trim prefix=\"where\" prefixOverrides=\"and\">\n{7}</trim>").append(StringUtil.ln())
+        .append("</if>\n</foreach>\n</trim>").append(StringUtil.ln())
         .append("</select>").append(StringUtil.ln())
         
         .append("<select id=\"selectViewEqPk\" parameterType=\"String\"  resultMap=\"viewMap\">").append(StringUtil.ln())
@@ -433,12 +451,14 @@ public class MapperTemplate {
 	   subPath=ObjectUtil.formatString(subPath);
 	   //String path= FileUtil.toPath(namespace);
 	   //String xmlPath=srcPath+refPath+".xml";
-	   String xmlPath=MessageFormat.format("{0}{1}/{2}/{3}.xml",
+	   String path=MessageFormat.format("{0}{1}/{2}/{3}",
 		   srcPath
 		   ,refPath
 		   ,subPath
 		   ,namespace.getSimpleName()
 	   );
+	   String xmlPath=path+".xml";
+	   String bakPath=path+".bak";
 	   String strMapper=this.getMapper();
 	   System.err.println(xmlPath);
 	   File xmlFile=new File(xmlPath);
@@ -448,7 +468,9 @@ public class MapperTemplate {
 	   try {
 		if(xmlFile.exists()&&xmlFile.isFile())
 		{ 
-			xmlFile.delete();
+			//xmlFile.delete();
+			File bakFile=new File(bakPath);
+			xmlFile.renameTo(bakFile);
 			isSuccess=true;
 		}
 		xmlFile.createNewFile();
