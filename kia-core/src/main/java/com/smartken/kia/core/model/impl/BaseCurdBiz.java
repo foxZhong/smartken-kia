@@ -292,17 +292,15 @@ public abstract class BaseCurdBiz implements IBaseCrudBiz {
 
 
 
-	public ArrayList getUnionModel(List listQuery) {
+	public ArrayList getUnionModel(List querys) {
 		// TODO Auto-generated method stub
-		ArrayList listModel=new ArrayList();
-		if(listQuery==null||listQuery.isEmpty()) return listModel;
-        for (Object query : listQuery) {
-		   ArrayList tempListModel=new ArrayList();
-		   tempListModel=this.getModel(query);
-		   if(tempListModel.isEmpty()) continue;
-		   listModel.addAll(tempListModel);
-		}
-		return listModel;
+        ArrayList listModel=new ArrayList();
+        try{
+          listModel=  this.crudMapper.selectUnion((ArrayList) querys);
+        }catch(Exception ex){
+        	return new ArrayList();
+        }
+        return listModel;
 	}
 
 
