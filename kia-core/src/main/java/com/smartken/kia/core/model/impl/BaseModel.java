@@ -13,6 +13,7 @@ import org.json.JSONObject;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import com.smartken.kia.core.enums.StringFormatEnum;
+import com.smartken.kia.core.model.IBaseModel;
 import com.smartken.kia.core.model.IFormatterModel;
 import com.smartken.kia.core.util.DateTimeUtil;
 import com.smartken.kia.core.util.ObjectUtil;
@@ -30,7 +31,7 @@ import java.util.Random;
 
 
 
-public abstract class BaseModel implements Serializable ,IFormatterModel{
+public abstract class BaseModel implements IBaseModel ,IFormatterModel{
 
 
 
