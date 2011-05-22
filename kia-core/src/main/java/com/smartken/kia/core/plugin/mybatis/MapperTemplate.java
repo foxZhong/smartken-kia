@@ -22,14 +22,34 @@ import com.smartken.kia.core.util.FileUtil;
 import com.smartken.kia.core.util.ObjectUtil;
 import com.smartken.kia.core.util.StringUtil;
 
-public class MapperTemplate {
+public abstract class MapperTemplate {
 
-	private String table;
-	private String pk;
-	private ColumnTemplate pkColumn=new ColumnTemplate("");
-	private ArrayList<ColumnTemplate> cols=new ArrayList<ColumnTemplate>();
-	private Class namespace;
-	private Class modelClass;
+	protected static String XML_UTF8="<?xml version=\"1.0\" encoding=\"UTF-8\" ?>";
+	protected static String DOCTYPE_MYBATIS3="<!DOCTYPE mapper PUBLIC \"-//mybatis.org//DTD Mapper 3.0//EN\" \"http://mybatis.org/dtd/mybatis-3-mapper.dtd\">";
+	protected static String TAG_TRIM_CONDITIOM_START="<trim prefix=\"where\" prefixOverrides=\"and|or\" suffixOverrides=\"and|or\">";
+	protected static String TAG_TRIM_COMMA_START="<trim  prefixOverrides=\",\" suffixOverrides=\",\">";
+	protected static String TAG_TRIM_UNION_START="<trim  prefixOverrides=\"union\" suffixOverrides=\"union\">";
+	protected static String TAG_TRIM_END="</trim>";
+	protected static String TAG_IF_END="</if>";
+	protected static String TAG_FOREACH_END="</foreach>";
+	protected static String TAG_SQL_END="</sql>";
+	protected static String TAG_SELECT_END="</select>";
+	protected static String TAG_UPDATE_END="</update>";
+	protected static String TAG_INSERT_END="</insert>";
+	protected static String TAG_DELETE_END="</delete>";
+	protected static String SQL_ID_SELECT_CONDITION="selectCondition";
+	protected static String SQL_ID_SELECT_VIEW_CONDITION="selectViewCondition";
+	protected static String SQL_ID_SELECT_ORDERBY="orderby";
+	protected static String TAG_INCLUDE(String id){
+		return "<include refid=\""+id+"\"/>";
+	}
+	
+	protected String table;
+	protected String pk;
+	protected ColumnTemplate pkColumn;
+	protected ArrayList<ColumnTemplate> cols=new ArrayList<ColumnTemplate>();
+	protected Class namespace;
+	protected Class modelClass;
 
 	public void setNamespace(Class namespace) {
 		
@@ -40,30 +60,9 @@ public class MapperTemplate {
 		this.modelClass = modelClass;
 	}
 
-
+    protected abstract Class getSubClass();
 
 	private int rowCount=10;
-	
-	public MapperTemplate(String table,String pk,ArrayList<String> dbCols){
-		this.table=table;
-		this.pk=pk;
-		this.pkColumn=new ColumnTemplate(pk);
-        for (String dbCol : dbCols) {
-			this.cols.add(new ColumnTemplate(dbCol));
-		}
-	}
-	
-	public MapperTemplate(String table,String pk,ArrayList<String> dbCols,ArrayList<String> dbTypes){
-		this.table=table;
-		this.pk=pk;
-        for (int i = 0; i < dbCols.size(); i++) {
-			this.cols.add(new ColumnTemplate(dbCols.get(i), dbTypes.get(i)));
-			if(dbCols.get(i).equalsIgnoreCase(pk))
-			{
-				this.pkColumn=new ColumnTemplate(dbCols.get(i), dbTypes.get(i));
-			}
-		}
-	}
 	
 	public MapperTemplate(String table,String pk,ArrayList<String> dbCols,ArrayList<String> dbTypes,ArrayList<Integer> precisions){
 	
@@ -104,96 +103,60 @@ public class MapperTemplate {
 		return lSbrReturn.toString();
 	}
 	
+	public abstract String getInsertCol(ColumnTemplate ct);
+	
 	public String getInsertCols(){
 		if(cols==null)return "";
 		StringBuffer lSbrReturn=new StringBuffer("");
 		int colSize=cols.size();
-		String pattern="#'{'{0},jdbcType={1},javaType={2}'}'";
+		//String pattern="#'{'{0},jdbcType={1},javaType={2}'}'";
 		for(int i=0;i<colSize;i++){
 			ColumnTemplate tempCol=cols.get(i);
-			String tempStr=MessageFormat.format(pattern
-					,tempCol.getJavaName()  //0
-					,tempCol.getJdbcType()  //1
-					,tempCol.getJavaType()  //2
-			);
-			lSbrReturn.append(tempStr);
-			if(i!=colSize-1)
-			{
-				    lSbrReturn.append(",\n");
-
-			}
+			String tempStr=this.getInsertCol(tempCol);
+			lSbrReturn.append(tempStr).append(",\n");
 		}
 		return lSbrReturn.toString();
 	}
 	
+	public abstract String getUpdateCol(ColumnTemplate ct);
 	
 	public String getUpdateCols(){
 		if(cols==null)return "";
 		StringBuffer lSbrReturn=new StringBuffer("");
 		int colSize=cols.size();
-		String pattern="{0}=#'{'{1},jdbcType={2},javaType={3}'}'";
+		//String pattern="{0}=#'{'{1},jdbcType={2},javaType={3}'}'";
 		for(int i=0;i<colSize;i++){
 			ColumnTemplate tempCol=cols.get(i);
-			if(tempCol.getDbColName().equalsIgnoreCase(pk)){
-				lSbrReturn.append(MessageFormat.format("<if test=\"pk neq null\">{0}=#'{'pk'}',</if>\n",pk));
-				continue;
-			}
-			String tempStr=MessageFormat.format(pattern
-					,tempCol.getDbColName()   //0
-					,"model."+tempCol.getJavaName()   //1
-					,tempCol.getJdbcType()  //2
-					,tempCol.getJavaType()
-			);
-			lSbrReturn.append(tempStr);
-			if(i!=colSize-1)
-			{
-				lSbrReturn.append(",\n");
-			}
+			String tempStr=this.getUpdateCol(tempCol);
+			lSbrReturn.append(tempStr).append(",\n");
 		}
 		return lSbrReturn.toString();
 	}
 	
-	public String getResultMap(){
+	public abstract String getResultMapPol(ColumnTemplate ct);
+	
+	public String getResultMapPols(){
 		if(cols==null)return "";
 		StringBuffer lSbrReturn=new StringBuffer("");
 		int colSize=cols.size();
-		String patternId="<id column=\"{0}\"  property=\"{1}\" jdbcType=\"{2}\" javaType=\"{3}\"/>";
-		String patternResult="<result column=\"{0}\"  property=\"{1}\" jdbcType=\"{2}\" javaType=\"{3}\"/>";
-		String patternResult4bytes="<result column=\"{0}\"  property=\"{1}\" jdbcType=\"{2}\" />";
+		//String patternId="<id column=\"{0}\"  property=\"{1}\" jdbcType=\"{2}\" javaType=\"{3}\"/>";
+		//String patternResult="<result column=\"{0}\"  property=\"{1}\" jdbcType=\"{2}\" javaType=\"{3}\"/>";
+		//String patternResult4bytes="<result column=\"{0}\"  property=\"{1}\" jdbcType=\"{2}\" />";
 
 		for(int i=0;i<colSize;i++){
 			ColumnTemplate tempCol=cols.get(i);
 			if(!tempCol.getDbColName().equalsIgnoreCase(this.pk))continue;
-				String tempStr=MessageFormat.format(patternId,
-						tempCol.getDbColName(),   //1
-						tempCol.getJavaName(),   //2
-						tempCol.getJdbcType(),   //3  
-						tempCol.getJavaType()  //4
-				);
-				lSbrReturn.append(tempStr);
-				if(i!=colSize-1)
-				{
-					lSbrReturn.append("\n");
-				}
+				String tempStr=this.getResultMapPol(tempCol);
+				lSbrReturn.append(tempStr).append("\n");
 				break;
-			
 		}
 		
 		
 		for(int i=0;i<colSize;i++){
 			ColumnTemplate tempCol=cols.get(i);
 			if(tempCol.getDbColName().equalsIgnoreCase(this.pk))continue;
-			String tempStr=MessageFormat.format(patternResult,
-					tempCol.getDbColName(),   //1
-					tempCol.getJavaName(),   //2
-					tempCol.getJdbcType(),   //3  
-					tempCol.getJavaType()  //4
-			);
-			lSbrReturn.append(tempStr);
-			if(i!=colSize-1)
-			{
-				lSbrReturn.append("\n");
-			}
+			String tempStr=this.getResultMapPol(tempCol);
+			lSbrReturn.append(tempStr).append("\n");
 		}
 		return lSbrReturn.toString();
 	}
@@ -218,6 +181,9 @@ public class MapperTemplate {
 //		}
 //		return lSbrReturn.toString();
 //	}
+	public String getJavaCol(ColumnTemplate ct){
+		return null;
+	};
 	
 	public String getJavaCols(){
 		if(cols==null)return "";
@@ -257,26 +223,18 @@ public class MapperTemplate {
 		return lSbrReturn.toString();
 	}
 	
-	public String getCondition(){
+	public abstract String getCondition(ColumnTemplate ct);
+	
+	public String getConditions(){
 		if(cols==null)return "";
 		StringBuffer lSbrReturn=new StringBuffer("");
 		int colSize=cols.size();
-		String pattern="<if test=\"model.{0} neq null\">and m.{1}=#'{'model.{0},jdbcType={2} javaType={3} '}' </if> ";
-		String datePattern="<if test=\"model.{0} neq null\">and to_char(m.{1},{4})= to_char(#'{'model.{0},jdbcType={2} javaType={3} '}',{4}) </if> ";
+		//String pattern="<if test=\"model.{0} neq null\">and m.{1}=#'{'model.{0},jdbcType={2} javaType={3} '}' </if> ";
+		//String datePattern="<if test=\"model.{0} neq null\">and to_char(m.{1},{4})= to_char(#'{'model.{0},jdbcType={2} javaType={3} '}',{4}) </if> ";
 		for(int i=0;i<colSize;i++){
 			ColumnTemplate tempCol=cols.get(i);
-			String tempPattern=pattern;
-			if(ObjectUtil.isInArray(tempCol.getDbColType().toUpperCase(), new String[]{ ColumnTemplate.DB_TYPE_DATE,ColumnTemplate.DB_TYPE_TIMESTAMP}) ){
-				tempPattern=datePattern;
-			}
-			String tempStr=MessageFormat.format(tempPattern,
-					tempCol.getJavaName()  //0
-					,tempCol.getDbColName()  //1
-					,tempCol.getJdbcType()  //2
-					,tempCol.getJavaType()  //3
-					,"'YYYY-MM-DD'"
-			);
-			lSbrReturn.append(tempStr+"\n");
+			String tempStr=this.getCondition(tempCol);
+			lSbrReturn.append(tempStr).append("\n");
 		}
 		return lSbrReturn.toString();
 	}
@@ -304,117 +262,154 @@ public class MapperTemplate {
     	StringBuffer pattern=new StringBuffer("");
     	SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
     	pattern
-    	.append("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>").append("\n")
-        .append("<!--  create date:").append(sdf.format(new Date()))
-    	.append(" \n class:{8} \n ").append(StringUtil.ln())
+    	.append(XML_UTF8).append(StringUtil.ln(1))
+        .append("<!--").append(StringUtil.ln(1))
+    	.append(StringUtil.tab()).append("Create Date:").append(sdf.format(new Date()))
+        .append(StringUtil.tab()).append("MapperTemplate:{12}").append(StringUtil.ln(1))
+        .append(StringUtil.tab()).append("Model:{8} ").append(StringUtil.ln(3))
         .append(" public static enum F '{' \n  {11}  \n '}' ").append(StringUtil.ln(2))
         .append("{10} -->").append(StringUtil.ln(2))
-    	.append("<!DOCTYPE mapper PUBLIC \"-//mybatis.org//DTD Mapper 3.0//EN\" \"http://mybatis.org/dtd/mybatis-3-mapper.dtd\">").append(StringUtil.ln())
+    	.append(DOCTYPE_MYBATIS3).append(StringUtil.ln())
     	.append("<mapper namespace=\"{0}\">").append(StringUtil.ln(2))
     	.append("<cache flushInterval=\"30000\" readOnly=\"true\"></cache>").append(StringUtil.ln(3))
     	.append("<sql id=\"table\">{1}</sql>").append(StringUtil.ln(2))
     	.append("<sql id=\"pk\">{2}</sql>").append(StringUtil.ln(2))
     	.append("<sql id=\"colums\">\n{3} \n</sql>").append(StringUtil.ln(2))
-    	.append("<sql id=\"insertCols\">\n{4} \n</sql>").append(StringUtil.ln(2))
-    	.append("<sql id=\"updateCols\">\n {5}\n</sql>").append(StringUtil.ln(2))
-    	.append("<sql id=\"orderby\">order by {2} desc </sql>").append(StringUtil.ln(2))
+    	.append("<sql id=\"insertCols\">\n{4}\n</sql>").append(StringUtil.ln(2))
+    	.append("<sql id=\"updateCols\">\n{5}\n</sql>").append(StringUtil.ln(2))
+    	.append("<sql id=\""+SQL_ID_SELECT_ORDERBY+"\">order by {2} desc </sql>").append(StringUtil.ln(2))
     	.append("<sql id=\"joinColums\"></sql>").append(StringUtil.ln(2))
     	.append("<sql id=\"join\"></sql>").append(StringUtil.ln(0))
     	.append("<!-- 别名m已被主表使用  -->").append(StringUtil.ln(2))
     	.append("<resultMap type=\"{8}\" id=\"resultMap\">\n {6}\n </resultMap>").append(StringUtil.ln(3))
-    
+        .append("<sql id=\""+SQL_ID_SELECT_CONDITION+"\">\n{7}\n</sql>").append(StringUtil.ln(3))
+   
+    	
         .append("<select id=\"select\" resultType=\"ArrayList\" resultMap=\"resultMap\">").append(StringUtil.ln())
-        .append("\t select m.* from <include refid=\"table\" /> m ").append(StringUtil.ln())
-        .append("<trim prefix=\"where\" prefixOverrides=\"and\">\n{7}</trim>").append(StringUtil.ln())
-        .append("</select>").append(StringUtil.ln())
+        .append(StringUtil.tab(1)).append("select m.* from <include refid=\"table\" /> m   ").append(StringUtil.ln())
+        .append(StringUtil.tab(2)).append(TAG_TRIM_CONDITIOM_START).append(StringUtil.ln())
+        .append(StringUtil.tab(3)).append(TAG_INCLUDE(SQL_ID_SELECT_CONDITION)).append(StringUtil.ln())
+        .append(StringUtil.tab(2)).append(TAG_TRIM_END).append(StringUtil.ln())
+        .append(StringUtil.tab(1)).append(TAG_INCLUDE(SQL_ID_SELECT_ORDERBY)).append(StringUtil.ln())
+        .append(TAG_SELECT_END).append(StringUtil.ln(2))
         
         .append("<select id=\"selectUnion\" resultType=\"ArrayList\" resultMap=\"resultMap\">").append(StringUtil.ln())
-        .append("<trim prefixOverrides=\"union\">").append(StringUtil.ln())
-        .append("\t <foreach collection=\"list\" item=\"model\">").append(StringUtil.ln())
-        .append("\t\t <if test=\"model neq null\">").append(StringUtil.ln())
-        .append("\t\t\t union select m.* from <include refid=\"table\" /> m ").append(StringUtil.ln())
-        .append("<trim prefix=\"where\" prefixOverrides=\"and\">\n{7}</trim>").append(StringUtil.ln())
-        .append("</if>\n</foreach>\n</trim>").append(StringUtil.ln())
-        .append("</select>").append(StringUtil.ln())
+        .append(StringUtil.tab(1)).append(TAG_TRIM_UNION_START).append(StringUtil.ln())
+        .append(StringUtil.tab(2)).append("<foreach collection=\"list\" item=\"model\">").append(StringUtil.ln())
+        .append(StringUtil.tab(3)).append("<if test=\"model neq null\">").append(StringUtil.ln())
+        .append(StringUtil.tab(4)).append("union select m.* from <include refid=\"table\" /> m ").append(StringUtil.ln())
+        .append(StringUtil.tab(5)).append(TAG_TRIM_CONDITIOM_START).append(StringUtil.ln())
+        .append(StringUtil.tab(6)).append(TAG_INCLUDE(SQL_ID_SELECT_CONDITION)).append(StringUtil.ln())
+        .append(StringUtil.tab(5)).append(TAG_TRIM_END).append(StringUtil.ln())
+        .append(StringUtil.tab(3)).append(TAG_IF_END).append(StringUtil.ln())
+        .append(StringUtil.tab(2)).append(TAG_FOREACH_END).append(StringUtil.ln())
+        .append(StringUtil.tab(1)).append(TAG_TRIM_END).append(StringUtil.ln())
+        .append(StringUtil.tab(1)).append(TAG_INCLUDE(SQL_ID_SELECT_ORDERBY)).append(StringUtil.ln())
+        .append(TAG_SELECT_END).append(StringUtil.ln(2))
                 
         .append("<select id=\"selectEqPk\" parameterType=\"String\"  resultMap=\"resultMap\">").append(StringUtil.ln())
-        .append("\t select m.* from <include refid=\"table\" /> m  where m.<include refid=\"pk\" /> = #'{'{9}'}'").append(StringUtil.ln())
-        .append("</select>").append(StringUtil.ln(2))
+        .append(StringUtil.tab(1)).append("select m.* from <include refid=\"table\" /> m  where m.<include refid=\"pk\" /> = #'{'{9}'}'").append(StringUtil.ln())
+        .append(TAG_SELECT_END).append(StringUtil.ln(2))
         
         .append("<select id=\"selectInPk\" resultType=\"ArrayList\" resultMap=\"resultMap\" >").append(StringUtil.ln())
-        .append("\t select m.* from <include refid=\"table\" /> m  where m.<include refid=\"pk\" /> in").append(StringUtil.ln())
-        .append("<foreach item=\"pk\" collection=\"list\" open=\"(\" separator=\",\" close=\")\"> #'{'pk'}' </foreach> \n<include refid=\"orderby\"/>").append(StringUtil.ln())
-        .append("</select>").append(StringUtil.ln(2))
+        .append(StringUtil.tab(1)).append("select m.* from <include refid=\"table\" /> m  where m.<include refid=\"pk\" /> in").append(StringUtil.ln())
+        .append(StringUtil.tab(2)).append("<foreach item=\"pk\" collection=\"list\" open=\"(\" separator=\",\" close=\")\"> #'{'pk'}' </foreach>").append(StringUtil.ln())
+        .append(StringUtil.tab(1)).append(TAG_INCLUDE(SQL_ID_SELECT_ORDERBY)).append(StringUtil.ln())
+        .append(TAG_SELECT_END).append(StringUtil.ln(2))
         
         .append("<select id=\"selectNotInPk\" resultType=\"ArrayList\" resultMap=\"resultMap\" >").append(StringUtil.ln())
-        .append("\t select m.* from <include refid=\"table\" /> m  where m.<include refid=\"pk\" /> not in").append(StringUtil.ln())
-        .append("<foreach item=\"pk\" collection=\"list\" open=\"(\" separator=\",\" close=\")\"> #'{'pk'}' </foreach> \n<include refid=\"orderby\"/>").append(StringUtil.ln())
-        .append("</select>").append(StringUtil.ln(2))
+        .append(StringUtil.tab(1)).append("select m.* from <include refid=\"table\" /> m  where m.<include refid=\"pk\" /> not in").append(StringUtil.ln())
+        .append(StringUtil.tab(2)).append("<foreach item=\"pk\" collection=\"list\" open=\"(\" separator=\",\" close=\")\"> #'{'pk'}' </foreach>").append(StringUtil.ln())
+        .append(StringUtil.tab(1)).append(TAG_INCLUDE(SQL_ID_SELECT_ORDERBY)).append(StringUtil.ln())
+        .append(TAG_SELECT_END).append(StringUtil.ln(2))
         
         .append("<select  id=\"selectAll\"  resultType=\"ArrayList\"  resultMap=\"resultMap\">").append(StringUtil.ln())
-        .append("\t select m.* from  <include refid=\"table\" /> m  \n <include refid=\"orderby\"/>").append(StringUtil.ln())        
-        .append("</select>").append(StringUtil.ln(2))
+        .append(StringUtil.tab(1)).append("select m.* from  <include refid=\"table\" /> m").append(StringUtil.ln())        
+        .append(StringUtil.tab(1)).append(TAG_INCLUDE(SQL_ID_SELECT_ORDERBY)).append(StringUtil.ln())
+        .append(TAG_SELECT_END).append(StringUtil.ln(2))
         
         .append("<select id=\"count\" resultType=\"int\">").append(StringUtil.ln())
-        .append("\t select count(*) from <include refid=\"table\"/>").append(StringUtil.ln())
-        .append("</select>").append(StringUtil.ln(2))
+        .append(StringUtil.tab(1)).append("select count(*) from <include refid=\"table\"/>").append(StringUtil.ln())
+        .append(TAG_SELECT_END).append(StringUtil.ln(2))
         
         .append("<insert id=\"insertOne\" flushCache=\"true\" >").append(StringUtil.ln())
-        .append("\t insert into <include refid=\"table\"/> ( <include refid=\"colums\"/> ) values ( <include refid=\"insertCols\"/>) ").append(StringUtil.ln())
-        .append("</insert>").append(StringUtil.ln(2))
+        .append(StringUtil.tab(1)).append("insert into <include refid=\"table\"/> ( <include refid=\"colums\"/> ) values  ").append(StringUtil.ln())
+        .append(StringUtil.tab(1)).append("(").append(StringUtil.ln())
+        .append(StringUtil.tab(2)).append(TAG_TRIM_COMMA_START).append(StringUtil.ln())
+        .append(StringUtil.tab(3)).append("<include refid=\"insertCols\"/>").append(StringUtil.ln())
+        .append(StringUtil.tab(2)).append(TAG_TRIM_END).append(StringUtil.ln())
+        .append(StringUtil.tab(1)).append(")").append(StringUtil.ln())
+        .append(TAG_INSERT_END).append(StringUtil.ln(2))
         
         .append("<update id=\"updateOne\" flushCache=\"true\" >").append(StringUtil.ln())
-        .append("\t update <include refid=\"table\"/> set <include refid=\"updateCols\"/> where <include refid=\"pk\" />=#'{'model.{9}'}'").append(StringUtil.ln())        
-        .append("</update>").append(StringUtil.ln(2))
+        .append(StringUtil.tab(1)).append("update <include refid=\"table\"/> set ").append(StringUtil.ln())        
+        .append(StringUtil.tab(2)).append(TAG_TRIM_COMMA_START).append(StringUtil.ln())
+        .append(StringUtil.tab(3)).append("<include refid=\"updateCols\"/>").append(StringUtil.ln())
+        .append(StringUtil.tab(2)).append(TAG_TRIM_END).append(StringUtil.ln())
+        .append(StringUtil.tab(1)).append("where <include refid=\"pk\" />=#'{'model.{9}'}'")
+        .append(TAG_UPDATE_END).append(StringUtil.ln(2))
         
         .append("<delete id=\"deleteEqPk\" flushCache=\"true\">").append(StringUtil.ln())
-        .append("\t delete from <include refid=\"table\"/> where <include refid=\"pk\" /> =#'{'{9}'}'").append(StringUtil.ln())
-        .append("</delete>").append(StringUtil.ln(2))
+        .append(StringUtil.tab(1)).append("delete from <include refid=\"table\"/> where <include refid=\"pk\" /> =#'{'{9}'}'").append(StringUtil.ln())
+        .append(TAG_DELETE_END).append(StringUtil.ln(2))
         
         .append("<delete id=\"deleteInPk\" flushCache=\"true\">").append(StringUtil.ln())
-        .append("\t delete from <include refid=\"table\"/> where <include refid=\"pk\" /> in").append(StringUtil.ln())
-        .append("<foreach item=\"pk\" collection=\"list\" open=\"(\" separator=\",\" close=\")\">#'{'pk'}'</foreach>").append(StringUtil.ln())
-        .append("</delete>").append(StringUtil.ln(2))
+        .append(StringUtil.tab(1)).append("delete from <include refid=\"table\"/> where <include refid=\"pk\" /> in").append(StringUtil.ln())
+        .append(StringUtil.tab(2)).append("<foreach item=\"pk\" collection=\"list\" open=\"(\" separator=\",\" close=\")\">#'{'pk'}'</foreach>").append(StringUtil.ln())
+        .append(TAG_DELETE_END).append(StringUtil.ln(2))
         
         .append("<delete id=\"deleteNotInPk\" flushCache=\"true\">").append(StringUtil.ln())
-        .append("\t delete from <include refid=\"table\"/> where <include refid=\"pk\" /> not in").append(StringUtil.ln())
-        .append("<foreach item=\"pk\" collection=\"list\" open=\"(\" separator=\",\" close=\")\">#'{'pk'}'</foreach>").append(StringUtil.ln())
-        .append("</delete>").append(StringUtil.ln(4))      
+        .append(StringUtil.tab(1)).append("delete from <include refid=\"table\"/> where <include refid=\"pk\" /> not in").append(StringUtil.ln())
+        .append(StringUtil.tab(2)).append("<foreach item=\"pk\" collection=\"list\" open=\"(\" separator=\",\" close=\")\">#'{'pk'}'</foreach>").append(StringUtil.ln())
+        .append(TAG_DELETE_END).append(StringUtil.ln(4))      
         
         
-        .append("<resultMap type=\"{8}\" id=\"viewMap\">\n {6}\n </resultMap>").append(StringUtil.ln(3))
+        .append("<resultMap type=\"{8}\" id=\"viewMap\" extends=\"resultMap\" ></resultMap>").append(StringUtil.ln(3))
+        .append("<sql id=\"selectViewCondition\">\n\t <include refid=\"selectCondition\"/>  \n</sql>")
+        
         
         .append("<select id=\"selectView\" resultType=\"ArrayList\" resultMap=\"viewMap\">").append(StringUtil.ln())
-        .append("\t select m.* <include refid=\"joinColums\"/> from <include refid=\"table\" /> m <include refid=\"join\"/> ").append(StringUtil.ln())
-        .append("<trim prefix=\"where\" prefixOverrides=\"and\">\n{7}</trim>").append(StringUtil.ln())
-        .append("</select>").append(StringUtil.ln())
+        .append(StringUtil.tab(1)).append("select m.* <include refid=\"joinColums\"/> from <include refid=\"table\" /> m <include refid=\"join\"/> ").append(StringUtil.ln())
+        .append(StringUtil.tab(2)).append(TAG_TRIM_CONDITIOM_START).append(StringUtil.ln())
+        .append(StringUtil.tab(3)).append(TAG_INCLUDE(SQL_ID_SELECT_VIEW_CONDITION)).append(StringUtil.ln())        
+        .append(StringUtil.tab(2)).append(TAG_TRIM_END)
+        .append(StringUtil.tab(1)).append(TAG_INCLUDE(SQL_ID_SELECT_ORDERBY)).append(StringUtil.ln())
+        .append(TAG_SELECT_END).append(StringUtil.ln(2))
         
         .append("<select id=\"selectViewUnion\" resultType=\"ArrayList\" resultMap=\"viewMap\">").append(StringUtil.ln())
-        .append("<trim prefixOverrides=\"union\">").append(StringUtil.ln())
-        .append("\t <foreach collection=\"list\" item=\"model\">").append(StringUtil.ln())
-        .append("\t\t <if test=\"model neq null\">").append(StringUtil.ln())
-        .append("\t union select m.* <include refid=\"joinColums\"/> from <include refid=\"table\" /> m <include refid=\"join\"/> ").append(StringUtil.ln())
-        .append("<trim prefix=\"where\" prefixOverrides=\"and\">\n{7}</trim>").append(StringUtil.ln())
-        .append("</if>\n</foreach>\n</trim>").append(StringUtil.ln())
-        .append("</select>").append(StringUtil.ln())
+        .append(StringUtil.tab(1)).append(TAG_TRIM_UNION_START).append(StringUtil.ln())
+        .append(StringUtil.tab(2)).append("<foreach collection=\"list\" item=\"model\">").append(StringUtil.ln())
+        .append(StringUtil.tab(3)).append("<if test=\"model neq null\">").append(StringUtil.ln())
+        .append(StringUtil.tab(4)).append("union select m.* <include refid=\"joinColums\"/> from <include refid=\"table\" /> m <include refid=\"join\"/> ").append(StringUtil.ln())
+        .append(StringUtil.tab(5)).append(TAG_TRIM_CONDITIOM_START).append(StringUtil.ln())
+        .append(StringUtil.tab(6)).append(TAG_INCLUDE(SQL_ID_SELECT_VIEW_CONDITION)).append(StringUtil.ln())       
+        .append(StringUtil.tab(5)).append(TAG_TRIM_END).append(StringUtil.ln())
+        .append(StringUtil.tab(3)).append(TAG_IF_END).append(StringUtil.ln())
+        .append(StringUtil.tab(2)).append(TAG_FOREACH_END).append(StringUtil.ln())
+        .append(StringUtil.tab(1)).append(TAG_TRIM_END).append(StringUtil.ln())        
+        .append(StringUtil.tab(1)).append(TAG_INCLUDE(SQL_ID_SELECT_ORDERBY)).append(StringUtil.ln())
+        .append(TAG_SELECT_END).append(StringUtil.ln(2))
         
         .append("<select id=\"selectViewEqPk\" parameterType=\"String\"  resultMap=\"viewMap\">").append(StringUtil.ln())
-        .append("\t select m.* <include refid=\"joinColums\"/> from <include refid=\"table\" /> m <include refid=\"join\"/> where m.<include refid=\"pk\" /> = #'{'{9}'}'").append(StringUtil.ln())
-        .append("</select>").append(StringUtil.ln(2))
+        .append(StringUtil.tab(1)).append("select m.* <include refid=\"joinColums\"/> from <include refid=\"table\" /> m <include refid=\"join\"/> where m.<include refid=\"pk\" /> = #'{'{9}'}'").append(StringUtil.ln())
+        .append(TAG_SELECT_END).append(StringUtil.ln(2))
         
         .append("<select id=\"selectViewInPk\" resultType=\"ArrayList\" resultMap=\"viewMap\" >").append(StringUtil.ln())
-        .append("\t select m.* <include refid=\"joinColums\"/> from <include refid=\"table\" /> m <include refid=\"join\"/> where m.<include refid=\"pk\" /> in").append(StringUtil.ln())
-        .append("<foreach item=\"pk\" collection=\"list\" open=\"(\" separator=\",\" close=\")\"> #'{'pk'}' </foreach> \n<include refid=\"orderby\"/>").append(StringUtil.ln())
-        .append("</select>").append(StringUtil.ln(2))
+        .append(StringUtil.tab(1)).append("select m.* <include refid=\"joinColums\"/> from <include refid=\"table\" /> m <include refid=\"join\"/> where m.<include refid=\"pk\" /> in").append(StringUtil.ln())
+        .append(StringUtil.tab(1)).append("<foreach item=\"pk\" collection=\"list\" open=\"(\" separator=\",\" close=\")\"> #'{'pk'}' </foreach>").append(StringUtil.ln())
+        .append(StringUtil.tab(1)).append(TAG_INCLUDE(SQL_ID_SELECT_ORDERBY)).append(StringUtil.ln())
+        .append(TAG_SELECT_END).append(StringUtil.ln(2))
         
         .append("<select id=\"selectViewNotInPk\" resultType=\"ArrayList\" resultMap=\"viewMap\" >").append(StringUtil.ln())
-        .append("\t select m.* <include refid=\"joinColums\"/> from <include refid=\"table\" /> m <include refid=\"join\"/> where m.<include refid=\"pk\" /> not in").append(StringUtil.ln())
-        .append("<foreach item=\"pk\" collection=\"list\" open=\"(\" separator=\",\" close=\")\"> #'{'pk'}' </foreach> \n<include refid=\"orderby\"/>").append(StringUtil.ln())
-        .append("</select>").append(StringUtil.ln(2))
+        .append(StringUtil.tab(1)).append("select m.* <include refid=\"joinColums\"/> from <include refid=\"table\" /> m <include refid=\"join\"/> where m.<include refid=\"pk\" /> not in").append(StringUtil.ln())
+        .append(StringUtil.tab(1)).append("<foreach item=\"pk\" collection=\"list\" open=\"(\" separator=\",\" close=\")\"> #'{'pk'}' </foreach>").append(StringUtil.ln())
+        .append(StringUtil.tab(1)).append(TAG_INCLUDE(SQL_ID_SELECT_ORDERBY)).append(StringUtil.ln())
+        .append(TAG_SELECT_END).append(StringUtil.ln(2))
         
         .append("<select  id=\"selectViewAll\"  resultType=\"ArrayList\"  resultMap=\"viewMap\">").append(StringUtil.ln())
-        .append("\t select m.* <include refid=\"joinColums\"/> from  <include refid=\"table\" /> m <include refid=\"join\"/> \n <include refid=\"orderby\"/>").append(StringUtil.ln())        
-        .append("</select>").append(StringUtil.ln(2))
+        .append(StringUtil.tab(1)).append("select m.* <include refid=\"joinColums\"/> from  <include refid=\"table\" /> m <include refid=\"join\"/>").append(StringUtil.ln())        
+        .append(StringUtil.tab(1)).append(TAG_INCLUDE(SQL_ID_SELECT_ORDERBY)).append(StringUtil.ln())
+        .append(TAG_SELECT_END).append(StringUtil.ln(2))
         
         .append("</mapper>")
     	;
@@ -425,12 +420,13 @@ public class MapperTemplate {
     			,this.getDbCols()  //3
     			,this.getInsertCols()  //4
     			,this.getUpdateCols()   //5
-    			,this.getResultMap()   //6
-    			,this.getCondition()  //7
+    			,this.getResultMapPols()   //6
+    			,this.getConditions()  //7
     			,this.modelClass.getName() //8
     			,this.getPkCol()  //9
     			,this.getJavaCols() //10
     			,this.getEnum()  //11
+    			,this.getSubClass().getName()  //12
     	);
 		return lStrMapper;
 	   
@@ -503,7 +499,7 @@ public class MapperTemplate {
 		cols.add("wekk_ddd");
 		cols.add("wexdfskk_ddd");
 		cols.add("adafwekk_drsfdd_adff");
-		MapperTemplate mt=new MapperTemplate("xxx", "id", cols);
+		//MapperTemplate mt=new MapperTemplate("xxx", "id", cols);
 		
 	}
 	

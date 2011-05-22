@@ -10,35 +10,25 @@ import java.sql.SQLException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 
+import javax.swing.text.MaskFormatter;
+
 
 import com.smartken.kia.core.model.IMapper;
 
-public class Generator {
+public class MapperFactory {
 
+	public MapperFactory(Connection connection,Class<? extends MapperTemplate> cls){
+		this.connection=connection;
+		this.cls=cls;
+	}
+	
 	private Connection connection;
-
-	
-
-
-	public void setConnection(Connection connection) {
-		this.connection = connection;
-	}
+    private Class<? extends MapperTemplate> cls;
 
 
 	
-	public  MapperTemplate getMapperTemplate(String table){
-		return getMapperTemplate(table, "id",null,null);
-	}
-	
-	public  MapperTemplate getMapperTemplate(String table,String pk){
-          return getMapperTemplate(table, pk, null, null);
-	}
-	
-	public  MapperTemplate getMapperTemplate(String table,String pk,Class nameSpace){
-	   return getMapperTemplate(table, pk, nameSpace,null);
-	}
-	
-	public  MapperTemplate getMapperTemplate(String table,String pk,Class nameSpace,Class modelClass){
+	public  MapperTemplate createMapperTemplate(String table,String pk,Class nameSpace,Class modelClass) throws Exception{
+		if(modelClass==null || nameSpace==null)throw new Exception("MapperFactory creating error: nameSpace and modelclass can't be null");
 		MapperTemplate mapper=null;
 		try {
 			
@@ -51,17 +41,27 @@ public class Generator {
 		    ArrayList<String> dbColTypes=new ArrayList<String>();
 		    ArrayList<Integer> precisions=new ArrayList<Integer>();
 		    for (int i = 1; i <= mtdata.getColumnCount(); i++) {
-				dbColNames.add(mtdata.getColumnName(i));
-				dbColTypes.add(mtdata.getColumnTypeName(i));
+		    	String colName=mtdata.getColumnName(i);
+		    	String colType=mtdata.getColumnTypeName(i);
+				dbColNames.add(colName);
+				dbColTypes.add(colType);
 				try{
 				precisions.add(mtdata.getPrecision(i));
 				}catch (NumberFormatException nfe){
 					precisions.add(100);
 				}
 			}
-		    mapper=new MapperTemplate(table, pk, dbColNames,dbColTypes,precisions);
-		    if(modelClass!=null)mapper.setModelName(modelClass);
-		    if(nameSpace!=null)mapper.setNamespace(nameSpace);
+		    
+		    if(OracleMapperTemplate.class.equals(this.cls)){
+			    mapper=new OracleMapperTemplate(table, pk, dbColNames,dbColTypes,precisions);
+
+		    }else if(MySQLMapperTemplate.class.equals(this.cls)){
+			    mapper=new MySQLMapperTemplate(table, pk, dbColNames,dbColTypes,precisions);
+		    }else{
+		    	throw new Exception(this.cls.getName()+" is not a MapperTemplate");
+		    } 
+		    mapper.setModelName(modelClass);
+		    mapper.setNamespace(nameSpace);
 		    return mapper;
 		}  catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -74,7 +74,7 @@ public class Generator {
 	
 	public static void main(String[] args)
 	{
-//        MapperTemplate mt=getMapperTemplate("pp_personc","staff_no");
+//        MapperTemplate mt=createMapperTemplate("pp_personc","staff_no");
 //        System.err.println(mt.getDbCols());
 //        System.err.println(mt.getInsertCols());
 //        System.err.println(mt.getUpdateCols());
