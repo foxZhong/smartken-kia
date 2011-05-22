@@ -115,6 +115,18 @@ public class StringUtil {
 		return lnReturn;
 	}
 	
+	public static String tab(){
+		return tab(1);
+	}
+	
+	public static String tab(int ln){
+		String lnReturn="";
+		for(int i=1;i<=ln;i++){
+			lnReturn+="\t";
+		}
+		return lnReturn;
+	}
+	
 	public static ArrayList<String> format(String pattern,ArrayList pListValue,Object...params){
 		ArrayList<String> lListReturn=new ArrayList(); 
 		for(Iterator it=pListValue.iterator();it.hasNext();){

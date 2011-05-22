@@ -26,7 +26,17 @@ public class EasyUiUtil {
 	public static String JSON_TREE_CHECKED="checked";
 	public static String JSON_DATAGRID_TOTAL="total";
 	public static String JSON_DATAGRID_ROWS="rows";
-	
+	public static String EDITOR_TYPE="type";
+	public static String EDITOR_OPTIONS="options";
+	public static String EDITOR_TYPE_TEXT="text";
+	public static String EDITOR_TYPE_HIDDEN="hidden";
+	public static String EDITOR_TYPE_TEXTAREA="textarea";
+	public static String EDITOR_TYPE_CHECKBOX="checkbox";
+	public static String EDITOR_TYPE_NUMBERBOX="numberbox";
+	public static String EDITOR_TYPE_VALIDATEBOX="validatebox";
+	public static String EDITOR_TYPE_DATEBOX="datebox";
+	public static String EDITOR_TYPE_COMBOBOX="combobox";
+	public static String EDITOR_TYPE_COMBOTREE="combotree";
 	
 	public static JSONObject toJsonDataGrid(ArrayList<IFormatterModel> list){
 		JSONArray jarr=ObjectUtil.toJsonArray(list);
@@ -160,6 +170,79 @@ public class EasyUiUtil {
 		column.put(EasyUiModel.DataGrid.ColumnProperties.FIELD,"xx",true);
 		column.put(EasyUiModel.DataGrid.ColumnProperties.FORMATTER,"operaFormatter");
 		return column;
+	}
+	
+	public static JsMapModel createHiddenEditor(){
+		JsMapModel editor=new JsMapModel();
+		editor.put(EasyUiUtil.EDITOR_TYPE, EasyUiUtil.EDITOR_TYPE_HIDDEN,true);
+		return editor;
+	}
+	
+	public static JsMapModel createTextEditor(boolean readonly){
+		JsMapModel editor=new JsMapModel();
+		editor.put(EasyUiUtil.EDITOR_TYPE, EasyUiUtil.EDITOR_TYPE_TEXT,true);
+		
+		return editor;
+	}
+	
+	public static JsMapModel createTextareaEditor(boolean readonly){
+		JsMapModel editor=new JsMapModel();
+		editor.put(EasyUiUtil.EDITOR_TYPE, EasyUiUtil.EDITOR_TYPE_TEXTAREA,true);
+		return editor;
+	}
+	
+	public static JsMapModel createIntEditor(boolean required){
+		JsMapModel editor=new JsMapModel();
+		editor.put(EasyUiUtil.EDITOR_TYPE,EasyUiUtil.EDITOR_TYPE_NUMBERBOX,true);
+		JsMapModel opts=new JsMapModel();
+		opts.put(EasyUiModel.NumberBox.Properties.PRECISION, 0);
+		editor.put(EasyUiUtil.EDITOR_OPTIONS, opts);
+		return editor;
+	}
+	
+	public static JsMapModel createDoubleEditor(boolean required){
+		JsMapModel editor=new JsMapModel();
+		editor.put(EasyUiUtil.EDITOR_TYPE,EasyUiUtil.EDITOR_TYPE_NUMBERBOX,true);
+		JsMapModel opts=new JsMapModel();
+		opts.put(EasyUiModel.NumberBox.Properties.PRECISION, 2);
+		editor.put(EasyUiUtil.EDITOR_OPTIONS, opts);
+		return editor;
+	}
+	
+	public static JsMapModel createComboboxEditor(){
+		JsMapModel editor=new JsMapModel();
+		editor.put(EasyUiUtil.EDITOR_TYPE,EasyUiUtil.EDITOR_TYPE_COMBOBOX,true);
+		JsMapModel opts=new JsMapModel();
+		//opts.put(EasyUiModel.NumberBox.Properties.PRECISION, 2);
+		editor.put(EasyUiUtil.EDITOR_OPTIONS, opts);
+		return editor;
+	}
+	
+	public static JsMapModel createComboTreeEditor(){
+		JsMapModel editor=new JsMapModel();
+		editor.put(EasyUiUtil.EDITOR_TYPE,EasyUiUtil.EDITOR_TYPE_COMBOTREE,true);
+		JsMapModel opts=new JsMapModel();
+		opts.put(EasyUiModel.NumberBox.Properties.PRECISION, 2);
+		//editor.put(EasyUiUtil.EDITOR_OPTIONS, opts);
+		return editor;
+	}
+	
+	public static JsMapModel createCheckboxEditor(){
+		JsMapModel editor=new JsMapModel();
+		editor.put(EasyUiUtil.EDITOR_TYPE,EasyUiUtil.EDITOR_TYPE_CHECKBOX,true);
+		//JsMapModel opts=new JsMapModel();
+		//opts.put(EasyUiModel.NumberBox.Properties.PRECISION, 2);
+		//editor.put(EasyUiUtil.EDITOR_OPTIONS, opts);
+		return editor;
+	}
+	
+	public static JsMapModel createDateboxEditor(){
+		JsMapModel editor=new JsMapModel();
+		editor.put(EasyUiUtil.EDITOR_TYPE,EasyUiUtil.EDITOR_TYPE_DATEBOX,true);
+		//JsMapModel opts=new JsMapModel();
+		//opts.put(EasyUiModel.NumberBox.Properties.PRECISION, 2);
+		//editor.put(EasyUiUtil.EDITOR_OPTIONS, opts);
+		return editor;
 	}
 	
 }

@@ -1,9 +1,13 @@
 package com.smartken.kia.core.plugin.mybatis;
 
 import java.math.BigDecimal;
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.Bidi;
+import java.text.MessageFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.smartken.kia.core.enums.StringFormatEnum;
 import com.smartken.kia.core.jdbc.dialect.DB2Dialect;
@@ -13,22 +17,36 @@ import org.apache.ibatis.type.JdbcType;
 
 public class ColumnTemplate {
 
+	public static enum MysqlJdbcType{
+		TEXT,DATETIME
+	}
+	
+	public static enum OracleJdbcType{
+		VARCHAR2
+	}
+	
 	public static String DB_TYPE_VARCHAR2="VARCHAR2";
 	public static String DB_TYPE_VARCHAR="VARCHAR";
 	public static String DB_TYPE_CHAR="CHAR";
 	public static String DB_TYPE_TEXT="TEXT";
 	public static String DB_TYPE_INTEGER="INTEGER";
+	public static String DB_TYPE_INT="INT";
 	public static String DB_TYPE_NUMBER="NUMBER";
 	public static String DB_TYPE_FLOAT="FLOAT";
 	public static String DB_TYPE_DOUBLE="DOUBLE";
 	public static String DB_TYPE_DATE="DATE";
+	public static String DB_TYPE_TIME="TIME";
+	public static String DB_TYPE_DATETIME="DATETIME";
 	public static String DB_TYPE_TIMESTAMP="TIMESTAMP";
 	public static String DB_TYPE_BLOB="BLOB";
+	public static String DB_TYPE_LONGBLOB="LONGBLOB";
 	public static String JAVA_TYPE_STRING="String";
 	public static String JAVA_TYPE_INTEGER="Integer";
 	public static String JAVA_TYPE_BYTES="byte[]";
 
-	
+	public static String[] DB_TYPES_CHAR=new String[]{DB_TYPE_VARCHAR2,DB_TYPE_VARCHAR,DB_TYPE_CHAR,DB_TYPE_TEXT};
+	public static String[] DB_TYPES_NUMBER=new String[]{DB_TYPE_INT,DB_TYPE_INTEGER,DB_TYPE_NUMBER,DB_TYPE_FLOAT,DB_TYPE_DOUBLE};
+	public static String[] DB_TYPES_DATETIME=new String[]{DB_TYPE_DATE,DB_TYPE_TIME,DB_TYPE_DATETIME,DB_TYPE_TIMESTAMP};
 	
 	public static final int PREC_FLOAT=126;
 	public static final int PREC_INTEGER=38;
@@ -40,31 +58,24 @@ public class ColumnTemplate {
 	private String jdbcType;
 	private int precision;
 	
-	public ColumnTemplate(String dbColName){
-	
-		this.dbColName=dbColName;
-		this.dbColType=DB_TYPE_VARCHAR;
-		this.javaName=toJavaColName(dbColName);
-		this.javaType=JAVA_TYPE_STRING;
-		this.jdbcType=toJdbcType(DB_TYPE_VARCHAR);
-	}
-	
-	public ColumnTemplate(String dbColName,String dbColType){
-		this.dbColName=dbColName;
-		this.dbColType=dbColType;
-		this.javaName=toJavaColName(dbColName);
-		this.javaType=toJavaType(dbColType);
-		this.jdbcType=toJdbcType(dbColType);
-	}
+
 	
 	public ColumnTemplate(String dbColName,String dbColType,int perc){
 		this.dbColName=dbColName;
 		this.dbColType=dbColType;
 		this.precision=perc;
-		this.javaName=toJavaColName(dbColName);
-		this.javaType=toJavaType(dbColType);
-		this.jdbcType=toJdbcType(dbColType);
-		
+		this.javaName=getJavaColName(dbColName);
+		//this.javaType=toJavaType(dbColType);
+		//this.jdbcType=toJdbcType(dbColType);
+		try {
+			Enum enumJdbcType=this.getJdbcType(dbColType, perc);
+			Class clsJavaType=this.getJavaClass(enumJdbcType);
+			this.jdbcType=enumJdbcType.name();
+			this.javaType=clsJavaType.getSimpleName();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public String getDbColName() {
@@ -92,100 +103,98 @@ public class ColumnTemplate {
 		return precision;
 	}
 
-	public static String toJavaColName(String lStrDbColName)
+	public static String getJavaColName(String lStrDbColName)
 	{
 		if(StringUtil.isBlank(lStrDbColName))return "";
 		StringBuffer lSbrModelColName=new StringBuffer("");
 		String[] lSubNames=lStrDbColName.split("_");
+		boolean isFirstSubNameLen1=false;
 		for (int i = 0; i < lSubNames.length; i++) {
 			String lSubName=lSubNames[i].toLowerCase();
 			if(i==0){
-				if(lSubName.length()>1){
-					lSbrModelColName.append(lSubName);
-				}
-			}else if(i==1 && lSbrModelColName.length()==0)
+				lSbrModelColName.append(lSubName);
+				isFirstSubNameLen1=lSbrModelColName.length()==1;
+			}
+			else if(i==1 && isFirstSubNameLen1)
 			{
 				lSbrModelColName.append(lSubName);
 			}
 			else{
-			lSbrModelColName.append(StringUtil.format(lSubName, StringFormatEnum.upcaseFirstChar));
+			   lSbrModelColName.append(StringUtil.format(lSubName, StringFormatEnum.upcaseFirstChar));
 			}
 		}
 		return lSbrModelColName.toString();
 	}
 	
 	
-	public String toJavaType(String lDbType){
-		if(StringUtil.isBlank(lDbType))return "";
-		if(ObjectUtil.isInArray(lDbType.toUpperCase(), 
-		    new String[]{DB_TYPE_CHAR,DB_TYPE_TEXT,DB_TYPE_VARCHAR2})
-		 ){
-			return String.class.getSimpleName();
-		}else if(ObjectUtil.isInArray(lDbType.toUpperCase(), new String[]{DB_TYPE_INTEGER,DB_TYPE_NUMBER,DB_TYPE_FLOAT,DB_TYPE_DOUBLE})){
-			String re="";
-			switch (this.precision) {
-			case PREC_FLOAT: re= Double.class.getSimpleName(); break;
-			case PREC_INTEGER: re= Integer.class.getSimpleName();break;
-			default:re= Integer.class.getSimpleName();break;
-			}
-			return re;
-		}else if(ObjectUtil.isInArray(lDbType.toUpperCase(), 
-                new String[]{DB_TYPE_DATE}  )
-        ){
-			return Date.class.getSimpleName();
-		}else if(ObjectUtil.isInArray(lDbType.toUpperCase(), 
-                new String[]{DB_TYPE_TIMESTAMP}  )
-        ){
-			return Timestamp.class.getSimpleName();
-		}
-		else if(ObjectUtil.isInArray(lDbType.toUpperCase(),
-				new String[]{DB_TYPE_BLOB})){
-			return JAVA_TYPE_BYTES;
-		}
-		else 
-		{
-			return String.class.getSimpleName();
-		}
+
+	
+	
+	private static Map<String, Enum> mapJdbcEnum;
+	private static Map<Enum, Class> mapJavaClass;
+	
+	public static Enum getJdbcType(String dbType,int perc) throws Exception{
+		if(dbType==null||perc==0)throw new Exception();
+	 	Enum jdbcType=null;
+	 	if(mapJdbcEnum==null){
+	 		mapJdbcEnum=new HashMap<String, Enum>();
+	 		mapJdbcEnum.put(DB_TYPE_CHAR, JdbcType.CHAR);
+	 		mapJdbcEnum.put(DB_TYPE_VARCHAR, JdbcType.VARCHAR);
+	 		mapJdbcEnum.put(DB_TYPE_VARCHAR2, OracleJdbcType.VARCHAR2);
+	 		mapJdbcEnum.put(DB_TYPE_TEXT, MysqlJdbcType.TEXT);
+	 		mapJdbcEnum.put(DB_TYPE_DOUBLE, JdbcType.DOUBLE);
+	 		mapJdbcEnum.put(DB_TYPE_FLOAT, JdbcType.FLOAT);
+	 		mapJdbcEnum.put(DB_TYPE_INTEGER, JdbcType.INTEGER);
+	 		mapJdbcEnum.put(DB_TYPE_INT, JdbcType.INTEGER);
+	 		mapJdbcEnum.put(DB_TYPE_DATE, JdbcType.DATE);
+	 		mapJdbcEnum.put(DB_TYPE_DATETIME, JdbcType.DATE);
+	 		mapJdbcEnum.put(DB_TYPE_TIME, JdbcType.TIME);
+	 		mapJdbcEnum.put(DB_TYPE_TIMESTAMP, JdbcType.TIMESTAMP);
+	 	}
+	 	if(DB_TYPE_NUMBER.equalsIgnoreCase(dbType)){
+			switch (perc) {
+			case PREC_FLOAT: jdbcType=JdbcType.FLOAT;
+			case PREC_INTEGER: jdbcType=JdbcType.INTEGER;
+			default:jdbcType=JdbcType.FLOAT;
+		 }
+	 	}else{
+		 	jdbcType=mapJdbcEnum.get(dbType);
+	 	}
+	 	if(jdbcType==null){
+		 	  String errMsg=MessageFormat.format("dbType:{0} can't ref to JdbcType",dbType );
+		 	  throw new Exception(errMsg);
+		} 
+	 	return jdbcType;
 	}
 	
-	public String toJdbcType(String lDbType){
-		if(StringUtil.isBlank(lDbType))return "";
-		if(ObjectUtil.isInArray(lDbType.toUpperCase(), 
-		    new String[]{DB_TYPE_VARCHAR2,DB_TYPE_VARCHAR})
-		 ){
-			return JdbcType.VARCHAR.toString();
-		}else if(ObjectUtil.isInArray(lDbType.toUpperCase(), new String[]{DB_TYPE_INTEGER,DB_TYPE_NUMBER,DB_TYPE_FLOAT}) ){
-			switch (this.precision) {
-			case PREC_FLOAT: return JdbcType.FLOAT.toString();
-			case PREC_INTEGER: return JdbcType.INTEGER.toString();
-			default:return JdbcType.INTEGER.toString();
-			}
-		}
-		else if(ObjectUtil.isInArray(lDbType.toUpperCase(), 
-				new String[]{DB_TYPE_DATE})
-		 ){
-			return JdbcType.DATE.toString();
-		}
-		else if(ObjectUtil.isInArray(lDbType.toUpperCase(), 
-				new String[]{DB_TYPE_TIMESTAMP})
-		 ){
-			return JdbcType.TIMESTAMP.toString();
-		}
-		else if(ObjectUtil.isInArray(lDbType.toUpperCase(), 
-				new String[]{DB_TYPE_BLOB})
-		 ){
-			return JdbcType.BLOB.toString();
-		}
-		else 
-		{
-		    return JdbcType.VARCHAR.toString();
-		}
+	public static Class getJavaClass(Enum jdbcType) throws Exception{
+	 	Class javaClass=null;
+	 	if(mapJavaClass==null){
+	 		mapJavaClass=new HashMap<Enum, Class>();
+	 		mapJavaClass.put(JdbcType.CHAR,String.class);
+	 		mapJavaClass.put(JdbcType.VARCHAR,String.class);
+	 		mapJavaClass.put(OracleJdbcType.VARCHAR2,String.class);
+	 		mapJavaClass.put(MysqlJdbcType.TEXT, String.class);
+	 		mapJavaClass.put(JdbcType.DOUBLE,Double.class);
+	 		mapJavaClass.put(JdbcType.FLOAT,Double.class);
+	 		mapJavaClass.put(JdbcType.INTEGER,Integer.class);
+	 		mapJavaClass.put(JdbcType.DATE,Date.class);
+	 		mapJavaClass.put(JdbcType.TIME,Date.class);
+	 		mapJavaClass.put(JdbcType.TIMESTAMP,Timestamp.class);
+	 	}
+	 	javaClass=mapJavaClass.get(jdbcType);
+	 	if(javaClass==null){
+		 	  String errMsg=MessageFormat.format("jdbcType:{0} can't ref to JavaClass",jdbcType );
+		 	  throw new Exception(errMsg);
+		} 
+	 	return javaClass;
 	}
+	
 	
 	
 	
 	public static void main(String[] args){
-		ColumnTemplate ct=new ColumnTemplate("xxxx",DB_TYPE_VARCHAR);
+		//ColumnTemplate ct=new ColumnTemplate("xxxx",DB_TYPE_VARCHAR);
 	}
 	
 }
