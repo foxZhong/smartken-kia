@@ -36,7 +36,7 @@ final public class MySQLMapperTemplate extends MapperTemplate {
 				ct.getJavaName()  //0
 				,ct.getDbColName()  //1
 				,ct.getJdbcType()  //2
-				,ct.getJavaType()  //3
+				,ct.getJavaType().getSimpleName()  //3
 				,"'%Y-%m-%d'"
 		);
 		return str;
@@ -49,7 +49,7 @@ final public class MySQLMapperTemplate extends MapperTemplate {
 		String str=MessageFormat.format(pattern
 				,ct.getJavaName()  //0
 				,ct.getJdbcType()  //1
-				,ct.getJavaType()  //2
+				,ct.getJavaType().getSimpleName()  //2
 		);
 		return str;
 	}
@@ -67,7 +67,7 @@ final public class MySQLMapperTemplate extends MapperTemplate {
 				,ct.getDbColName()   //0
 				,"model."+ct.getJavaName()   //1
 				,ct.getJdbcType()  //2
-				,ct.getJavaType()
+				,ct.getJavaType().getSimpleName()
 		);
 		}
 		return str;
@@ -85,14 +85,14 @@ final public class MySQLMapperTemplate extends MapperTemplate {
 				ct.getDbColName(),   //1
 				ct.getJavaName(),   //2
 				ct.getJdbcType(),   //3  
-				ct.getJavaType()  //4
+				ct.getJavaType().getSimpleName()  //4
 		  );
 		}else {
 		   str=MessageFormat.format(patternResult,
 						ct.getDbColName(),   //1
 						ct.getJavaName(),   //2
 						ct.getJdbcType(),   //3  
-						ct.getJavaType()  //4
+						ct.getJavaType().getSimpleName()  //4
 				  );
 		}
 		return str;

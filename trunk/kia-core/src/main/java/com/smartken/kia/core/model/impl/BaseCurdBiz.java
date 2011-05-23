@@ -282,16 +282,16 @@ public abstract class BaseCurdBiz implements IBaseCrudBiz {
 
 
 
-	public PageArrayList getUnionModel(List listQuery, PageBounds pPage) {
+	public PageArrayList getModel(List listQuery, PageBounds pPage) {
 		// TODO Auto-generated method stub
-		ArrayList listModel=this.getUnionModel(listQuery);
+		ArrayList listModel=this.getModel(listQuery);
         PageArrayList pageList=new PageArrayList(listModel, pPage);
         return pageList;
 	}
 
 
 
-	public ArrayList getUnionModel(List querys) {
+	public ArrayList getModel(List querys) {
 		// TODO Auto-generated method stub
         ArrayList listModel=new ArrayList();
         try{
