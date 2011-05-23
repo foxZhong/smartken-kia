@@ -23,7 +23,7 @@ final public class MySQLMapperTemplate extends MapperTemplate {
 
 
 	@Override
-	public String getCondition(ColumnTemplate ct) {
+	public String getCondition(ColumnTemplate ct,Q q) {
 		// TODO Auto-generated method stub
 		String str="";
 		String pattern="<if test=\"model.{0} neq null\">and m.{1}=#'{'model.{0},jdbcType={2} javaType={3} '}' </if> ";

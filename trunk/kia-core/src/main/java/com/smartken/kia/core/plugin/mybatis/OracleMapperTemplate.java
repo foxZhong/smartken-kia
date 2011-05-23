@@ -3,6 +3,7 @@ package com.smartken.kia.core.plugin.mybatis;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 
+
 import com.smartken.kia.core.util.ObjectUtil;
 
 final public class OracleMapperTemplate extends MapperTemplate{
@@ -16,15 +17,16 @@ final public class OracleMapperTemplate extends MapperTemplate{
 	protected Class getSubClass() {
 		// TODO Auto-generated method stub
 		return this.getClass();
-	}
+	} 
 
 	@Override
-	public String getCondition(ColumnTemplate ct) {
+	public String getCondition(ColumnTemplate ct,Q q) {
 		// TODO Auto-generated method stub
 		String str="";
-		String pattern="<if test=\"model.{0} neq null\">and m.{1}=#'{'model.{0},jdbcType={2} javaType={3} '}' </if> ";
-		String datePattern="<if test=\"model.{0} neq null\">and to_char(m.{1},{4})= to_char(#'{'model.{0},jdbcType={2} javaType={3} '}',{4}) </if> ";
-		String tempPattern=pattern;
+		String pattern="<if test=\"model.{0} neq null\">and m.{1} {4} #'{'model.{0},jdbcType={2} javaType={3} '}' </if> ";
+		String datePattern="<if test=\"model.{0} neq null\">and to_char(m.{1},{5}) {4} to_char(#'{'model.{0},jdbcType={2} javaType={3} '}',{5}) </if> ";
+		String tempPattern=pattern;		
+		String symbol="=";
 		if(ObjectUtil.isInArray(ct.getDbColType().toUpperCase(), new String[]{ ColumnTemplate.DB_TYPE_DATE,ColumnTemplate.DB_TYPE_TIMESTAMP}) ){
 			tempPattern=datePattern;
 		}
@@ -33,7 +35,8 @@ final public class OracleMapperTemplate extends MapperTemplate{
 				,ct.getDbColName()  //1
 				,ct.getJdbcType()  //2
 				,ct.getJavaType()  //3
-				,"'YYYY-MM-DD'"
+				,symbol              //4
+				,"'YYYY-MM-DD'"   //5
 		);
 		return str;
 	}
@@ -56,7 +59,7 @@ final public class OracleMapperTemplate extends MapperTemplate{
 		String str="";
 		String pattern="{0}=#'{'{1},jdbcType={2},javaType={3}'}'";
 		if(ct.getDbColName().equalsIgnoreCase(pk)){
-			str=MessageFormat.format("<if test=\"pk neq null\">,{0}=#'{'pk'}'</if>\n",pk);
+			str=MessageFormat.format("<if test=\"pk neq null\">{0}=#'{'pk'}'</if>",pk);
 		
 		}else{
 		    str=MessageFormat.format(pattern
