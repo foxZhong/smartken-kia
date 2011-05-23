@@ -10,6 +10,7 @@ import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -24,9 +25,30 @@ import com.smartken.kia.core.util.StringUtil;
 
 public abstract class MapperTemplate {
 
+	protected static enum Q{
+		lt,lte,gte,gt,like,neq
+	}
+	
+	private static Map<Enum<Q>, String> mapQ2Symbol;
+	
+	public static String getSymbol(Enum<Q> en){
+		if(mapQ2Symbol==null){
+			mapQ2Symbol=new HashMap<Enum<Q>, String>();
+			mapQ2Symbol.put(Q.lt, "&lt;");
+			mapQ2Symbol.put(Q.lte,"&lt;=");
+			mapQ2Symbol.put(Q.gt, "&gt;");
+			mapQ2Symbol.put(Q.gte,"&gt;=");
+			mapQ2Symbol.put(Q.like,"like");
+			mapQ2Symbol.put(Q.neq,"!=");
+			//mapQ2Symbol.put(Q.eq,"=");
+		}
+		return mapQ2Symbol.get(en); 
+	}
+	
+	
 	protected static String XML_UTF8="<?xml version=\"1.0\" encoding=\"UTF-8\" ?>";
 	protected static String DOCTYPE_MYBATIS3="<!DOCTYPE mapper PUBLIC \"-//mybatis.org//DTD Mapper 3.0//EN\" \"http://mybatis.org/dtd/mybatis-3-mapper.dtd\">";
-	protected static String TAG_TRIM_CONDITIOM_START="<trim prefix=\"where\" prefixOverrides=\"and|or\" suffixOverrides=\"and|or\">";
+	protected static String TAG_TRIM_CONDITIOM_START="<trim prefix=\"where 1=2 or (\" suffix=\")\" prefixOverrides=\"and|or\" suffixOverrides=\"and|or\">";
 	protected static String TAG_TRIM_COMMA_START="<trim  prefixOverrides=\",\" suffixOverrides=\",\">";
 	protected static String TAG_TRIM_UNION_START="<trim  prefixOverrides=\"union\" suffixOverrides=\"union\">";
 	protected static String TAG_TRIM_END="</trim>";
@@ -223,7 +245,7 @@ public abstract class MapperTemplate {
 		return lSbrReturn.toString();
 	}
 	
-	public abstract String getCondition(ColumnTemplate ct);
+	public abstract String getCondition(ColumnTemplate ct,Q q);
 	
 	public String getConditions(){
 		if(cols==null)return "";
@@ -233,7 +255,7 @@ public abstract class MapperTemplate {
 		//String datePattern="<if test=\"model.{0} neq null\">and to_char(m.{1},{4})= to_char(#'{'model.{0},jdbcType={2} javaType={3} '}',{4}) </if> ";
 		for(int i=0;i<colSize;i++){
 			ColumnTemplate tempCol=cols.get(i);
-			String tempStr=this.getCondition(tempCol);
+			String tempStr=this.getCondition(tempCol,null);
 			lSbrReturn.append(tempStr).append("\n");
 		}
 		return lSbrReturn.toString();
@@ -264,7 +286,7 @@ public abstract class MapperTemplate {
     	pattern
     	.append(XML_UTF8).append(StringUtil.ln(1))
         .append("<!--").append(StringUtil.ln(1))
-    	.append(StringUtil.tab()).append("Create Date:").append(sdf.format(new Date()))
+    	.append(StringUtil.tab()).append("Create Date:").append(sdf.format(new Date())).append(StringUtil.ln(1))
         .append(StringUtil.tab()).append("MapperTemplate:{12}").append(StringUtil.ln(1))
         .append(StringUtil.tab()).append("Model:{8} ").append(StringUtil.ln(3))
         .append(" public static enum F '{' \n  {11}  \n '}' ").append(StringUtil.ln(2))

@@ -21,9 +21,6 @@ public class ColumnTemplate {
 		TEXT,DATETIME
 	}
 	
-	public static enum OracleJdbcType{
-		VARCHAR2
-	}
 	
 	public static String DB_TYPE_VARCHAR2="VARCHAR2";
 	public static String DB_TYPE_VARCHAR="VARCHAR";
@@ -140,7 +137,7 @@ public class ColumnTemplate {
 	 		mapJdbcEnum=new HashMap<String, Enum>();
 	 		mapJdbcEnum.put(DB_TYPE_CHAR, JdbcType.CHAR);
 	 		mapJdbcEnum.put(DB_TYPE_VARCHAR, JdbcType.VARCHAR);
-	 		mapJdbcEnum.put(DB_TYPE_VARCHAR2, OracleJdbcType.VARCHAR2);
+	 		mapJdbcEnum.put(DB_TYPE_VARCHAR2, JdbcType.VARCHAR);
 	 		mapJdbcEnum.put(DB_TYPE_TEXT, MysqlJdbcType.TEXT);
 	 		mapJdbcEnum.put(DB_TYPE_DOUBLE, JdbcType.DOUBLE);
 	 		mapJdbcEnum.put(DB_TYPE_FLOAT, JdbcType.FLOAT);
@@ -153,8 +150,8 @@ public class ColumnTemplate {
 	 	}
 	 	if(DB_TYPE_NUMBER.equalsIgnoreCase(dbType)){
 			switch (perc) {
-			case PREC_FLOAT: jdbcType=JdbcType.FLOAT;
-			case PREC_INTEGER: jdbcType=JdbcType.INTEGER;
+			case PREC_FLOAT: jdbcType=JdbcType.FLOAT;break;
+			case PREC_INTEGER: jdbcType=JdbcType.INTEGER;break;
 			default:jdbcType=JdbcType.FLOAT;
 		 }
 	 	}else{
@@ -173,7 +170,6 @@ public class ColumnTemplate {
 	 		mapJavaClass=new HashMap<Enum, Class>();
 	 		mapJavaClass.put(JdbcType.CHAR,String.class);
 	 		mapJavaClass.put(JdbcType.VARCHAR,String.class);
-	 		mapJavaClass.put(OracleJdbcType.VARCHAR2,String.class);
 	 		mapJavaClass.put(MysqlJdbcType.TEXT, String.class);
 	 		mapJavaClass.put(JdbcType.DOUBLE,Double.class);
 	 		mapJavaClass.put(JdbcType.FLOAT,Double.class);

@@ -14,7 +14,6 @@ import javax.swing.text.MaskFormatter;
 import com.smartken.kia.core.pager.PageArrayList;
 import com.smartken.kia.core.pager.PageBounds;
 import com.smartken.kia.core.pager.PageList;
-import com.smartken.kia.core.enums.QueryEnum;
 import com.smartken.kia.core.model.IBaseCrudBiz;
 import com.smartken.kia.core.model.IMapper;
 
