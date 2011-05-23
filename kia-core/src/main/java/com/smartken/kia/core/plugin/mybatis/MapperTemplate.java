@@ -101,7 +101,7 @@ public abstract class MapperTemplate {
 	
 	public String getPkCol(){
 		String pattern="{0},jdbcType={1},javaType={2}";
-		String pk=MessageFormat.format(pattern, this.pkColumn.getJavaName(),this.pkColumn.getJdbcType(),this.pkColumn.getJavaType());
+		String pk=MessageFormat.format(pattern, this.pkColumn.getJavaName(),this.pkColumn.getJdbcType(),this.pkColumn.getJavaType().getSimpleName());
 		return pk;
 	}
 	
@@ -215,7 +215,7 @@ public abstract class MapperTemplate {
 		for(int i=0;i<colSize;i++){
 			ColumnTemplate tempCol=cols.get(i);
 			String tempStr=MessageFormat.format(pattern,
-					tempCol.getJavaType(),  //0
+					tempCol.getJavaType().getSimpleName(),  //0
 					tempCol.getJavaName()  //1
 					,tempCol.getDbColName()  //2
 					,tempCol.getDbColType()  //3
@@ -299,7 +299,7 @@ public abstract class MapperTemplate {
     	.append("<sql id=\"colums\">\n{3} \n</sql>").append(StringUtil.ln(2))
     	.append("<sql id=\"insertCols\">\n{4}\n</sql>").append(StringUtil.ln(2))
     	.append("<sql id=\"updateCols\">\n{5}\n</sql>").append(StringUtil.ln(2))
-    	.append("<sql id=\""+SQL_ID_SELECT_ORDERBY+"\">order by {2} desc </sql>").append(StringUtil.ln(2))
+    	.append("<sql id=\""+SQL_ID_SELECT_ORDERBY+"\">order by m.{2} desc </sql>").append(StringUtil.ln(2))
     	.append("<sql id=\"joinColums\"></sql>").append(StringUtil.ln(2))
     	.append("<sql id=\"join\"></sql>").append(StringUtil.ln(0))
     	.append("<!-- 别名m已被主表使用  -->").append(StringUtil.ln(2))
@@ -316,6 +316,7 @@ public abstract class MapperTemplate {
         .append(TAG_SELECT_END).append(StringUtil.ln(2))
         
         .append("<select id=\"selectUnion\" resultType=\"ArrayList\" resultMap=\"resultMap\">").append(StringUtil.ln())
+        .append("  ").append("select m.* from (").append(StringUtil.ln())
         .append(StringUtil.tab(1)).append(TAG_TRIM_UNION_START).append(StringUtil.ln())
         .append(StringUtil.tab(2)).append("<foreach collection=\"list\" item=\"model\">").append(StringUtil.ln())
         .append(StringUtil.tab(3)).append("<if test=\"model neq null\">").append(StringUtil.ln())
@@ -326,10 +327,10 @@ public abstract class MapperTemplate {
         .append(StringUtil.tab(3)).append(TAG_IF_END).append(StringUtil.ln())
         .append(StringUtil.tab(2)).append(TAG_FOREACH_END).append(StringUtil.ln())
         .append(StringUtil.tab(1)).append(TAG_TRIM_END).append(StringUtil.ln())
-        .append(StringUtil.tab(1)).append(TAG_INCLUDE(SQL_ID_SELECT_ORDERBY)).append(StringUtil.ln())
+        .append("   ) m ").append(TAG_INCLUDE(SQL_ID_SELECT_ORDERBY)).append(StringUtil.ln())
         .append(TAG_SELECT_END).append(StringUtil.ln(2))
                 
-        .append("<select id=\"selectEqPk\" parameterType=\"String\"  resultMap=\"resultMap\">").append(StringUtil.ln())
+        .append("<select id=\"selectEqPk\"  resultMap=\"resultMap\">").append(StringUtil.ln())
         .append(StringUtil.tab(1)).append("select m.* from <include refid=\"table\" /> m  where m.<include refid=\"pk\" /> = #'{'{9}'}'").append(StringUtil.ln())
         .append(TAG_SELECT_END).append(StringUtil.ln(2))
         
@@ -399,6 +400,7 @@ public abstract class MapperTemplate {
         .append(TAG_SELECT_END).append(StringUtil.ln(2))
         
         .append("<select id=\"selectViewUnion\" resultType=\"ArrayList\" resultMap=\"viewMap\">").append(StringUtil.ln())
+        .append("  ").append("select m.* from (").append(StringUtil.ln())
         .append(StringUtil.tab(1)).append(TAG_TRIM_UNION_START).append(StringUtil.ln())
         .append(StringUtil.tab(2)).append("<foreach collection=\"list\" item=\"model\">").append(StringUtil.ln())
         .append(StringUtil.tab(3)).append("<if test=\"model neq null\">").append(StringUtil.ln())
@@ -409,10 +411,10 @@ public abstract class MapperTemplate {
         .append(StringUtil.tab(3)).append(TAG_IF_END).append(StringUtil.ln())
         .append(StringUtil.tab(2)).append(TAG_FOREACH_END).append(StringUtil.ln())
         .append(StringUtil.tab(1)).append(TAG_TRIM_END).append(StringUtil.ln())        
-        .append(StringUtil.tab(1)).append(TAG_INCLUDE(SQL_ID_SELECT_ORDERBY)).append(StringUtil.ln())
+        .append("  ) m ").append(TAG_INCLUDE(SQL_ID_SELECT_ORDERBY)).append(StringUtil.ln())
         .append(TAG_SELECT_END).append(StringUtil.ln(2))
         
-        .append("<select id=\"selectViewEqPk\" parameterType=\"String\"  resultMap=\"viewMap\">").append(StringUtil.ln())
+        .append("<select id=\"selectViewEqPk\"  resultMap=\"viewMap\">").append(StringUtil.ln())
         .append(StringUtil.tab(1)).append("select m.* <include refid=\"joinColums\"/> from <include refid=\"table\" /> m <include refid=\"join\"/> where m.<include refid=\"pk\" /> = #'{'{9}'}'").append(StringUtil.ln())
         .append(TAG_SELECT_END).append(StringUtil.ln(2))
         

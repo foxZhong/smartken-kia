@@ -177,6 +177,20 @@ public class IMapperTestCase<T>  implements IMapper<T> {
 		// TODO Auto-generated method stub
 		return this.mapper.updateOne(obj, newPk);
 	}
+
+
+	public ArrayList<T> selectUnion(ArrayList<T> querys, PageBounds page)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return this.mapper.selectUnion(querys, page);
+	}
+
+
+	public ArrayList<T> selectViewUnion(ArrayList<T> querys, PageBounds page)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return this.mapper.selectViewUnion(querys,page);
+	}
 	
 
 }

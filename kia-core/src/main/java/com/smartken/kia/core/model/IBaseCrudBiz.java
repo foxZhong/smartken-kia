@@ -19,8 +19,8 @@ public interface IBaseCrudBiz {
 	public ArrayList getModel(PageBounds pPage);
     public ArrayList getModel(Object model)  ;
     public PageArrayList getModel(Object model,PageBounds pPage) ;
-    public ArrayList getUnionModel(List listQuery);
-    public PageArrayList getUnionModel(List listQuery,PageBounds pPage);
+    public ArrayList getModel(List listQuery);
+    public PageArrayList getModel(List listQuery,PageBounds pPage);
     public Object getModelEqPk(Object pk)  ;
     public ArrayList getModelInPk(ArrayList listPk)  ;
     public PageArrayList getModelInPk(ArrayList listPk,PageBounds pPage) ;

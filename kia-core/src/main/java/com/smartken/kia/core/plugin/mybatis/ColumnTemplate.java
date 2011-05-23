@@ -1,5 +1,6 @@
 package com.smartken.kia.core.plugin.mybatis;
 
+import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.sql.Time;
 import java.sql.Timestamp;
@@ -51,7 +52,7 @@ public class ColumnTemplate {
 	private String dbColName;
 	private String dbColType;
 	private String javaName;
-	private String javaType;
+	private Class javaType;
 	private String jdbcType;
 	private int precision;
 	
@@ -68,7 +69,7 @@ public class ColumnTemplate {
 			Enum enumJdbcType=this.getJdbcType(dbColType, perc);
 			Class clsJavaType=this.getJavaClass(enumJdbcType);
 			this.jdbcType=enumJdbcType.name();
-			this.javaType=clsJavaType.getSimpleName();
+			this.javaType=clsJavaType;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -88,7 +89,7 @@ public class ColumnTemplate {
 		return javaName;
 	}
 
-	public String getJavaType() {
+	public Class getJavaType() {
 		return javaType;
 	}
 
@@ -131,7 +132,7 @@ public class ColumnTemplate {
 	private static Map<Enum, Class> mapJavaClass;
 	
 	public static Enum getJdbcType(String dbType,int perc) throws Exception{
-		if(dbType==null||perc==0)throw new Exception();
+		if(dbType==null)throw new Exception();
 	 	Enum jdbcType=null;
 	 	if(mapJdbcEnum==null){
 	 		mapJdbcEnum=new HashMap<String, Enum>();
@@ -150,7 +151,7 @@ public class ColumnTemplate {
 	 	}
 	 	if(DB_TYPE_NUMBER.equalsIgnoreCase(dbType)){
 			switch (perc) {
-			case PREC_FLOAT: jdbcType=JdbcType.FLOAT;break;
+			case 0: jdbcType=JdbcType.INTEGER;break;
 			case PREC_INTEGER: jdbcType=JdbcType.INTEGER;break;
 			default:jdbcType=JdbcType.FLOAT;
 		 }
