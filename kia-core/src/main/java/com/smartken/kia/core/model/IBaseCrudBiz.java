@@ -1,7 +1,5 @@
 package com.smartken.kia.core.model;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 
@@ -15,20 +13,33 @@ public interface IBaseCrudBiz {
     public boolean loadCrudMapper(Class c) throws NullPointerException;
     public void addCrudMapper(Class c,IMapper mapper) ;
 	public void setCrudMapper(IMapper crudMapper);
-	public ArrayList getModel();
-	public ArrayList getModel(PageBounds pPage);
-    public ArrayList getModel(Object model)  ;
+	public List getModel();
+	public List getModel(PageBounds pPage);
+    public List getModel(Object model)  ;
     public PageArrayList getModel(Object model,PageBounds pPage) ;
-    public ArrayList getModel(List listQuery);
+    public List getModel(List listQuery);
     public PageArrayList getModel(List listQuery,PageBounds pPage);
     public Object getModelEqPk(Object pk)  ;
-    public ArrayList getModelInPk(ArrayList listPk)  ;
-    public PageArrayList getModelInPk(ArrayList listPk,PageBounds pPage) ;
-    public ArrayList getModelNotInPk(ArrayList listPk)  ;
-    public PageArrayList getModelNotInPk(ArrayList listPk,PageBounds pPage) ;
+    public List getModelInPk(List listPk)  ;
+    public PageArrayList getModelInPk(List listPk,PageBounds pPage) ;
+    public List getModelNotInPk(List listPk)  ;
+    public PageArrayList getModelNotInPk(List listPk,PageBounds pPage) ;
+    
+	public List getView();
+	public List getView(PageBounds pPage);
+    public List getView(Object model)  ;
+    public PageArrayList getView(Object model,PageBounds pPage) ;
+    public List getView(List listQuery);
+    public PageArrayList getView(List listQuery,PageBounds pPage);
+    public Object getViewEqPk(Object pk)  ;
+    public List getViewInPk(List listPk)  ;
+    public PageArrayList getViewInPk(List listPk,PageBounds pPage) ;
+    public List getViewNotInPk(List listPk)  ;
+    public PageArrayList getViewNotInPk(List listPk,PageBounds pPage) ;
+    
     public int removeModelEqPk(Object pk);
-    public int removeModelInPk(ArrayList listPk)  ;
-    public int removeModelNotInPk(ArrayList listPk)  ;
+    public int removeModelInPk(List listPk)  ;
+    public int removeModelNotInPk(List listPk)  ;
     public int addModel(Object model)  ;
     public int modifyModel(Object model)  ;
     public int modifyModel(Object model,Object pkNew)  ; 

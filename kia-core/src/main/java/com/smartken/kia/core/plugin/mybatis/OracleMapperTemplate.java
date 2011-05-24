@@ -3,10 +3,14 @@ package com.smartken.kia.core.plugin.mybatis;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 
+import org.apache.ibatis.type.JdbcType;
+
 
 import com.smartken.kia.core.util.ObjectUtil;
 
 final public class OracleMapperTemplate extends MapperTemplate{
+
+	
 
 	
 	public OracleMapperTemplate(String table,String pk,ArrayList<String> dbCols,ArrayList<String> dbTypes,ArrayList<Integer> precisions){
@@ -23,20 +27,23 @@ final public class OracleMapperTemplate extends MapperTemplate{
 	public String getCondition(ColumnTemplate ct,Q q) {
 		// TODO Auto-generated method stub
 		String str="";
-		String pattern="<if test=\"model.{0} neq null\">and m.{1} {4} #'{'model.{0},jdbcType={2} javaType={3} '}' </if> ";
-		String datePattern="<if test=\"model.{0} neq null\">and to_char(m.{1},{5}) {4} to_char(#'{'model.{0},jdbcType={2} javaType={3} '}',{5}) </if> ";
+		String pattern="<if test=\"model.{0} neq null\">and m.{1} = #'{'model.{0},jdbcType={2} javaType={3} '}' </if> ";
+		String patternLike="<if test=\"model.{0} neq null\">and m.{1} like #'{'model.{0},jdbcType={2} javaType={3} '}' </if> ";
+		String datePattern="<if test=\"model.{0} neq null\">and to_char(m.{1},{4}) = to_char(#'{'model.{0},jdbcType={2} javaType={3} '}',{4}) </if> ";
 		String tempPattern=pattern;		
-		String symbol="=";
-		if(ObjectUtil.isInArray(ct.getDbColType().toUpperCase(), new String[]{ ColumnTemplate.DB_TYPE_DATE,ColumnTemplate.DB_TYPE_TIMESTAMP}) ){
+		if(ObjectUtil.isInArray(ct.getJdbcType(), ColumnTemplate.JDBC_TYPES_DATE )
+		 ||ObjectUtil.isInArray(ct.getJdbcType(), ColumnTemplate.JDBC_TYPES_TIMESTAMP )
+		){
 			tempPattern=datePattern;
+		}else if(ObjectUtil.isInArray(ct.getJdbcType(),ColumnTemplate.JDBC_TYPES_STRING)){
+			tempPattern=patternLike;
 		}
 		str =MessageFormat.format(tempPattern,
 				ct.getJavaName()  //0
 				,ct.getDbColName()  //1
 				,ct.getJdbcType()  //2
 				,ct.getJavaType().getSimpleName()  //3
-				,symbol              //4
-				,"'YYYY-MM-DD'"   //5
+				,"'YYYY-MM-DD'"   //4
 		);
 		return str;
 	}

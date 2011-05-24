@@ -76,7 +76,7 @@ public class ObjectUtil {
 	
 
 	
-	public static JSONArray toJsonArray(ArrayList<IFormatterModel> lListObj)
+	public static JSONArray toJsonArray(List<IFormatterModel> lListObj)
 	{
 		JSONArray lJsonList=new JSONArray();
 		for(Iterator<IFormatterModel> it=lListObj.iterator();it.hasNext();)

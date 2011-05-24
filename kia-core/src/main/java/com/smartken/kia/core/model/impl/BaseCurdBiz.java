@@ -38,14 +38,14 @@ public abstract class BaseCurdBiz implements IBaseCrudBiz {
 	
 	
 	
-	public ArrayList getModel() {
+	public List getModel() {
 		// TODO Auto-generated method stub
-		ArrayList list=new ArrayList();
+		List list=new ArrayList();
 		try{
 			list=this.crudMapper.selectAll();
 		}catch(Exception ex){
 			ex.printStackTrace();
-			return new ArrayList();
+			return list;
 		}finally{
 			return list;
 		}
@@ -53,32 +53,28 @@ public abstract class BaseCurdBiz implements IBaseCrudBiz {
 
 
 
-	public ArrayList getModel(PageBounds pPage) {
+	public List getModel(PageBounds pPage) {
 		// TODO Auto-generated method stub
-		ArrayList list=new ArrayList();
+		List list=new ArrayList();
 		try{
 			list=this.crudMapper.selectAll(pPage);
 		}catch(Exception ex){
 			ex.printStackTrace();
-			return new ArrayList();
+			return list;
 		}finally{
 			return list;
 		}
 	}
  
 
-	public ArrayList getModel(Object model) {
+	public List getModel(Object model) {
 		// TODO Auto-generated method stub
-		ArrayList list=new ArrayList();
+		List list=new ArrayList();
 		try{
-			if(model==null){
-				list=this.crudMapper.selectAll();
-			}else{
-			    list= this.crudMapper.select(model);
-			}
+           list= this.crudMapper.select(model);
 		}catch(Exception ex){
 			ex.printStackTrace();
-			return new ArrayList();
+			return list;
 		}finally{
 			return list;
 		}
@@ -87,7 +83,7 @@ public abstract class BaseCurdBiz implements IBaseCrudBiz {
 
 	public PageArrayList getModel(Object model, PageBounds pPage) {
 		// TODO Auto-generated method stub
-          ArrayList list=this.getModel(model);
+          List list=this.getModel(model);
           PageArrayList pageList=new PageArrayList(list, pPage);
           return pageList;
 	}
@@ -101,7 +97,7 @@ public abstract class BaseCurdBiz implements IBaseCrudBiz {
 			obj=this.crudMapper.selectEqPk(pk);
 		}catch(Exception ex){
 			ex.printStackTrace();
-			return null;
+			return obj;
 		}finally{
 			return obj;
 		}
@@ -109,41 +105,41 @@ public abstract class BaseCurdBiz implements IBaseCrudBiz {
 
 	
 	
-	public ArrayList getModelInPk(ArrayList listPk)  {
+	public List getModelInPk(List listPk)  {
 		// TODO Auto-generated method stub
-		ArrayList list=new ArrayList();
+		List list=new ArrayList();
 		try{
 			list=this.crudMapper.selectInPk(listPk);
 		}catch(Exception ex){
 			ex.printStackTrace();
-			return new ArrayList();
+			return list;
 		}
 		return list;
 	}
-	public PageArrayList getModelInPk(ArrayList listPk, PageBounds pPage)
+	public PageArrayList getModelInPk(List listPk, PageBounds pPage)
 	 {
 		// TODO Auto-generated method stub
-		ArrayList list = this.getModelInPk(listPk);
+		List list = this.getModelInPk(listPk);
 		PageArrayList pageList = new PageArrayList(list, pPage);
 		return pageList;
      }
 	
 	
-	public PageArrayList getModelNotInPk(ArrayList listPk, PageBounds pPage) {
+	public PageArrayList getModelNotInPk(List listPk, PageBounds pPage) {
 		// TODO Auto-generated method stub
-        ArrayList list=this.getModelNotInPk(listPk);
+        List list=this.getModelNotInPk(listPk);
         PageArrayList pageList=new PageArrayList(list, pPage);
         return pageList;
 	}
 	
-	public ArrayList getModelNotInPk(ArrayList listPk)  {
+	public List getModelNotInPk(List listPk)  {
 		// TODO Auto-generated method stub
-		ArrayList list=new ArrayList();
+		List list=new ArrayList();
 		try{
 			list=this.crudMapper.selectNotInPk(listPk);
 		}catch(Exception ex){
 			ex.printStackTrace();
-			return new ArrayList();
+			return list;
 		}
 		return list;
 	}
@@ -183,7 +179,7 @@ public abstract class BaseCurdBiz implements IBaseCrudBiz {
 		return re;
 	}
 	
-	public int removeModelInPk(ArrayList listPk)  {
+	public int removeModelInPk(List listPk)  {
 		// TODO Auto-generated method stub
 		int re=0;
 		try{
@@ -194,7 +190,7 @@ public abstract class BaseCurdBiz implements IBaseCrudBiz {
 		}
 		return re;
 	}
-	public int removeModelNotInPk(ArrayList listPk) {
+	public int removeModelNotInPk(List listPk) {
 		// TODO Auto-generated method stub
 		int re=0;
 		try{
@@ -284,22 +280,155 @@ public abstract class BaseCurdBiz implements IBaseCrudBiz {
 
 	public PageArrayList getModel(List listQuery, PageBounds pPage) {
 		// TODO Auto-generated method stub
-		ArrayList listModel=this.getModel(listQuery);
-        PageArrayList pageList=new PageArrayList(listModel, pPage);
+		List listModel=this.getModel(listQuery);
+		PageArrayList pageList=new PageArrayList(listModel, pPage);
         return pageList;
 	}
 
 
 
-	public ArrayList getModel(List querys) {
+	public List getModel(List querys) {
 		// TODO Auto-generated method stub
-        ArrayList listModel=new ArrayList();
+        List listModel=new ArrayList();
         try{
           listModel=  this.crudMapper.selectUnion((ArrayList) querys);
         }catch(Exception ex){
         	return new ArrayList();
         }
         return listModel;
+	}
+
+
+
+	public List getView() {
+		// TODO Auto-generated method stub
+		List list=new ArrayList();
+		try{
+			list=this.crudMapper.selectViewAll();
+		}catch(Exception ex){
+			ex.printStackTrace();
+			return list;
+		}finally{
+			return list;
+		}
+	}
+
+
+
+	public PageArrayList getView(List listQuery, PageBounds pPage) {
+		// TODO Auto-generated method stub
+		List list = this.getView(listQuery);
+		PageArrayList pageList = new PageArrayList(list, pPage);
+		return pageList;
+	}
+
+
+
+	public List getView(List listQuery) {
+		// TODO Auto-generated method stub
+		List list=new ArrayList();
+		try{
+			list=this.crudMapper.selectViewUnion(listQuery);
+		}catch(Exception ex){
+			ex.printStackTrace();
+			return list;
+		}finally{
+			return list;
+		}
+	}
+
+
+
+	public PageArrayList getView(Object model, PageBounds pPage) {
+		// TODO Auto-generated method stub
+		List list = this.getView(model);
+		PageArrayList pageList = new PageArrayList(list, pPage);
+		return pageList;
+	}
+
+
+
+	public List getView(Object model) {
+		// TODO Auto-generated method stub
+		List list=new ArrayList();
+		try{
+			list=this.crudMapper.selectView(model);
+		}catch(Exception ex){
+			ex.printStackTrace();
+			return list;
+		}finally{
+			return list;
+		}
+	}
+
+
+
+	public List getView(PageBounds pPage) {
+		// TODO Auto-generated method stub
+		List list=new ArrayList();
+		try{
+			list=this.crudMapper.selectView(pPage);
+		}catch(Exception ex){
+			ex.printStackTrace();
+			return list;
+		}finally{
+			return list;
+		}
+	}
+
+
+
+	public Object getViewEqPk(Object pk) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+	public PageArrayList getViewInPk(List listPk, PageBounds pPage) {
+		// TODO Auto-generated method stub
+		List list = this.getViewInPk(listPk);
+		PageArrayList pageList = new PageArrayList(list, pPage);
+		return pageList;
+	}
+
+
+
+	public List getViewInPk(List listPk) {
+		// TODO Auto-generated method stub
+		List list=new ArrayList();
+		try{
+			list=this.crudMapper.selectViewInPk(listPk);
+		}catch(Exception ex){
+			ex.printStackTrace();
+			return list;
+		}finally{
+			return list;
+		}
+	}
+
+
+
+	public PageArrayList getViewNotInPk(List listPk, PageBounds pPage) {
+		// TODO Auto-generated method stub
+		List list = this.getViewNotInPk(listPk);
+		PageArrayList pageList = new PageArrayList(list, pPage);
+		return pageList;
+	}
+
+
+
+	public List getViewNotInPk(List listPk) {
+		// TODO Auto-generated method stub
+		List list=new ArrayList();
+		try{
+			list=this.crudMapper.selectViewNotInPk(listPk);
+		}catch(Exception ex){
+			ex.printStackTrace();
+			return list;
+		}finally{
+			return list;
+		}
 	}
 
 

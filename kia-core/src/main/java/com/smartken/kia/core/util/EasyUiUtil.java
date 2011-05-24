@@ -1,6 +1,7 @@
 package com.smartken.kia.core.util;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.json.JSONArray;
@@ -38,12 +39,12 @@ public class EasyUiUtil {
 	public static String EDITOR_TYPE_COMBOBOX="combobox";
 	public static String EDITOR_TYPE_COMBOTREE="combotree";
 	
-	public static JSONObject toJsonDataGrid(ArrayList<IFormatterModel> list){
+	public static JSONObject toJsonDataGrid(List<IFormatterModel> list){
 		JSONArray jarr=ObjectUtil.toJsonArray(list);
 		return toJsonDataGrid(jarr);
 	}
 	
-	public static JSONObject toJsonDataGrid(ArrayList<IFormatterModel> list,int pIntTotal){
+	public static JSONObject toJsonDataGrid(List<IFormatterModel> list,int pIntTotal){
 		JSONArray jarr=ObjectUtil.toJsonArray(list);
 		return toJsonDataGrid(jarr,pIntTotal);
 	}
