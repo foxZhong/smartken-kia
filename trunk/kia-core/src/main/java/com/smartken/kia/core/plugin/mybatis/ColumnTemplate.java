@@ -150,11 +150,14 @@ public class ColumnTemplate {
 	 		mapJdbcEnum.put(DB_TYPE_TIMESTAMP, JdbcType.TIMESTAMP);
 	 	}
 	 	if(DB_TYPE_NUMBER.equalsIgnoreCase(dbType)){
-			switch (perc) {
-			case 0: jdbcType=JdbcType.INTEGER;break;
-			case PREC_INTEGER: jdbcType=JdbcType.INTEGER;break;
-			default:jdbcType=JdbcType.FLOAT;
-		 }
+			if(perc<=PREC_INTEGER){
+				jdbcType=JdbcType.INTEGER;
+			}else if(perc<=PREC_FLOAT){
+				jdbcType=JdbcType.FLOAT;
+			}
+			else {
+				jdbcType=JdbcType.DOUBLE;
+			}
 	 	}else{
 		 	jdbcType=mapJdbcEnum.get(dbType);
 	 	}
