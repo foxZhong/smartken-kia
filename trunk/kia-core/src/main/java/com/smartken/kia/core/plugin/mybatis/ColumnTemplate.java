@@ -109,17 +109,17 @@ public class ColumnTemplate {
 		boolean isFirstSubNameLen1=false;
 		for (int i = 0; i < lSubNames.length; i++) {
 			String lSubName=lSubNames[i].toLowerCase();
-			if(i==0){
-				lSbrModelColName.append(lSubName);
-				isFirstSubNameLen1=lSbrModelColName.length()==1;
-			}
-			else if(i==1 && isFirstSubNameLen1)
-			{
-				lSbrModelColName.append(lSubName);
-			}
-			else{
+//			if(i==0){
+//				isFirstSubNameLen1=lSbrModelColName.length()==1;
+//				if(isFirstSubNameLen1){
+//					lSbrModelColName.append(lSubName.toUpperCase());
+//				}else{
+//					lSbrModelColName.append(lSubName);
+//				}
+//			}
+//			else{
 			   lSbrModelColName.append(StringUtil.format(lSubName, StringFormatEnum.upcaseFirstChar));
-			}
+//			}
 		}
 		return lSbrModelColName.toString();
 	}
