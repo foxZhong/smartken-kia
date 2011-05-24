@@ -3,6 +3,7 @@ package com.smartken.kia.core.test;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.naming.LimitExceededException;
 
@@ -64,25 +65,25 @@ public class IMapperTestCase<T>  implements IMapper<T> {
 	}
 
 
-	public ArrayList<T> select(T pModel) throws Exception {
+	public List<T> select(T pModel) throws Exception {
 		// TODO Auto-generated method stub
 		return this.mapper.select(pModel);
 	}
 
 
-	public ArrayList<T> select(T pModel, PageBounds page) throws Exception {
+	public List<T> select(T pModel, PageBounds page) throws Exception {
 		// TODO Auto-generated method stub
 		return this.mapper.select(pModel, page);
 	}
 
 
-	public ArrayList<T> selectAll() throws Exception {
+	public List<T> selectAll() throws Exception {
 		// TODO Auto-generated method stub
 		return this.mapper.selectAll();
 	}
 
 
-	public ArrayList<T> selectAll(PageBounds page) throws Exception {
+	public List<T> selectAll(PageBounds page) throws Exception {
 		// TODO Auto-generated method stub
 		return this.mapper.selectAll(page);
 	}
@@ -94,76 +95,76 @@ public class IMapperTestCase<T>  implements IMapper<T> {
 	}
 
 
-	public ArrayList<T> selectInPk(ArrayList pArrPk) throws Exception {
+	public List<T> selectInPk(ArrayList pArrPk) throws Exception {
 		// TODO Auto-generated method stub
 		return this.mapper.selectInPk(pArrPk);
 	}
 
-	public ArrayList<T> selectInPk(ArrayList pArrPk, PageBounds page)
+	public List<T> selectInPk(ArrayList pArrPk, PageBounds page)
 			throws Exception {
 		// TODO Auto-generated method stub
 		return this.mapper.selectInPk(pArrPk, page);
 	}
 
-	public ArrayList<T> selectNotInPk(ArrayList pArrPk) throws Exception {
+	public List<T> selectNotInPk(ArrayList pArrPk) throws Exception {
 		// TODO Auto-generated method stub
 		return this.mapper.selectNotInPk(pArrPk);
 	}
 
-	public ArrayList<T> selectNotInPk(ArrayList pArrPk, PageBounds page)
+	public List<T> selectNotInPk(ArrayList pArrPk, PageBounds page)
 			throws Exception {
 		// TODO Auto-generated method stub
 		return this.mapper.selectInPk(pArrPk, page);
 	}
 
-	public ArrayList<T> selectUnion(ArrayList<T> querys) throws Exception {
+	public List<T> selectUnion(List<T> querys) throws Exception {
 		// TODO Auto-generated method stub
 		return this.mapper.selectUnion(querys);
 	}
 
-	public ArrayList<T> selectView(T pModel) throws Exception {
+	public List<T> selectView(T pModel) throws Exception {
 		// TODO Auto-generated method stub
 		return this.mapper.selectView(pModel);
 	}
 
-	public ArrayList<T> selectView(T pModel, PageBounds page) throws Exception {
+	public List<T> selectView(T pModel, PageBounds page) throws Exception {
 		// TODO Auto-generated method stub
 		return this.mapper.selectView(pModel, page);
 	}
 
-	public ArrayList<T> selectViewAll() throws Exception {
+	public List<T> selectViewAll() throws Exception {
 		// TODO Auto-generated method stub
 		return this.mapper.selectViewAll();
 	}
 
-	public ArrayList<T> selectViewAll(PageBounds page) throws Exception {
+	public List<T> selectViewAll(PageBounds page) throws Exception {
 		// TODO Auto-generated method stub
 		return this.mapper.selectViewAll(page);
 	}
 
-	public ArrayList<T> selectViewInPk(ArrayList pArrPk) throws Exception {
+	public List<T> selectViewInPk(ArrayList pArrPk) throws Exception {
 		// TODO Auto-generated method stub
 		return this.mapper.selectViewInPk(pArrPk);
 	}
 
-	public ArrayList<T> selectViewInPk(ArrayList pArrPk, PageBounds page)
+	public List<T> selectViewInPk(ArrayList pArrPk, PageBounds page)
 			throws Exception {
 		// TODO Auto-generated method stub
 		return this.mapper.selectViewInPk(pArrPk, page);
 	}
 
-	public ArrayList<T> selectViewNotInPk(ArrayList pArrPk) throws Exception {
+	public List<T> selectViewNotInPk(ArrayList pArrPk) throws Exception {
 		// TODO Auto-generated method stub
 		return this.mapper.selectViewNotInPk(pArrPk);
 	}
 
-	public ArrayList<T> selectViewNotInPk(ArrayList pArrPk, PageBounds page)
+	public List<T> selectViewNotInPk(ArrayList pArrPk, PageBounds page)
 			throws Exception {
 		// TODO Auto-generated method stub
 		return this.mapper.selectViewNotInPk(pArrPk, page);
 	}
 
-	public ArrayList<T> selectViewUnion(ArrayList<T> querys) throws Exception {
+	public List<T> selectViewUnion(List<T> querys) throws Exception {
 		// TODO Auto-generated method stub
 		return this.mapper.selectViewUnion(querys);
 	}
@@ -179,17 +180,79 @@ public class IMapperTestCase<T>  implements IMapper<T> {
 	}
 
 
-	public ArrayList<T> selectUnion(ArrayList<T> querys, PageBounds page)
+	public List<T> selectUnion(List<T> querys, PageBounds page)
 			throws Exception {
 		// TODO Auto-generated method stub
 		return this.mapper.selectUnion(querys, page);
 	}
 
 
-	public ArrayList<T> selectViewUnion(ArrayList<T> querys, PageBounds page)
+	public List<T> selectViewUnion(List<T> querys, PageBounds page)
 			throws Exception {
 		// TODO Auto-generated method stub
 		return this.mapper.selectViewUnion(querys,page);
+	}
+
+
+	public int deleteInPk(List pArrPk) throws Exception {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+	public int deleteNotInPk(List pArrPk) throws Exception {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+	public List<T> selectInPk(List pArrPk) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public List<T> selectInPk(List pArrPk, PageBounds page) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public List<T> selectNotInPk(List pArrPk) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public List<T> selectNotInPk(List pArrPk, PageBounds page) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public List<T> selectViewInPk(List pArrPk) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public List<T> selectViewInPk(List pArrPk, PageBounds page)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public List<T> selectViewNotInPk(List pArrPk) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public List<T> selectViewNotInPk(List pArrPk, PageBounds page)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 

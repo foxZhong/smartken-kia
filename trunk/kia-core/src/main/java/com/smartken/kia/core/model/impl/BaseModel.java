@@ -27,6 +27,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 
 
@@ -316,6 +317,56 @@ public abstract class BaseModel implements IBaseModel ,IFormatterModel{
         
 		return t;	
 	}
+
+
+
+
+
+
+	public JSONObject toJsonExclude(List listField) {
+		// TODO Auto-generated method stub
+		JSONObject json=this.toJson();
+		for (Object f : listField) {
+			if(f==null){continue;}
+			String key="";
+			if(f instanceof String){
+				key=(String)f;
+			}else if(f instanceof Enum){
+				key=((Enum)f).name();
+			}
+			json.remove(key);
+		}
+		return json;
+	}
+
+
+
+
+
+
+	public JSONObject toJsonInclude(List listField) {
+		// TODO Auto-generated method stub
+		JSONObject jsonAll=this.toJson();
+		JSONObject jsonRe=this.toJson();
+		for (Object f : listField) {
+			if(f==null){continue;}
+			String key="";
+			if(f instanceof String){
+				key=(String)f;
+			}else if(f instanceof Enum){
+				key=((Enum)f).name();
+			}
+			try {
+				jsonRe.append(key, jsonAll.get(key));
+			} catch (JSONException e) {}
+		}
+		return jsonRe;
+	}
+
+
+
+
+
 
 	
 	

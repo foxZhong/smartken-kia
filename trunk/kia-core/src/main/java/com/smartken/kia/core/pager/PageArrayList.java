@@ -15,7 +15,7 @@ public class PageArrayList<E> extends ArrayList<E> {
     	this.count=0;
     }
     
-    public PageArrayList(ArrayList<E> list){
+    public PageArrayList(List<E> list){
     	super();
     	if(list==null||list.size()==0){
     	  this.count=0;
@@ -24,7 +24,7 @@ public class PageArrayList<E> extends ArrayList<E> {
     	this.addAll(list);
     }
     
-    public PageArrayList(ArrayList<E> list,PageBounds pb){
+    public PageArrayList(List<E> list,PageBounds pb){
     	super();
     	if(list==null||list.size()==0){
     	  this.count=0;

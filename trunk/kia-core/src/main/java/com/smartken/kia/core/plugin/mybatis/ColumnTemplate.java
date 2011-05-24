@@ -17,10 +17,6 @@ import com.smartken.kia.core.util.StringUtil;
 import org.apache.ibatis.type.JdbcType;
 
 public class ColumnTemplate {
-
-	public static enum MysqlJdbcType{
-		TEXT,DATETIME
-	}
 	
 	
 	public static String DB_TYPE_VARCHAR2="VARCHAR2";
@@ -38,13 +34,18 @@ public class ColumnTemplate {
 	public static String DB_TYPE_TIMESTAMP="TIMESTAMP";
 	public static String DB_TYPE_BLOB="BLOB";
 	public static String DB_TYPE_LONGBLOB="LONGBLOB";
-	public static String JAVA_TYPE_STRING="String";
-	public static String JAVA_TYPE_INTEGER="Integer";
-	public static String JAVA_TYPE_BYTES="byte[]";
 
-	public static String[] DB_TYPES_CHAR=new String[]{DB_TYPE_VARCHAR2,DB_TYPE_VARCHAR,DB_TYPE_CHAR,DB_TYPE_TEXT};
-	public static String[] DB_TYPES_NUMBER=new String[]{DB_TYPE_INT,DB_TYPE_INTEGER,DB_TYPE_NUMBER,DB_TYPE_FLOAT,DB_TYPE_DOUBLE};
-	public static String[] DB_TYPES_DATETIME=new String[]{DB_TYPE_DATE,DB_TYPE_TIME,DB_TYPE_DATETIME,DB_TYPE_TIMESTAMP};
+
+	public static JdbcType[]  JDBC_TYPES_STRING;
+	public static JdbcType[]  JDBC_TYPES_DATE;
+	public static JdbcType[]  JDBC_TYPES_TIMESTAMP;
+	
+	static{
+		JDBC_TYPES_STRING=new JdbcType[]{JdbcType.VARCHAR,JdbcType.CHAR};
+		JDBC_TYPES_DATE=new JdbcType[]{JdbcType.DATE};
+		JDBC_TYPES_TIMESTAMP=new JdbcType[]{JdbcType.TIMESTAMP};
+	}
+
 	
 	public static final int PREC_FLOAT=126;
 	public static final int PREC_INTEGER=38;
@@ -53,7 +54,7 @@ public class ColumnTemplate {
 	private String dbColType;
 	private String javaName;
 	private Class javaType;
-	private String jdbcType;
+	private JdbcType jdbcType;
 	private int precision;
 	
 
@@ -66,9 +67,9 @@ public class ColumnTemplate {
 		//this.javaType=toJavaType(dbColType);
 		//this.jdbcType=toJdbcType(dbColType);
 		try {
-			Enum enumJdbcType=this.getJdbcType(dbColType, perc);
+			JdbcType enumJdbcType=this.getJdbcType(dbColType, perc);
 			Class clsJavaType=this.getJavaClass(enumJdbcType);
-			this.jdbcType=enumJdbcType.name();
+			this.jdbcType=enumJdbcType;
 			this.javaType=clsJavaType;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -93,7 +94,7 @@ public class ColumnTemplate {
 		return javaType;
 	}
 
-	public String getJdbcType() {
+	public JdbcType getJdbcType() {
 		return jdbcType;
 	}
 
@@ -128,18 +129,18 @@ public class ColumnTemplate {
 
 	
 	
-	private static Map<String, Enum> mapJdbcEnum;
+	private static Map<String, JdbcType> mapJdbcEnum;
 	private static Map<Enum, Class> mapJavaClass;
 	
-	public static Enum getJdbcType(String dbType,int perc) throws Exception{
+	public static JdbcType getJdbcType(String dbType,int perc) throws Exception{
 		if(dbType==null)throw new Exception();
-	 	Enum jdbcType=null;
+	 	JdbcType jdbcType=null;
 	 	if(mapJdbcEnum==null){
-	 		mapJdbcEnum=new HashMap<String, Enum>();
+	 		mapJdbcEnum=new HashMap<String, JdbcType>();
 	 		mapJdbcEnum.put(DB_TYPE_CHAR, JdbcType.CHAR);
 	 		mapJdbcEnum.put(DB_TYPE_VARCHAR, JdbcType.VARCHAR);
 	 		mapJdbcEnum.put(DB_TYPE_VARCHAR2, JdbcType.VARCHAR);
-	 		mapJdbcEnum.put(DB_TYPE_TEXT, MysqlJdbcType.TEXT);
+	 		mapJdbcEnum.put(DB_TYPE_TEXT, JdbcType.VARCHAR);
 	 		mapJdbcEnum.put(DB_TYPE_DOUBLE, JdbcType.DOUBLE);
 	 		mapJdbcEnum.put(DB_TYPE_FLOAT, JdbcType.FLOAT);
 	 		mapJdbcEnum.put(DB_TYPE_INTEGER, JdbcType.INTEGER);
@@ -174,9 +175,8 @@ public class ColumnTemplate {
 	 		mapJavaClass=new HashMap<Enum, Class>();
 	 		mapJavaClass.put(JdbcType.CHAR,String.class);
 	 		mapJavaClass.put(JdbcType.VARCHAR,String.class);
-	 		mapJavaClass.put(MysqlJdbcType.TEXT, String.class);
 	 		mapJavaClass.put(JdbcType.DOUBLE,Double.class);
-	 		mapJavaClass.put(JdbcType.FLOAT,Double.class);
+	 		mapJavaClass.put(JdbcType.FLOAT,Float.class);
 	 		mapJavaClass.put(JdbcType.INTEGER,Integer.class);
 	 		mapJavaClass.put(JdbcType.DATE,Date.class);
 	 		mapJavaClass.put(JdbcType.TIME,Date.class);
@@ -190,6 +190,7 @@ public class ColumnTemplate {
 	 	return javaClass;
 	}
 	
+
 	
 	
 	
