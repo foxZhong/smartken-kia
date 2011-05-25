@@ -19,31 +19,33 @@ import org.apache.ibatis.type.JdbcType;
 public class ColumnTemplate {
 	
 	
-	public static String DB_TYPE_VARCHAR2="VARCHAR2";
-	public static String DB_TYPE_VARCHAR="VARCHAR";
-	public static String DB_TYPE_CHAR="CHAR";
-	public static String DB_TYPE_TEXT="TEXT";
-	public static String DB_TYPE_INTEGER="INTEGER";
-	public static String DB_TYPE_INT="INT";
-	public static String DB_TYPE_NUMBER="NUMBER";
-	public static String DB_TYPE_FLOAT="FLOAT";
-	public static String DB_TYPE_DOUBLE="DOUBLE";
-	public static String DB_TYPE_DATE="DATE";
-	public static String DB_TYPE_TIME="TIME";
-	public static String DB_TYPE_DATETIME="DATETIME";
-	public static String DB_TYPE_TIMESTAMP="TIMESTAMP";
-	public static String DB_TYPE_BLOB="BLOB";
-	public static String DB_TYPE_LONGBLOB="LONGBLOB";
+	final public static String DB_TYPE_VARCHAR2="VARCHAR2";
+	final public static String DB_TYPE_VARCHAR="VARCHAR";
+	final public static String DB_TYPE_CHAR="CHAR";
+	final public static String DB_TYPE_TEXT="TEXT";
+	final public static String DB_TYPE_INTEGER="INTEGER";
+	final public static String DB_TYPE_INT="INT";
+	final public static String DB_TYPE_NUMBER="NUMBER";
+	final public static String DB_TYPE_FLOAT="FLOAT";
+	final public static String DB_TYPE_DOUBLE="DOUBLE";
+	final public static String DB_TYPE_DATE="DATE";
+	final public static String DB_TYPE_TIME="TIME";
+	final public static String DB_TYPE_DATETIME="DATETIME";
+	final public static String DB_TYPE_TIMESTAMP="TIMESTAMP";
+	final public static String DB_TYPE_BLOB="BLOB";
+	final public static String DB_TYPE_LONGBLOB="LONGBLOB";
 
 
-	public static JdbcType[]  JDBC_TYPES_STRING;
-	public static JdbcType[]  JDBC_TYPES_DATE;
-	public static JdbcType[]  JDBC_TYPES_TIMESTAMP;
+	final public static JdbcType[]  JDBC_TYPES_STRING;
+	final public static JdbcType[]  JDBC_TYPES_DATE;
+	final public static JdbcType[]  JDBC_TYPES_TIMESTAMP;
+	final public static JdbcType[]  JDBC_TYPES_BYTES;
 	
 	static{
 		JDBC_TYPES_STRING=new JdbcType[]{JdbcType.VARCHAR,JdbcType.CHAR};
 		JDBC_TYPES_DATE=new JdbcType[]{JdbcType.DATE};
 		JDBC_TYPES_TIMESTAMP=new JdbcType[]{JdbcType.TIMESTAMP};
+		JDBC_TYPES_BYTES=new JdbcType[]{JdbcType.BLOB,JdbcType.CLOB};
 	}
 
 	
@@ -149,6 +151,8 @@ public class ColumnTemplate {
 	 		mapJdbcEnum.put(DB_TYPE_DATETIME, JdbcType.DATE);
 	 		mapJdbcEnum.put(DB_TYPE_TIME, JdbcType.TIME);
 	 		mapJdbcEnum.put(DB_TYPE_TIMESTAMP, JdbcType.TIMESTAMP);
+	 		mapJdbcEnum.put(DB_TYPE_BLOB, JdbcType.BLOB);
+	 		mapJdbcEnum.put(DB_TYPE_LONGBLOB, JdbcType.BLOB);
 	 	}
 	 	if(DB_TYPE_NUMBER.equalsIgnoreCase(dbType)){
 			if(perc<=PREC_INTEGER){
@@ -181,6 +185,7 @@ public class ColumnTemplate {
 	 		mapJavaClass.put(JdbcType.DATE,Date.class);
 	 		mapJavaClass.put(JdbcType.TIME,Date.class);
 	 		mapJavaClass.put(JdbcType.TIMESTAMP,Timestamp.class);
+	 		mapJavaClass.put(JdbcType.BLOB, Byte.class);
 	 	}
 	 	javaClass=mapJavaClass.get(jdbcType);
 	 	if(javaClass==null){
