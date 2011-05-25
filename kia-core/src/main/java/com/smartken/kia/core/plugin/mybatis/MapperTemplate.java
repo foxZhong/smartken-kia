@@ -72,6 +72,7 @@ public abstract class MapperTemplate {
 	protected ArrayList<ColumnTemplate> cols=new ArrayList<ColumnTemplate>();
 	protected Class namespace;
 	protected Class modelClass;
+	private String idGener=null;
 
 	public void setNamespace(Class namespace) {
 		
@@ -99,13 +100,27 @@ public abstract class MapperTemplate {
 		}
 	}
 	
+	public MapperTemplate(String table,String pk,ArrayList<String> dbCols,ArrayList<String> dbTypes,ArrayList<Integer> precisions,String idGener){
+		
+		this.table=table;
+		this.pk=pk;
+		this.idGener=idGener;
+        for (int i = 0; i < dbCols.size(); i++) {
+			this.cols.add(new ColumnTemplate(dbCols.get(i), dbTypes.get(i),precisions.get(i)));
+			if(dbCols.get(i).equalsIgnoreCase(pk))
+			{
+				this.pkColumn=new ColumnTemplate(dbCols.get(i), dbTypes.get(i),precisions.get(i));
+			}
+		}
+	}
+	
 	public String getPkCol(){
 		String pattern="{0},jdbcType={1},javaType={2}";
 		String pk=MessageFormat.format(pattern, this.pkColumn.getJavaName(),this.pkColumn.getJdbcType(),this.pkColumn.getJavaType().getSimpleName());
 		return pk;
 	}
 	
-	public String getDbCols(){
+	private String getDbCols(){
 		if(cols==null)return "";
 		StringBuffer lSbrReturn=new StringBuffer("");
 		int colSize=cols.size();
@@ -125,7 +140,26 @@ public abstract class MapperTemplate {
 		return lSbrReturn.toString();
 	}
 	
-	public abstract String getInsertCol(ColumnTemplate ct);
+	public String getPol(ColumnTemplate ct){
+		String pattern="#'{'{0},jdbcType={1},javaType={2}'}'";
+		String patternBytes="#'{'{0},jdbcType={1}'}'";
+		String tempPattern=pattern;
+		if(ObjectUtil.isInArray(ct.getJdbcType(),ColumnTemplate.JDBC_TYPES_BYTES)){
+			tempPattern=patternBytes;
+		}
+		String str=MessageFormat.format(tempPattern
+				,ct.getJavaName()  //0
+				,ct.getJdbcType()  //1
+				,ct.getJavaType().getSimpleName()  //2
+		);
+		return str;
+	}
+	
+	public String getInsertCol(ColumnTemplate ct){
+		if(idGener!=null&& ObjectUtil.isEquals(ct.getDbColName(), pkColumn.getDbColName())){return idGener;}		
+		return this.getPol(ct);
+		
+	};
 	
 	public String getInsertCols(){
 		if(cols==null)return "";
@@ -140,7 +174,20 @@ public abstract class MapperTemplate {
 		return lSbrReturn.toString();
 	}
 	
-	public abstract String getUpdateCol(ColumnTemplate ct);
+	public String getUpdateCol(ColumnTemplate ct){
+		String str="";
+		String pattern="{0}={1}";
+		if(ct.getDbColName().equalsIgnoreCase(pk)){
+			str=MessageFormat.format("<if test=\"pk neq null\">{0}=#'{'pk'}'</if>",pk);
+		}else{
+		    str=MessageFormat.format(pattern
+				,ct.getDbColName()   //0
+				,this.getPol(ct)   //1
+		);
+		}
+		return str;
+		
+	};
 	
 	public String getUpdateCols(){
 		if(cols==null)return "";
@@ -155,15 +202,33 @@ public abstract class MapperTemplate {
 		return lSbrReturn.toString();
 	}
 	
-	public abstract String getResultMapPol(ColumnTemplate ct);
+
+	public String getResultMapPol(ColumnTemplate ct) {
+		// TODO Auto-generated method stub
+		String str="";
+		String patternId="<id column=\"{0}\"  property=\"{1}\" jdbcType=\"{2}\" javaType=\"{3}\"/>";
+		String patternResult="<result column=\"{0}\"  property=\"{1}\" jdbcType=\"{2}\" javaType=\"{3}\"/>";
+		String patternResult4bytes="<result column=\"{0}\"  property=\"{1}\" jdbcType=\"{2}\" />";
+		String tempPattern=patternResult;
+		if(ct.getDbColName().equalsIgnoreCase(this.pk)){
+			tempPattern=patternId;
+		}else if(ObjectUtil.isInArray(ct.getJdbcType(),ColumnTemplate.JDBC_TYPES_BYTES )) {
+		    tempPattern=patternResult4bytes;
+		}
+		str=MessageFormat.format(tempPattern,
+						ct.getDbColName(),   //1
+						ct.getJavaName(),   //2
+						ct.getJdbcType(),   //3  
+						ct.getJavaType().getSimpleName()  //4
+				  );
+		return str;
+	}
 	
-	public String getResultMapPols(){
+	
+	private String getResultMapPols(){
 		if(cols==null)return "";
 		StringBuffer lSbrReturn=new StringBuffer("");
 		int colSize=cols.size();
-		//String patternId="<id column=\"{0}\"  property=\"{1}\" jdbcType=\"{2}\" javaType=\"{3}\"/>";
-		//String patternResult="<result column=\"{0}\"  property=\"{1}\" jdbcType=\"{2}\" javaType=\"{3}\"/>";
-		//String patternResult4bytes="<result column=\"{0}\"  property=\"{1}\" jdbcType=\"{2}\" />";
 
 		for(int i=0;i<colSize;i++){
 			ColumnTemplate tempCol=cols.get(i);
@@ -184,43 +249,31 @@ public abstract class MapperTemplate {
 	}
 	
 
-//	public String getRefColumn(){
-//		StringBuffer lSbrReturn=new StringBuffer("");
-//		String pattern="<sql id=\"{0}Col\">#'{'{0},jdbcType={1},javaType={2}'}'</sql>";
-//		String pattern4bytes="<sql id=\"{0}Col\">#'{'{0},jdbcType={1}'}'</sql>";
-//		for(int i=0;i<cols.size();i++){
-//			ColumnTemplate tempCol=cols.get(i);
-//			String tempPattern=pattern;
-//			if(ColumnTemplate.DB_TYPE_BLOB.equalsIgnoreCase(tempCol.getDbColType())){
-//				tempPattern=pattern4bytes;
-//			}
-//			String tempStr=MessageFormat.format(tempPattern
-//					,tempCol.getJavaName()  //0
-//					,tempCol.getJdbcType()  //1
-//					,tempCol.getJavaType()  //2
-//			);
-//			
-//		}
-//		return lSbrReturn.toString();
-//	}
+
 	public String getJavaCol(ColumnTemplate ct){
-		return null;
+		String pattern="private {0} {1};         //{2}  {3} {4}";
+		String clsName=ct.getJavaType().getSimpleName();
+		if(Byte.class.equals(ct.getJavaType())){
+			clsName="byte[]";
+		}
+		String tempStr=MessageFormat.format(pattern,
+				clsName,  //0
+				ct.getJavaName()  //1
+				,ct.getDbColName()  //2
+				,ct.getDbColType()  //3
+				,ct.getPrecision()  //4
+		);
+		return tempStr;
 	};
 	
-	public String getJavaCols(){
+	private String getJavaCols(){
 		if(cols==null)return "";
 		StringBuffer lSbrReturn=new StringBuffer("");
 		int colSize=cols.size();
-		String pattern="private {0} {1};         //{2}  {3} {4}";
+		
 		for(int i=0;i<colSize;i++){
 			ColumnTemplate tempCol=cols.get(i);
-			String tempStr=MessageFormat.format(pattern,
-					tempCol.getJavaType().getSimpleName(),  //0
-					tempCol.getJavaName()  //1
-					,tempCol.getDbColName()  //2
-					,tempCol.getDbColType()  //3
-					,tempCol.getPrecision()  //4
-			);
+            String tempStr=getJavaCol(tempCol);
 			lSbrReturn.append(tempStr+"\n");
 		}
 		return lSbrReturn.toString();
@@ -245,9 +298,9 @@ public abstract class MapperTemplate {
 		return lSbrReturn.toString();
 	}
 	
-	public abstract String getCondition(ColumnTemplate ct,Q q);
+	public abstract String getCondition(ColumnTemplate ct);
 	
-	public String getConditions(){
+	private String getConditions(){
 		if(cols==null)return "";
 		StringBuffer lSbrReturn=new StringBuffer("");
 		int colSize=cols.size();
@@ -255,7 +308,7 @@ public abstract class MapperTemplate {
 		//String datePattern="<if test=\"model.{0} neq null\">and to_char(m.{1},{4})= to_char(#'{'model.{0},jdbcType={2} javaType={3} '}',{4}) </if> ";
 		for(int i=0;i<colSize;i++){
 			ColumnTemplate tempCol=cols.get(i);
-			String tempStr=this.getCondition(tempCol,null);
+			String tempStr=this.getCondition(tempCol);
 			lSbrReturn.append(tempStr).append("\n");
 		}
 		return lSbrReturn.toString();

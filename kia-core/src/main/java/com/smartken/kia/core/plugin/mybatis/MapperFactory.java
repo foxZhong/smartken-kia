@@ -25,9 +25,11 @@ public class MapperFactory {
 	private Connection connection;
     private Class<? extends MapperTemplate> cls;
 
-
-	
 	public  MapperTemplate createMapperTemplate(String table,String pk,Class nameSpace,Class modelClass) throws Exception{
+		return createMapperTemplate(table, pk, nameSpace, modelClass,null);
+	}
+	
+	public  MapperTemplate createMapperTemplate(String table,String pk,Class nameSpace,Class modelClass,String idGener) throws Exception{
 		if(modelClass==null || nameSpace==null)throw new Exception("MapperFactory creating error: nameSpace and modelclass can't be null");
 		MapperTemplate mapper=null;
 		try {
@@ -53,10 +55,10 @@ public class MapperFactory {
 			}
 		    
 		    if(OracleMapperTemplate.class.equals(this.cls)){
-			    mapper=new OracleMapperTemplate(table, pk, dbColNames,dbColTypes,precisions);
+			    mapper=new OracleMapperTemplate(table, pk, dbColNames,dbColTypes,precisions,idGener);
 
 		    }else if(MySQLMapperTemplate.class.equals(this.cls)){
-			    mapper=new MySQLMapperTemplate(table, pk, dbColNames,dbColTypes,precisions);
+			    mapper=new MySQLMapperTemplate(table, pk, dbColNames,dbColTypes,precisions,idGener);
 		    }else{
 		    	throw new Exception(this.cls.getName()+" is not a MapperTemplate");
 		    } 
