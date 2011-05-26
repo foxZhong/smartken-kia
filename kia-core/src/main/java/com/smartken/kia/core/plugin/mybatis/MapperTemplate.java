@@ -550,6 +550,9 @@ public abstract class MapperTemplate {
 		{ 
 			//xmlFile.delete();
 			File bakFile=new File(bakPath);
+			if(bakFile.exists()){
+				bakFile.delete();
+			}
 			xmlFile.renameTo(bakFile);
 			isSuccess=true;
 		}

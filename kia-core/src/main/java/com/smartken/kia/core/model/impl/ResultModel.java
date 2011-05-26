@@ -29,6 +29,7 @@ public class ResultModel extends BaseModel{
     	this.icon=ICON_INFO;
     	this.title="";
     	this.msg="";
+    	this.action=ACTION_SHOW;
     }
     
 	public Integer getCode() {
