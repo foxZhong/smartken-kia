@@ -9,17 +9,8 @@
 <package name="base-package" extends="struts-default" abstract="true">
    <default-interceptor-ref name="paramsPrepareParamsStack"></default-interceptor-ref>
    <global-results>
-       <result name="none" type="httpheader">
-        <param name="status">200</param>
-       </result>
-       <result name="json" type="httpheader">
-         <param name="status">200</param>
-       </result>
-       <result name="text" type="plainText">
-        <param name="charSet">UTF-8</param>
-       </result>
        <result name="error">/jsp/error.jsp</result>
    </global-results>
 </package>
-<include file="com/smartken/kia/web/action/sys/struts-sys.xml"></include> 
+<include file="com/smartken/kia/web/action/*/struts-*.xml"></include> 
 </struts>

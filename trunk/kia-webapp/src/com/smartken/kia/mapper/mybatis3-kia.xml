@@ -32,9 +32,9 @@
 -->
  
 <mappers>
-<mapper resource="com/smartken/kia/mapper/sys/IMenuMapper.xml"/>
-<mapper resource="com/smartken/kia/mapper/sys/IUserMapper.xml"/>
-<mapper resource="com/smartken/kia/mapper/sys/IDepartmentMapper.xml"/>
+<mapper resource="com/smartken/kia/mapper/admin/IMenuMapper.xml"/>
+<mapper resource="com/smartken/kia/mapper/admin/IUserMapper.xml"/>
+<mapper resource="com/smartken/kia/mapper/admin/IDepartmentMapper.xml"/>
 </mappers>
 
 </configuration>

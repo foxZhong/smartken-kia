@@ -8,7 +8,7 @@ import org.json.JSONArray;
 import com.smartken.kia.core.model.IBaseCrudBiz;
 
 
-public interface ISysBiz extends IBaseCrudBiz {
+public interface IAdminBiz extends IBaseCrudBiz {
 
 		
 	
