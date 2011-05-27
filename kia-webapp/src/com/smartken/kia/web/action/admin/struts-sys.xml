@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+
+<package name="admin"  extends="base-package" namespace="/admin" >
+
+   <action name="*/*/*" 
+     class="com.smartken.kia.web.action.admin.{1}Action" method="{2}_{3}">
+      <result name="input">/jsp/sys/{1}/{3}.jsp</result>
+      <result name="jsp">/jsp/sys/{1}/{3}.jsp</result>
+   </action>
+
+ 
+</package>
+
+
+
+
+</struts>
