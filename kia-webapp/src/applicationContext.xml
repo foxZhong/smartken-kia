@@ -58,6 +58,10 @@
 	</bean>
  -->
  
+ <jdbc:embedded-database>
+   <jdbc:script  location="" />
+ </jdbc:embedded-database>
+ 
  <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
    <property name="jndiName" value="${jndi.oradrvde}"></property>
  </bean>    
@@ -96,27 +100,32 @@
    </bean>
 
 <bean id="menuMapper" parent="baseMapper">
-    <property name="mapperInterface" value="com.smartken.kia.mapper.sys.IMenuMapper"></property>
+    <property name="mapperInterface" value="com.smartken.kia.mapper.admin.IMenuMapper"></property>
 </bean>
 <bean id="userMapper" parent="baseMapper">
-    <property name="mapperInterface" value="com.smartken.kia.mapper.sys.IUserMapper"></property>
+    <property name="mapperInterface" value="com.smartken.kia.mapper.admin.IUserMapper"></property>
 </bean>
 
 
  
  
 
-<bean class="com.smartken.kia.biz.impl.SysBiz" id="baseSysBiz" abstract="true" >
- <property name="iMenuMapper" ref="menuMapper"></property>
- <property name="iUserMapper" ref="userMapper"></property>
+<bean class="com.smartken.kia.biz.impl.BaseKiaBiz" id="baseAdminBiz" abstract="true" >
+ <property name="menuMapper" ref="menuMapper"></property>
+ <property name="userMapper" ref="userMapper"></property>
 </bean>
 
 
-<bean id="actionSysBiz" parent="baseSysBiz"></bean>
+<bean id="actionAdminBiz" parent="baseAdminBiz">
+</bean>
 
-<bean id="com.smartken.kia.web.action.sys.MenuAction" 
-      class="com.smartken.kia.web.action.sys.MenuAction">
-   <property name="iSysBiz" ref="actionSysBiz"></property>
+<bean class="com.smartken.kia.web.action.BaseAction" abstract="true"  id="baseAction"
+>
+   <property name="adminBiz" ref="actionAdminBiz"></property>
+</bean>
+
+<bean id="com.smartken.kia.web.action.admin.MenuAction"  parent="baseAction"
+      class="com.smartken.kia.web.action.admin.MenuAction">
 </bean>
 
 

@@ -22,6 +22,7 @@ import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 import com.opensymphony.xwork2.Preparable;
 import com.opensymphony.xwork2.interceptor.Interceptor;
+import com.smartken.kia.biz.IAdminBiz;
 import com.smartken.kia.core.enums.DataFormatEnum;
 import com.smartken.kia.core.model.IBaseAction;
 import com.smartken.kia.core.pager.PageBounds;
@@ -33,12 +34,21 @@ public abstract class BaseAction extends ActionSupport
 implements Preparable,IBaseAction
 {
 
+	
+	
 	private String dataFormat;
     private Integer page;
     private Integer rows;
     protected int count;
 
+	protected IAdminBiz adminBiz;
 	
+	
+	
+
+	public void setAdminBiz(IAdminBiz adminBiz) {
+		this.adminBiz = adminBiz;
+	}
 
 	public abstract void clear();
 	
@@ -61,7 +71,7 @@ implements Preparable,IBaseAction
 		}
 	}
 	
-	protected void writePlainText(String lStrText)
+	public void writePlainText(String lStrText)
 	{
 		try {
 				HttpServletResponse res=this.getResponse();
@@ -77,7 +87,7 @@ implements Preparable,IBaseAction
 		}
 	}
 	
-	protected void writeScript(String lStrScript)
+	public void writeScript(String lStrScript)
 	{
 		HttpServletResponse res=this.getResponse();
 		res.setContentType("text/html; charset=UTF-8");
