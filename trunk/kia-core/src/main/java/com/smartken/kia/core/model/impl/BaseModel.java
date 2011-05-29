@@ -49,13 +49,21 @@ public abstract class BaseModel implements IBaseModel ,IFormatterModel{
 				if(lObjFieldValue instanceof IFormatterModel)
 				{
 					lJsonTemp.put(lStrFieldName, lObjFieldValue==null?"":((IFormatterModel)lObjFieldValue).toJson());
-				}else if(lObjFieldValue instanceof Date || lObjFieldValue instanceof Timestamp){
+				}else if(lObjFieldValue instanceof Date ){
 					if(lObjFieldValue!=null){
 						Date d=(Date)lObjFieldValue;
 						//d.getTime();
-						lJsonTemp.put(lStrFieldName, d.getTime());
+						lJsonTemp.put(lStrFieldName, DateTimeUtil.format(d, DateTimeUtil.DATE_FORMAT_DB));
 					}else{
-						lJsonTemp.put(lStrFieldName,0);
+						lJsonTemp.put(lStrFieldName,"");
+					}
+				}else if( lObjFieldValue instanceof Timestamp){
+					if(lObjFieldValue!=null){
+						Timestamp t=(Timestamp)lObjFieldValue;
+						//d.getTime();
+						lJsonTemp.put(lStrFieldName, DateTimeUtil.format(t, DateTimeUtil.DATE_TIME_FORMAT_DB));
+					}else{
+						lJsonTemp.put(lStrFieldName,"");
 					}
 				}
 				else{

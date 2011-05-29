@@ -87,6 +87,25 @@ public class ObjectUtil {
 		return lJsonList;
 	}
 	
+	public static JSONArray toJsonArrayInclude(List<IFormatterModel> lListObj,List listFiled){
+		JSONArray lJsonList=new JSONArray();
+		for(Iterator<IFormatterModel> it=lListObj.iterator();it.hasNext();)
+		{
+			lJsonList.put(it.next().toJsonInclude(listFiled));
+		}
+		return lJsonList;
+	}
+	
+	public static JSONArray toJsonArrayExclude(List<IFormatterModel> lListObj,List listFiled){
+		JSONArray lJsonList=new JSONArray();
+		for(Iterator<IFormatterModel> it=lListObj.iterator();it.hasNext();)
+		{
+			lJsonList.put(it.next().toJsonExclude(listFiled));
+		}
+		return lJsonList;
+	}
+	
+	
 	@SuppressWarnings("all")
     public static boolean isEmpty(Object o)  {
         if(o == null) return true;
