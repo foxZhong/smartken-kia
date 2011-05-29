@@ -179,52 +179,99 @@ public class EasyUiUtil {
 		return editor;
 	}
 	
-	public static JsMapModel createTextEditor(boolean readonly){
+	public static JsMapModel createTextEditor(JsMapModel opts){
 		JsMapModel editor=new JsMapModel();
 		editor.put(EasyUiUtil.EDITOR_TYPE, EasyUiUtil.EDITOR_TYPE_TEXT,true);
 		
 		return editor;
 	}
 	
-	public static JsMapModel createTextareaEditor(boolean readonly){
+	public static JsMapModel createTextareaEditor(boolean required,JsMapModel opts){
 		JsMapModel editor=new JsMapModel();
 		editor.put(EasyUiUtil.EDITOR_TYPE, EasyUiUtil.EDITOR_TYPE_TEXTAREA,true);
-		return editor;
-	}
-	
-	public static JsMapModel createIntEditor(boolean required){
-		JsMapModel editor=new JsMapModel();
-		editor.put(EasyUiUtil.EDITOR_TYPE,EasyUiUtil.EDITOR_TYPE_NUMBERBOX,true);
-		JsMapModel opts=new JsMapModel();
-		opts.put(EasyUiModel.NumberBox.Properties.PRECISION, 0);
+		opts=opts==null?new JsMapModel():opts;
+		opts.put(EasyUiModel.ValidateBox.Properties.REQUIRED,required);
 		editor.put(EasyUiUtil.EDITOR_OPTIONS, opts);
 		return editor;
 	}
 	
-	public static JsMapModel createDoubleEditor(boolean required){
+	public static JsMapModel createValidateboxEditor(boolean required,JsMapModel opts){
 		JsMapModel editor=new JsMapModel();
-		editor.put(EasyUiUtil.EDITOR_TYPE,EasyUiUtil.EDITOR_TYPE_NUMBERBOX,true);
-		JsMapModel opts=new JsMapModel();
-		opts.put(EasyUiModel.NumberBox.Properties.PRECISION, 2);
+		editor.put(EasyUiUtil.EDITOR_TYPE, EasyUiUtil.EDITOR_TYPE_VALIDATEBOX,true);
+		opts=opts==null?new JsMapModel():opts;
+		if(!opts.containsKey(EasyUiModel.ValidateBox.Properties.REQUIRED)){
+			opts.put(EasyUiModel.ValidateBox.Properties.REQUIRED, required);
+		}
 		editor.put(EasyUiUtil.EDITOR_OPTIONS, opts);
 		return editor;
 	}
 	
-	public static JsMapModel createComboboxEditor(){
+	public static JsMapModel createIntEditor(boolean required,JsMapModel opts){
+		JsMapModel editor=new JsMapModel();
+		editor.put(EasyUiUtil.EDITOR_TYPE,EasyUiUtil.EDITOR_TYPE_NUMBERBOX,true);
+		opts=opts==null?new JsMapModel():opts;
+		if(!opts.containsKey(EasyUiModel.NumberBox.Properties.PRECISION)){
+			opts.put(EasyUiModel.NumberBox.Properties.PRECISION, 0);
+		}
+		if(!opts.containsKey(EasyUiModel.Spinner.Properties.INCREMENT)){
+			opts.put(EasyUiModel.Spinner.Properties.INCREMENT, 10);
+		}
+		if(!opts.containsKey(EasyUiModel.NumberBox.Properties.REQUIRED)){
+			opts.put(EasyUiModel.NumberBox.Properties.REQUIRED, required);
+		}
+		editor.put(EasyUiUtil.EDITOR_OPTIONS, opts);
+		return editor;
+	}
+	
+	public static JsMapModel createDoubleEditor(boolean required,JsMapModel opts){
+		JsMapModel editor=new JsMapModel();
+		editor.put(EasyUiUtil.EDITOR_TYPE,EasyUiUtil.EDITOR_TYPE_NUMBERBOX,true);
+		opts=opts==null?new JsMapModel():opts;
+		if(!opts.containsKey(EasyUiModel.NumberBox.Properties.PRECISION)){
+			opts.put(EasyUiModel.NumberBox.Properties.PRECISION, 2);
+		}
+		if(!opts.containsKey(EasyUiModel.Spinner.Properties.INCREMENT)){
+			opts.put(EasyUiModel.Spinner.Properties.INCREMENT, 10);
+		}
+		if(!opts.containsKey(EasyUiModel.NumberBox.Properties.REQUIRED)){
+			opts.put(EasyUiModel.NumberBox.Properties.REQUIRED, required);
+		}
+		editor.put(EasyUiUtil.EDITOR_OPTIONS, opts);
+		return editor;
+	}
+	
+	public static JsMapModel createComboboxEditor(boolean required,JsMapModel opts){
 		JsMapModel editor=new JsMapModel();
 		editor.put(EasyUiUtil.EDITOR_TYPE,EasyUiUtil.EDITOR_TYPE_COMBOBOX,true);
-		JsMapModel opts=new JsMapModel();
-		//opts.put(EasyUiModel.NumberBox.Properties.PRECISION, 2);
+		opts=opts==null?new JsMapModel():opts;
+		if(!opts.containsKey(EasyUiModel.ComboBox.Properties.REQUIRED)){
+			opts.put(EasyUiModel.ComboBox.Properties.REQUIRED,required);
+		}
+		if(!opts.containsKey(EasyUiModel.ComboBox.Properties.VALUE_FIELD)){
+			opts.put(EasyUiModel.ComboBox.Properties.VALUE_FIELD,"Id",true);
+		}
+		if(!opts.containsKey(EasyUiModel.ComboBox.Properties.TEXT_FIELD)){
+			opts.put(EasyUiModel.ComboBox.Properties.TEXT_FIELD,"Name",true);
+		}
+		
 		editor.put(EasyUiUtil.EDITOR_OPTIONS, opts);
 		return editor;
 	}
 	
-	public static JsMapModel createComboTreeEditor(){
+	public static JsMapModel createComboTreeEditor(boolean required,JsMapModel opts){
 		JsMapModel editor=new JsMapModel();
 		editor.put(EasyUiUtil.EDITOR_TYPE,EasyUiUtil.EDITOR_TYPE_COMBOTREE,true);
-		JsMapModel opts=new JsMapModel();
-		opts.put(EasyUiModel.NumberBox.Properties.PRECISION, 2);
-		//editor.put(EasyUiUtil.EDITOR_OPTIONS, opts);
+		opts=opts==null?new JsMapModel():opts;
+		if(!opts.containsKey(EasyUiModel.ComboTree.Properties.REQUIRED)){
+			opts.put(EasyUiModel.ComboTree.Properties.REQUIRED,required);
+		}
+		if(!opts.containsKey(EasyUiModel.ComboBox.Properties.VALUE_FIELD)){
+			opts.put(EasyUiModel.ComboBox.Properties.VALUE_FIELD,"Id",true);
+		}
+		if(!opts.containsKey(EasyUiModel.ComboBox.Properties.TEXT_FIELD)){
+			opts.put(EasyUiModel.ComboBox.Properties.TEXT_FIELD,"Name",true);
+		}
+		editor.put(EasyUiUtil.EDITOR_OPTIONS, opts);
 		return editor;
 	}
 	
@@ -237,12 +284,14 @@ public class EasyUiUtil {
 		return editor;
 	}
 	
-	public static JsMapModel createDateboxEditor(){
+	public static JsMapModel createDateboxEditor(boolean required,JsMapModel opts){
 		JsMapModel editor=new JsMapModel();
 		editor.put(EasyUiUtil.EDITOR_TYPE,EasyUiUtil.EDITOR_TYPE_DATEBOX,true);
-		//JsMapModel opts=new JsMapModel();
-		//opts.put(EasyUiModel.NumberBox.Properties.PRECISION, 2);
-		//editor.put(EasyUiUtil.EDITOR_OPTIONS, opts);
+		opts=opts==null?new JsMapModel():opts;
+		if(!opts.containsKey(EasyUiModel.ValidateBox.Properties.REQUIRED)){
+			opts.put(EasyUiModel.ValidateBox.Properties.REQUIRED,required);
+		}
+		editor.put(EasyUiUtil.EDITOR_OPTIONS, opts);
 		return editor;
 	}
 	
