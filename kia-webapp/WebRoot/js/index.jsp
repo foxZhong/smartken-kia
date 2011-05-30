@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" import="java.io.PrintWriter"
+<%@ page language="java" contentType="text/html; charset=UTF-8" import="java.io.PrintWriter"
     pageEncoding="UTF-8"%>
 <%@page import="java.net.URLDecoder"%>
     
@@ -35,10 +35,32 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      StringBuffer lSbrScript=new StringBuffer("");
      String lStrPlugFloder=basePath+"/js";
      
+     String lStrCommon=request.getParameter("common")==null?"":request.getParameter("common");
      if(lStrTheme.length()<1)
      {
-        lSbrScript.append(getCssLinkTag(lStrPlugFloder+"/kia-icon.css"));
-        lSbrScript.append(getScriptTag(lStrPlugFloder+"/kia.js"));
+        //lSbrScript.append(getCssLinkTag(lStrPlugFloder+"/kia-icon.css"));
+        //lSbrScript.append(getScriptTag(lStrPlugFloder+"/util/core.js"));
+        //lSbrScript.append(getScriptTag(lStrPlugFloder+"/custom/setting.js"));
+        //lSbrScript.append(getScriptTag(lStrPlugFloder+"/prototype/date.js"));
+        //lSbrScript.append(getScriptTag(lStrPlugFloder+"/extends/jquery.js"));
+        //lSbrScript.append(getScriptTag(lStrPlugFloder+"/extends/easyui.js"));
+        //lSbrScript.append(getScriptTag(lStrPlugFloder+"/common/util.js"));
+        //lSbrScript.append(getScriptTag(lStrPlugFloder+"/ui/datagrid.js"));
+    	 lSbrScript
+    	 .append(getScriptTag(lStrPlugFloder+"/core.js"))
+    	 .append(getScriptTag(lStrPlugFloder+"/setting.js"))
+    	 .append(getScriptTag(lStrPlugFloder+"/extends.jquery.js"))
+    	 .append(getScriptTag(lStrPlugFloder+"/extends.easyui.js"))
+    	 .append(getScriptTag(lStrPlugFloder+"/easyui.CrudDatagrid.js"))
+    	 .append(getScriptTag(lStrPlugFloder+"/prototype.Object.js"))
+    	 .append(getScriptTag(lStrPlugFloder+"/prototype.Array.js"))
+    	 .append(getScriptTag(lStrPlugFloder+"/prototype.String.js"))
+    	 //.append(getScriptTag(lStrPlugFloder+"/package.js"))
+    	 ;
+     }
+     
+     if(lStrCommon.length()>0){
+    	 
      }
  
      _PW.write(lSbrScript.toString());
