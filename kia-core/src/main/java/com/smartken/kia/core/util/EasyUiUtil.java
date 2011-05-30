@@ -80,7 +80,25 @@ public class EasyUiUtil {
 		JsMapModel column=new JsMapModel();
 		column.put(EasyUiModel.DataGrid.ColumnProperties.FIELD, field,isStr);
 		column.put(EasyUiModel.DataGrid.ColumnProperties.WIDTH, 200);
-		column.put(EasyUiModel.DataGrid.ColumnProperties.EDITOR,"text",true);
+		JsMapModel editor=createTextEditor(null);
+		column.put(EasyUiModel.DataGrid.ColumnProperties.EDITOR,editor);
+		return column;
+	}
+	
+	public static JsMapModel createTextareaColumn(String field){
+		return createTextareaColumn(field, false);
+	}
+	
+	public static JsMapModel createTextareaColumn(Enum en){
+		return createTextareaColumn(en.name(), true);
+	}
+	
+	public static JsMapModel createTextareaColumn(String field,boolean isStr){
+		JsMapModel column=new JsMapModel();
+		column.put(EasyUiModel.DataGrid.ColumnProperties.FIELD, field,isStr);
+		column.put(EasyUiModel.DataGrid.ColumnProperties.WIDTH, 200);
+		JsMapModel editor=createTextareaEditor(false,null);
+		column.put(EasyUiModel.DataGrid.ColumnProperties.EDITOR,editor);
 		return column;
 	}
 	
@@ -96,7 +114,8 @@ public class EasyUiUtil {
 		JsMapModel column=new JsMapModel();
 		column.put(EasyUiModel.DataGrid.ColumnProperties.FIELD, field,isStr);
 		column.put(EasyUiModel.DataGrid.ColumnProperties.WIDTH, 200);
-		column.put(EasyUiModel.DataGrid.ColumnProperties.EDITOR,"kiaIntbox",true);
+		JsMapModel editor=createIntEditor(true, null);
+		column.put(EasyUiModel.DataGrid.ColumnProperties.EDITOR,editor);
 		return column;
 	}
 	
@@ -112,7 +131,8 @@ public class EasyUiUtil {
 		JsMapModel column=new JsMapModel();
 		column.put(EasyUiModel.DataGrid.ColumnProperties.FIELD, field,isStr);
 		column.put(EasyUiModel.DataGrid.ColumnProperties.WIDTH, 200);
-		column.put(EasyUiModel.DataGrid.ColumnProperties.EDITOR,"kiaDoublebox",true);
+		JsMapModel editor=createDoubleEditor(true, null);
+		column.put(EasyUiModel.DataGrid.ColumnProperties.EDITOR,editor);
 		return column;
 	}
 	
@@ -128,7 +148,8 @@ public class EasyUiUtil {
 		JsMapModel column=new JsMapModel();
 		column.put(EasyUiModel.DataGrid.ColumnProperties.FIELD, field,isStr);
 		column.put(EasyUiModel.DataGrid.ColumnProperties.WIDTH, 150);
-		//column.put(EasyUiModel.DataGrid.ColumnProperties.FORMATTER, "dateboxFormatter");
+		JsMapModel editor=createDateboxEditor(true, null);
+		column.put(EasyUiModel.DataGrid.ColumnProperties.EDITOR,editor);
 		return column;	
 	}
 	
@@ -144,7 +165,8 @@ public class EasyUiUtil {
 		JsMapModel column=new JsMapModel();
 		column.put(EasyUiModel.DataGrid.ColumnProperties.FIELD, field,isStr);
 		column.put(EasyUiModel.DataGrid.ColumnProperties.WIDTH, 100);
-		column.put(EasyUiModel.DataGrid.ColumnProperties.FORMATTER, "dateboxFormatter");
+		JsMapModel editor=createDateboxEditor(true, null);
+		column.put(EasyUiModel.DataGrid.ColumnProperties.EDITOR,editor);
 		return column;	
 	}
 	
