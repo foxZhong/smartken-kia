@@ -15,6 +15,13 @@ import java.util.Iterator;
 import java.util.Map;
 
 
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.DocumentHelper;
+import org.dom4j.DocumentType;
+import org.dom4j.Element;
+import org.dom4j.dom.DOMDocumentType;
+import org.dom4j.io.SAXReader;
 import org.w3c.dom.ls.LSResourceResolver;
 
 import com.smartken.kia.core.enums.CodeEnum;
@@ -516,6 +523,83 @@ public abstract class MapperTemplate {
 	   
    }
     
+    public Document getMapperDocument(){
+    	Document document=DocumentHelper.createDocument();
+    	document.setXMLEncoding("UTF-8");
+    	StringBuffer strComment=new StringBuffer("");
+    	SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+    	strComment
+    	.append(StringUtil.tab()).append("Create Date:").append(sdf.format(new Date())).append(StringUtil.ln(1))
+        .append(StringUtil.tab()).append("MapperTemplate:").append(this.getSubClass().getName()).append(StringUtil.ln(1))
+        .append(StringUtil.tab()).append("Model:").append(this.modelClass.getName()).append(StringUtil.ln(2))
+    	.append(" public static enum F { \n  "+this.getEnum()+"  \n } ").append(StringUtil.ln(2))
+        .append(this.getJavaCols()).append(StringUtil.ln(1))
+        ;
+        document.addComment(strComment.toString());
+    	DocumentType documentType=new DOMDocumentType();
+    	documentType.setName("mapper");
+    	documentType.setPublicID("-//mybatis.org//DTD Mapper 3.0//EN");
+    	documentType.setSystemID("http://mybatis.org/dtd/mybatis-3-mapper.dtd");
+    	document.setDocType(documentType);
+    	
+    	Element elMapper=DocumentHelper.createElement("mapper");
+    	elMapper.addAttribute("namespace", this.namespace.getName());
+        
+    	Element elCache=DocumentHelper.createElement("cache");
+    	elCache.addAttribute("flushInterval", "30000");
+    	elCache.addAttribute("readOnly", "true");
+    	
+    	Element elSqlTable=DocumentHelper.createElement("sql");
+    	elSqlTable.addAttribute("id", "table");
+    	elSqlTable.setText(this.table);
+    	
+    	Element elSqlPk=DocumentHelper.createElement("sql");
+    	elSqlPk.addAttribute("id", "pk");
+    	elSqlPk.setText(this.pk);
+    	
+    	Element elSqlColums=DocumentHelper.createElement("sql");
+    	elSqlColums.addAttribute("id", "colums");
+    	elSqlColums.setText(this.getDbCols());
+    	
+    	Element elSqlInsertCols=DocumentHelper.createElement("sql");
+    	elSqlInsertCols.addAttribute("id", "insertCols");
+    	elSqlInsertCols.setText(this.getInsertCols());
+    	
+    	Element elSqlUpdateCols=DocumentHelper.createElement("sql");
+    	elSqlUpdateCols.addAttribute("id", "updateCols");
+    	elSqlUpdateCols.setText(this.getUpdateCols());
+    	
+    	Element elSqlOrderby=DocumentHelper.createElement("sql");
+    	elSqlOrderby.addAttribute("id", "orderby");
+    	elSqlOrderby.setText("order by m."+this.pk+" desc");
+    	
+    	Element elSqlJoinColums=DocumentHelper.createElement("sql");
+    	elSqlJoinColums.addAttribute("id", "joinColums");
+    	
+    	Element elSqlJoin=DocumentHelper.createElement("sql");
+    	elSqlJoin.addAttribute("id", "join");
+    	
+    	
+    	Element elSqlResultMap=DocumentHelper.createElement("resultMap");
+    	elSqlResultMap.addAttribute("id","resultMap");
+    	elSqlResultMap.addAttribute("type", this.modelClass.getName());
+    	
+    	elMapper.add(elCache);
+    	elMapper.add(elSqlTable);
+    	elMapper.add(elSqlPk);
+    	elMapper.add(elSqlColums);
+    	elMapper.add(elSqlInsertCols);
+    	elMapper.add(elSqlUpdateCols);
+    	elMapper.add(elSqlOrderby);
+    	elMapper.add(elSqlJoinColums);
+    	elMapper.add(elSqlJoin);
+    	elMapper.add(elSqlResultMap);
+  
+    	
+    	document.add(elMapper);  	
+    	return document;
+    }
+    
     public boolean generalMapplerXML(String srcPath){
     	return this.generalMapplerXML(srcPath,"");
     }
@@ -570,23 +654,36 @@ public abstract class MapperTemplate {
 	   return isSuccess;
    }
 
+   public static void parseXml(String xmlPath){
+	   SAXReader saxReader=new SAXReader();
+	   try {
+	   Document document=saxReader.read(new File(xmlPath));
+	   Element element=document.getRootElement();
+	} catch (DocumentException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+   }
 	
 	public static void main(String[] args){
-
-		ArrayList<String> cols=new ArrayList<String>();
-		cols.add("wekk_ddd");
-		cols.add("wexdfskk_ddd");
-		cols.add("adafwekk_drsfdd_adff");
-		cols.add("wekk_ddd");
-		cols.add("wexdfskk_ddd");
-		cols.add("adafwekk_drsfdd_adff");
-		cols.add("wekk_ddd");
-		cols.add("wexdfskk_ddd");
-		cols.add("adafwekk_drsfdd_adff");
-		cols.add("wekk_ddd");
-		cols.add("wexdfskk_ddd");
-		cols.add("adafwekk_drsfdd_adff");
-		//MapperTemplate mt=new MapperTemplate("xxx", "id", cols);
+           String xmlPath="h:\\project2\\smartken-kia\\kia-core\\src\\main\\java\\com\\smartken\\kia\\core\\plugin\\mybatis\\IMapper.xml";
+		   SAXReader saxReader=new SAXReader();
+		   try {
+		   Document document=saxReader.read(new File(xmlPath));
+		   System.out.println(document.getDocType().getName());
+		   Element element=document.getRootElement();
+		   for(Iterator<Element> it=element.elementIterator("sql");it.hasNext();){
+			   Element tempElement=it.next();
+			   if(tempElement.attributeValue("id").equals("pk")){
+				   System.out.println(tempElement.asXML());
+			   }
+			  
+		   }
+		   
+		} catch (DocumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 	
