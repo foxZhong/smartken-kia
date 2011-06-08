@@ -3,6 +3,7 @@ package com.smartken.kia.core.model;
 import java.util.List;
 
 
+import com.smartken.kia.core.model.impl.ResultModel;
 import com.smartken.kia.core.pager.PageArrayList;
 import com.smartken.kia.core.pager.PageBounds;
 import com.smartken.kia.core.pager.PageList;
@@ -37,17 +38,17 @@ public interface IBaseCrudBiz {
     public List getViewNotInPk(List listPk)  ;
     public PageArrayList getViewNotInPk(List listPk,PageBounds pPage) ;
     
-    public int removeModelEqPk(Object pk);
-    public int removeModelInPk(List listPk)  ;
-    public int removeModelNotInPk(List listPk)  ;
-    public int addModel(Object model)  ;
-    public int modifyModel(Object model)  ;
-    public int modifyModel(Object model,Object pkNew)  ; 
+    public ResultModel removeModelEqPk(Object pk);
+    public ResultModel removeModelInPk(List listPk)  ;
+    public ResultModel removeModelNotInPk(List listPk)  ;
+    public ResultModel addModel(Object model)  ;
+    public ResultModel modifyModel(Object model)  ;
+    public ResultModel modifyModel(Object model,Object pkNew)  ; 
     
-    public int addOrModifyModel(Object model)  ;
-    public int addOrModifyModel(Object model,Object pkNewPk)  ;
+    public ResultModel addOrModifyModel(Object model)  ;
+    public ResultModel addOrModifyModel(Object model,Object pkNewPk)  ;
     
-    public int modifyOrAddModel(Object model)  ;
-    public int modifyOrAddModel(Object model,Object pkNewPk)  ;
+    public ResultModel modifyOrAddModel(Object model)  ;
+    public ResultModel modifyOrAddModel(Object model,Object pkNewPk)  ;
     public int count()  ;
 }

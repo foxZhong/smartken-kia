@@ -18,6 +18,7 @@ public class ResultModel extends BaseModel{
 	public static String ACTION_ALERT="alert";
 	public static String ACTION_PROMPT="prompt";
 	
+	private int re;
     private Integer code;
     private String icon;
     private String title;
@@ -25,6 +26,7 @@ public class ResultModel extends BaseModel{
     private String action;
 	
     public ResultModel(){
+    	this.re=0;
     	this.code=CODE_SUCCESS;
     	this.icon=ICON_INFO;
     	this.title="";
@@ -78,6 +80,14 @@ public class ResultModel extends BaseModel{
 
 	public void setAction(String action) {
 		this.action = action;
+	}
+
+	public int getRe() {
+		return re;
+	}
+
+	public void setRe(int re) {
+		this.re = re;
 	}
 
 
