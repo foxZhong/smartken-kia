@@ -54,8 +54,8 @@ public class PageArrayList<E> extends ArrayList<E> {
     	int limit=pb.getLimit();
         this.fromIndex=offset*limit;
         this.toIndex=(offset+1)*limit;
-        if(toIndex>=this.count){
-        	toIndex=this.count-1;
+        if(toIndex>this.count){
+        	toIndex=this.count;
         }
     	if(fromIndex>toIndex){
     		fromIndex=toIndex-(toIndex%limit);

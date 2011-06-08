@@ -144,112 +144,175 @@ public abstract class BaseCurdBiz implements IBaseCrudBiz {
 		return list;
 	}
 
-	public int modifyModel(Object model, Object pkNew) {
+	public ResultModel modifyModel(Object model, Object pkNew) {
 		// TODO Auto-generated method stub
+		ResultModel reModel=new ResultModel();
 		int re=0;
 		try{
 			re+=this.crudMapper.updateOne(model,pkNew);
+			reModel.setRe(re);
+			if(re==1){
+				reModel.setTitle("操作成功");
+				reModel.setMsg("记录修改成功");
+			}else {
+				reModel.setAction(ResultModel.ACTION_ALERT);
+				reModel.setTitle("操作失败");
+				reModel.setMsg("记录修改失败");
+			}
 		}catch(Exception ex){
 			ex.printStackTrace();
-			return 0;
+			reModel.setAction(ResultModel.ACTION_ALERT);
+			reModel.setTitle("操作失败");
+			reModel.setMsg("错误信息:"+ex.getLocalizedMessage());
+			return reModel;
 		}
-		return re;
+		return reModel;
 	}
-	public int modifyModel(Object model) {
+	public ResultModel modifyModel(Object model) {
 		// TODO Auto-generated method stub
-		int re=0;
-		try{
-			re+=this.crudMapper.updateOne(model);
-		}catch(Exception ex){
-			ex.printStackTrace();
-			return 0;
-		}
-		return re;
+		return modifyModel(model, null);
 	}
 	
-	public int removeModelEqPk(Object pk) {
+	public ResultModel removeModelEqPk(Object pk) {
 		// TODO Auto-generated method stub
+		ResultModel reModel=new ResultModel();
 		int re=0;
 		try{
 			re+=this.crudMapper.deleteEqPk(pk);
+			reModel.setRe(re);
+			if(re==1){
+				reModel.setTitle("操作成功");
+				reModel.setMsg(re+"条记录删除成功");
+			}else {
+				reModel.setAction(ResultModel.ACTION_ALERT);
+				reModel.setTitle("操作失败");
+				reModel.setMsg("没有记录被删除");
+			}
 		}catch(Exception ex){
 			ex.printStackTrace();
-			return 0;
+			reModel.setAction(ResultModel.ACTION_ALERT);
+			reModel.setTitle("操作失败");
+			reModel.setMsg("错误信息:"+ex.getLocalizedMessage());
+			return reModel;
 		}
-		return re;
+		return reModel;
 	}
 	
-	public int removeModelInPk(List listPk)  {
+	public ResultModel removeModelInPk(List listPk)  {
 		// TODO Auto-generated method stub
+		ResultModel reModel=new ResultModel();
 		int re=0;
 		try{
 			re+=this.crudMapper.deleteInPk(listPk);
+			reModel.setRe(re);
+			if(re>0){
+				reModel.setTitle("操作成功");
+				reModel.setMsg(re+"条记录删除成功");
+			}else {
+				reModel.setAction(ResultModel.ACTION_ALERT);
+				reModel.setTitle("操作失败");
+				reModel.setMsg("没有记录被删除");
+			}
 		}catch(Exception ex){
 			ex.printStackTrace();
-			return 0;
+			reModel.setAction(ResultModel.ACTION_ALERT);
+			reModel.setTitle("操作异常");
+			reModel.setMsg("错误信息:"+ex.getLocalizedMessage());
+			return reModel;
 		}
-		return re;
+		return reModel;
 	}
-	public int removeModelNotInPk(List listPk) {
+	public ResultModel removeModelNotInPk(List listPk) {
 		// TODO Auto-generated method stub
+		ResultModel reModel=new ResultModel();
 		int re=0;
 		try{
 			re+=this.crudMapper.deleteNotInPk(listPk);
+			reModel.setRe(re);
+			if(re>0){
+				reModel.setTitle("操作成功");
+				reModel.setMsg(re+"条记录删除成功");
+			}else {
+				reModel.setAction(ResultModel.ACTION_ALERT);
+				reModel.setTitle("操作失败");
+				reModel.setMsg("没有记录被删除");
+			}
 		}catch(Exception ex){
 			ex.printStackTrace();
-			return 0;
+			reModel.setAction(ResultModel.ACTION_ALERT);
+			reModel.setTitle("操作异常");
+			reModel.setMsg("错误信息:"+ex.getLocalizedMessage());
+			return reModel;
 		}
-		return re;
+		return reModel;
 	}
 	
 	
 	
-	public int addModel(Object model)  {
+	public ResultModel addModel(Object model)  {
 		// TODO Auto-generated method stub
+		ResultModel reModel=new ResultModel();
 		int re=0;
 		try{
 			re+=this.crudMapper.insertOne(model);
+			reModel.setRe(re);
+			if(re==1){
+				reModel.setTitle("操作成功");
+				reModel.setMsg(re+"条记录创建成功");
+			}else {
+				reModel.setAction(ResultModel.ACTION_ALERT);
+				reModel.setTitle("操作失败");
+				reModel.setMsg("没有记录被创建");
+			}
+			
 		}catch(Exception ex){
 			ex.printStackTrace();
-			return 0;
+			reModel.setAction(ResultModel.ACTION_ALERT);
+			reModel.setTitle("操作异常");
+			reModel.setMsg("错误信息:"+ex.getLocalizedMessage());
+			return reModel;
 		}
-	    return re;
+	    return reModel;
 	}
 	
 	
 	
 	
-	public int addOrModifyModel(Object model, Object pkNewPk)  {
+	public ResultModel addOrModifyModel(Object model, Object pkNewPk)  {
 		// TODO Auto-generated method stub
-		int re=addModel(model);
-		if(re==0){
-			re=modifyModel(model,pkNewPk);
+		ResultModel reModel=new ResultModel();
+		reModel=addModel(model);
+		if(reModel.getRe()==0){
+			reModel=modifyModel(model,pkNewPk);
 		}
-		return re;
+		return reModel;
 	}
-	public int addOrModifyModel(Object model)  {
+	public ResultModel addOrModifyModel(Object model)  {
 		// TODO Auto-generated method stub
-		int re=addModel(model);
-		if(re==0){
-			re=modifyModel(model);
+		ResultModel reModel=new ResultModel();
+		reModel=addModel(model);
+		if(reModel.getRe()==0){
+			reModel=modifyModel(model);
 		}
-		return re;
+		return reModel;
 	}
-	public int modifyOrAddModel(Object model, Object pkNewPk)  {
+	public ResultModel modifyOrAddModel(Object model, Object pkNewPk)  {
 		// TODO Auto-generated method stub
-		int re=modifyModel(model,pkNewPk);
-		if(re==0){
-			re=addModel(model);
+		ResultModel reModel=new ResultModel();
+		reModel =modifyModel(model,pkNewPk);
+		if(reModel.getRe()==0){
+			reModel=addModel(model);
 		}
-		return re;
+		return reModel;
 	}
-	public int modifyOrAddModel(Object model)  {
+	public ResultModel modifyOrAddModel(Object model)  {
 		// TODO Auto-generated method stub
-		int re=modifyModel(model);
-		if(re==0){
-			re=addModel(model);
+		ResultModel reModel=new ResultModel();
+		reModel=modifyModel(model);
+		if(reModel.getRe()==0){
+			reModel=addModel(model);
 		}
-		return re;
+		return reModel;
 	}
 	public boolean loadCrudMapper(Class c) throws NullPointerException{
 		IMapper mapper=mappers.get(c);
