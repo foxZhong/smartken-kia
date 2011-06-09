@@ -63,7 +63,7 @@ public class MenuAction extends BaseAction
 		System.out.println("save:"+menu.toJson());
 		int re=0;
 		try {
-			re = this.adminBiz.modifyModel(menu);
+			re = this.adminBiz.modifyModel(menu).getRe();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -81,7 +81,7 @@ public class MenuAction extends BaseAction
 	    if(menuids!=null&&req.getMethod().equalsIgnoreCase(METHOD_GET))
 		{
              lListIds=StringUtil.splitToList(menuids,",");
-             int re=this.adminBiz.removeModelInPk(lListIds);
+             int re=this.adminBiz.removeModelInPk(lListIds).getRe();
              writeHTML(""+re+"");
              return NONE;
 		}else if(req.getMethod().equalsIgnoreCase(METHOD_POST))
@@ -234,7 +234,7 @@ public class MenuAction extends BaseAction
 
 	public String fn_add() throws Exception {
 		// TODO Auto-generated method stub
-		int re=adminBiz.addModel(menu);
+		int re=adminBiz.addModel(menu).getRe();
 		return NONE;
 	}
 

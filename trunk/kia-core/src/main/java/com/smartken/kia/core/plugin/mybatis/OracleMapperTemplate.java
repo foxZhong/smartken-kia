@@ -31,9 +31,9 @@ final public class OracleMapperTemplate extends MapperTemplate{
 	public String getCondition(ColumnTemplate ct) {
 		// TODO Auto-generated method stub
 		String str="";
-		String pattern="<if test=\"model.{0} neq null\">and m.{1} = #'{'model.{0},jdbcType={2} javaType={3} '}' </if> ";
-		String patternLike="<if test=\"model.{0} neq null\">and m.{1} like #'{'model.{0},jdbcType={2} javaType={3} '}' </if> ";
-		String datePattern="<if test=\"model.{0} neq null\">and to_char(m.{1},{4}) = to_char(#'{'model.{0},jdbcType={2} javaType={3} '}',{4}) </if> ";
+		String pattern="<if test=\"model.{0} neq null\">and m.{1} = #'{'model.{0},jdbcType={2}, javaType={3} '}' </if> ";
+		String patternLike="<if test=\"model.{0} neq null\">and m.{1} like #'{'model.{0},jdbcType={2} ,javaType={3} '}' </if> ";
+		String datePattern="<if test=\"model.{0} neq null\">and to_char(m.{1},{4}) = to_char(#'{'model.{0},jdbcType={2}, javaType={3} '}',{4}) </if> ";
 		String tempPattern=pattern;		
 		if(ObjectUtil.isInArray(ct.getJdbcType(), ColumnTemplate.JDBC_TYPES_DATE )
 		 ||ObjectUtil.isInArray(ct.getJdbcType(), ColumnTemplate.JDBC_TYPES_TIMESTAMP )

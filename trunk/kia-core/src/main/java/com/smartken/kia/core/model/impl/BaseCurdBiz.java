@@ -94,13 +94,13 @@ public abstract class BaseCurdBiz implements IBaseCrudBiz {
 		// TODO Auto-generated method stub
 		Object obj=null;
 		try{
+			System.out.println(this.crudMapper.toString());
 			obj=this.crudMapper.selectEqPk(pk);
 		}catch(Exception ex){
 			ex.printStackTrace();
 			return obj;
-		}finally{
-			return obj;
 		}
+		return obj;
 	}
 
 	

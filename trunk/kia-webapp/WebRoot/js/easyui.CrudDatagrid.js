@@ -15,12 +15,12 @@ var CrudDatagrid=function(opts){
 	this._regexp=opts["regexp"]||"";
     this._id=opts["id"]||"Id";
     this._initRow=opts["initRow"]||function(){return {};};
-    this._editors=opts["editors"];
+    this._editors=opts["editors"]||[];
     //alert("init");
 };
 
-CrudDatagrid.prototype.getToolbar=function(){
-		    var newRow=new this._initRow();
+CrudDatagrid.prototype.getToolbar=function(opts){
+	        var newRow=new this._initRow();
 	        var regexp=this._regexp;
 	        var id=this._id;
 	        var urlRemove=this._urlRemove;
