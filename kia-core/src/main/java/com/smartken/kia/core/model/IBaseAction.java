@@ -17,6 +17,11 @@ public interface IBaseAction {
     public static String CONTENT_TYPE_TEXT="text/plain; charset=UTF-8";
     public static String CONTENT_TYPE_HTML="text/html; charset=UTF-8";
     public static String CONTENT_TYPE_IMG="image; charset=UTF-8";
+    public static String CONTENT_TYPE_PDF="application/pdf";
+    public static String CONTENT_TYPE_DOC="application/msword";
+    public static String CONTENT_TYPE_EXCEL="application/vnd.ms-excel";
+    
+    public static String HEADER_Content_DISPOSITION="Content-disposition";
     
     public void clear();
     
