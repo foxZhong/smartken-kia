@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 
 
+import java.security.acl.LastOwnerException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import com.smartken.kia.core.enums.StringFormatEnum;
@@ -20,6 +21,7 @@ import com.smartken.kia.core.util.ObjectUtil;
 import com.smartken.kia.core.util.StringUtil;
 
 
+import java.awt.Label;
 import java.io.Serializable;
 import java.lang.reflect.*;
 import java.net.URLEncoder;
@@ -29,6 +31,9 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+
+import jxl.Cell;
+import jxl.write.WritableCell;
 
 
 
@@ -214,6 +219,9 @@ public abstract class BaseModel implements IBaseModel ,IFormatterModel{
 				}else if(t.equals(Integer.class)){
 					Integer i=ObjectUtil.formatInt(obj.toString());
 					lMth.invoke(this, i);
+				}else if(t.equals(Float.class)){
+					Float fol=ObjectUtil.formatFloat(obj.toString());
+					lMth.invoke(this, fol);
 				}
 			}else{
 			lMth.invoke(this,obj);
@@ -373,7 +381,22 @@ public abstract class BaseModel implements IBaseModel ,IFormatterModel{
 
 
 
-
+   public List<Cell> toExcelRow(List<String> fields,int rowIndex,int cellIndex){
+	   List<Cell> listCell=new ArrayList<Cell>();
+       for(int i=0;i<fields.size();i++){
+    	   String field=fields.get(i);
+    	   try {
+			Type type=this.type(field);
+		    
+		    
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	   
+       }
+	   return listCell;
+   }
 
 
 	

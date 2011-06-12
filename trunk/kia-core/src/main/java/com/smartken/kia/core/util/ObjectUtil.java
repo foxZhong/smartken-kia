@@ -74,6 +74,26 @@ public class ObjectUtil {
 		return lDubFormat;
 	}
 	
+	public static float formatFloat(Object lObjFormat)
+	{
+		return formatFloat(lObjFormat, 0);
+	}
+	
+	public static float formatFloat(Object lObjFormat,float lFloDefault)
+	{
+		if(lObjFormat==null)
+			return lFloDefault;
+		float lFloFormat;
+		try
+		{
+			lFloFormat=Float.parseFloat(lObjFormat.toString());
+		}catch(NumberFormatException nfe)
+		{
+			lFloFormat=lFloDefault;
+		}
+		return lFloFormat;
+	}
+	
 
 	
 	
