@@ -46,7 +46,7 @@ public class ObjectUtil {
 		int lIntFormat;
 		try
 		{
-			lIntFormat=Integer.parseInt(lObjFormat.toString());
+			lIntFormat=Integer.parseInt(lObjFormat.toString().trim());
 		}catch(NumberFormatException nfe)
 		{
 			lIntFormat=lIntDefault;
@@ -66,7 +66,7 @@ public class ObjectUtil {
 		double lDubFormat;
 		try
 		{
-			lDubFormat=Double.parseDouble(lObjFormat.toString());
+			lDubFormat=Double.parseDouble(lObjFormat.toString().trim());
 		}catch(NumberFormatException nfe)
 		{
 			lDubFormat=lDubDefault;
@@ -86,7 +86,7 @@ public class ObjectUtil {
 		float lFloFormat;
 		try
 		{
-			lFloFormat=Float.parseFloat(lObjFormat.toString());
+			lFloFormat=Float.parseFloat(lObjFormat.toString().trim());
 		}catch(NumberFormatException nfe)
 		{
 			lFloFormat=lFloDefault;
