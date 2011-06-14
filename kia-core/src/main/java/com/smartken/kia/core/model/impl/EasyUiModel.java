@@ -149,6 +149,8 @@ public class EasyUiModel implements IScriptModel{
 	public static final String ICON_REDO="icon-redo";
 	public static final String ICON_BACK="icon-back";
 	
+	public static final String VIEW_GROUP="groupview";
+	public static final String VIEW_DETAIL="detailview";
 	
 //layout
 public static final class Panel{
@@ -446,6 +448,10 @@ public static final class Dialog
 			public static final String SORT_NAME="sortName";
 			public static final String SORT_ORDER="sortOrder";
 			public static final String TOOLBAR="toolbar";
+			public static final String VIEW="view";
+			public static final String GROUP_FIELD="groupField";
+			public static final String GROUP_FORMATTER="groupFormatter";
+			public static final String DETAIL_FORMATTER="detailFormatter";
 
 		}
 		
