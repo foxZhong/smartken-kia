@@ -47,7 +47,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         //lSbrScript.append(getScriptTag(lStrPlugFloder+"/common/util.js"));
         //lSbrScript.append(getScriptTag(lStrPlugFloder+"/ui/datagrid.js"));
     	 lSbrScript
-    	 .append(getScriptTag(lStrPlugFloder+"/core.js"))
+    	 .append(getScriptTag(lStrPlugFloder+"/util.core.js"))
     	 .append(getScriptTag(lStrPlugFloder+"/setting.js"))
     	 .append(getScriptTag(lStrPlugFloder+"/extends.jquery.js"))
     	 .append(getScriptTag(lStrPlugFloder+"/extends.easyui.js"))
@@ -55,6 +55,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	 .append(getScriptTag(lStrPlugFloder+"/prototype.Object.js"))
     	 .append(getScriptTag(lStrPlugFloder+"/prototype.Array.js"))
     	 .append(getScriptTag(lStrPlugFloder+"/prototype.String.js"))
+    	 .append(getScriptTag(lStrPlugFloder+"/util.excel.js"))
     	 //.append(getScriptTag(lStrPlugFloder+"/package.js"))
     	 ;
      }

@@ -113,11 +113,15 @@ $.extend($.fn.datagrid.defaults.editors, {
  $.fn.datebox.defaults.parser = function(s) { 
 	 //Tue Mar 22 00:00:00 CST 2011
 	 //%a %h %d %T %z %G
+	 //alert(s);
+	 var d=new Date();
 	 try{
-		 if(!s||s=="") return new Date();
-    	 return Date.parse(s);
+		 if(s==null||s=="") return d;
+         d=new Date(s);
+         this.datebox("setValue",d.toString(Kia.setting.dateboxFormat));
+		 return d;
      }catch(ex){
-    	 return new Date();
+    	 return d;
      }
 	
  }
@@ -142,8 +146,8 @@ $.extend($.fn.datagrid.defaults.editors, {
     		 $(this).panel("move",{top:b});
     	 }
  }
- $.fn.window.defaults.onMove= $.fn.panel.defaults.onMove;
- $.fn.dialog.defaults.onMove= $.fn.panel.defaults.onMove;
+
+ $.fn.window.defaults.modal=true;
 
  $.fn.form.defaults.success=function(str){ str.messager(null);}
  $.fn.form.defaults.onSubmit=function(){ return $(this).form("validate"); }
@@ -154,8 +158,13 @@ $.extend($.fn.datagrid.defaults.editors, {
  
  $.fn.datagrid.defaults.fit=true;
  $.fn.datagrid.defaults.pagination=true;
- $.fn.datagrid.defaults.nowrap=true;
+ $.fn.datagrid.defaults.nowrap=false;
  $.fn.datagrid.defaults.idField="Id";
  $.fn.datagrid.defaults.rownumbers=true;
  $.fn.datagrid.defaults.pageSize=20;
- 
+
+ $.fn.combo.defaults.editable=false;
+ $.fn.combobox.defaults.valueField="Id";
+ $.fn.combobox.defaults.textField="Name";
+ $.fn.combotree.defaults.valueField="Id";
+ $.fn.combotree.defaults.textField="Name";

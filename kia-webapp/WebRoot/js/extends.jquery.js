@@ -48,13 +48,13 @@ kiaLoadFields:function(){
 	   
 		              var thisObj=$(this);
 		              var thisName=thisObj.attr('name');
-		              var thisValueField=thisObj.attr("valueField")||"id";
-		              var thisTextField=thisObj.attr("textField")||"name";
+		              var thisValueField=thisObj.attr("valueField")||"Id";
+		              var thisTextField=thisObj.attr("textField")||"Name";
 		              var thisUrl=thisObj.attr("url")||"";
 		              var thisRequired=thisObj.attr("required")||true; 
 		              var selecterWidth=thisObj.attr("selecterWidth")||60; 
 		              var thisDisabled=thisObj.attr("disabled");
-		              var thisDataClass=thisObj.attr("dataClass")||"";
+		              var thisDataEval=thisObj.attr("dataEval")||"";
 		              var thisWidth=thisObj.width();
 		              var thisHeight=thisObj.height();
 		              thisObj.width(thisWidth-selecterWidth);
@@ -88,8 +88,8 @@ kiaLoadFields:function(){
 				        	             thisObj.combobox("select",r[thisValueField]);
 				                    }
 				    	  }); //$("#"+selecterId).combogrid({
-				      //$.getJSON(thisUrl,function(gridData){ 
-				       var gridData=_comboData[thisDataClass];
+				      //$.getJSON(thisUrl,function(gridData){ "
+				       var gridData=eval(thisDataEval);
 				          
 				         if(gridData){
 				          // alert(gridData["total"]);
@@ -188,25 +188,30 @@ kiaLoadFields:function(){
 	var urlRemove=opts["urlRemove"]||"";
 	var data=opts["data"]||{};
 	var objDiv=$("<div></div>");
-	objDiv.css("width","100%")
-	.css("height","100%")
+	objDiv
+	//.css("width","100%")
+	//.css("height","100%")
 	.css("overflow","hidden")
 	;
 	var objForm=$("<form method='post'></form>");
 	var objTable=$("<table cellspacing='0' ></table>");
 	objTable.addClass("editTable");
 	objTable.css("table-layout","auto");
+	
 	$.each(data,function(dataName,dataValue){
 		var hidden=$("<input type=\"hidden\" />")
 		hidden.attr("name",prefix+dataName).attr("value",dataValue);
 		objForm.append(hidden);
 		
 	});
+	
 	var tr;
 	$.each(editors,function(index,editor){
+		
 		if(index%colNum==0){
 			tr=$("<tr></tr>");
 		}
+		
 		var inputName=editor["field"]||"";
 		var inputTitle=editor["title"]||"";
 		var pattern="input[name='"+prefix+inputName+"']";
@@ -218,7 +223,7 @@ kiaLoadFields:function(){
         var editorOpts=inputEditor["options"]||{};
 		var inputObj;
 		if(editorType=="textarea"){
-			inputObj=$("<textarea rows='3' /></textarea>");
+			inputObj=$("<textarea rows='3'></textarea>");
 			inputObj.html(data[inputName]);
 		}else if(editorType=="checkbox"){
 			inputObj=$("<input type='checkbox' value='Y' />");
@@ -235,10 +240,10 @@ kiaLoadFields:function(){
 		th.append(span).append(":");
 		tr.append(th);
 		tr.append(td);
-		if(index%colNum==colNum-1){
+		if(index%colNum==colNum-1||index==editors.length-1){
 		    objTable.append(tr);
 		}
-
+        
 		switch(editorType){
 
 		  case "validatebox":inputObj.validatebox(editorOpts);break;
@@ -248,6 +253,7 @@ kiaLoadFields:function(){
 		  case "combotree":inputObj.combotree(editorOpts);break;
 		  default:inputObj.validatebox(editorOpts);break;
 		}
+		
 	});
  
 	var trOpera=$("<tr></tr>");
