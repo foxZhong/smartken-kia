@@ -1,12 +1,16 @@
 package com.smartken.kia.core.model.impl;
 
 import java.text.MessageFormat;
+import java.util.HashMap;
+import java.util.Map;
+
+
 
 public class ResultModel extends BaseModel{
 
 	public static int CODE_SUCCESS=0;
 	public static int CODE_ALERT=1;
-	public static int CODE_ERROR=2;
+	public static int CODE_ERROR=-1;
 	
 	public static String ICON_INFO="info";
 	public static String ICON_ERROR="error";
@@ -24,6 +28,7 @@ public class ResultModel extends BaseModel{
     private String title;
     private String msg;
     private String action;
+    private Map<String, Object> attrs=new HashMap<String, Object>();
 	
     public ResultModel(){
     	this.re=0;
@@ -91,6 +96,12 @@ public class ResultModel extends BaseModel{
 	}
 
 
+	public void putAttr(String key,Object value){
+		this.attrs.put(key, value);
+	}
 	
+	public Object getAttr(String key){
+		return this.attrs.get(key);
+	}
 
 }

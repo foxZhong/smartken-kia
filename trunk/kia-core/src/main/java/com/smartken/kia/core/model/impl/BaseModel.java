@@ -264,11 +264,11 @@ public abstract class BaseModel implements IBaseModel ,IFormatterModel{
 	
 	public Object generalPK() throws NullPointerException{
 		String pk="";
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmmss");
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmmssSSS");
 		Random r=new Random();
-		int randomInt=r.nextInt(1000);
+		int randomInt=r.nextInt(10000);
 		String code=String.valueOf(randomInt);
-		while(code.length()<3){
+		while(code.length()<4){
 			code="0"+code;
 		}
 		pk=MessageFormat.format("{0}{1}", 
