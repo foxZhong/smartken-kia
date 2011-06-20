@@ -771,11 +771,11 @@ public static final class Dialog
 			public static final String VALUE="value";
 			public static final String VALUE(String value){return toHtmlKeyValue(VALUE, value);};
 			public static final String MAX="max";
-			public static final String MAX(int value){return toHtmlKeyValue(MAX, value);};
+			public static final String MAX(double value){return toHtmlKeyValue(MAX, value);};
 			public static final String MIN="min";
-			public static final String MIN(int value){return toHtmlKeyValue(MIN, value);};
+			public static final String MIN(double value){return toHtmlKeyValue(MIN, value);};
 			public static final String INCREMENT="increment";
-			public static final String INCREMENT(int value){return toHtmlKeyValue(INCREMENT, value);};
+			public static final String INCREMENT(double value){return toHtmlKeyValue(INCREMENT, value);};
 			public static final String EDITABLE="editable";
 			public static final String EDITABLE(boolean value){return toHtmlKeyValue(EDITABLE, value);};
 			public static final String DISABLED="disabled";
