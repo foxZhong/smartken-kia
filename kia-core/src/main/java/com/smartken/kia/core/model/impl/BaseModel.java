@@ -363,7 +363,7 @@ public abstract class BaseModel implements IBaseModel ,IFormatterModel{
 	public JSONObject toJsonInclude(List listField) {
 		// TODO Auto-generated method stub
 		JSONObject jsonAll=this.toJson();
-		JSONObject jsonRe=this.toJson();
+		JSONObject jsonRe=new JSONObject();
 		for (Object f : listField) {
 			if(f==null){continue;}
 			String key="";
