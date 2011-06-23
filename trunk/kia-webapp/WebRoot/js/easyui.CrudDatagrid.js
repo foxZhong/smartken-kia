@@ -103,6 +103,7 @@ CrudDatagrid.prototype.getToolbar=function(opts){
             	,handler:function(){
             	   if(urlExportExcel.length<1){
             		   $.messager.alert("操作错误","没有配置excel路径","error");
+            		   return ;
             	   }
             	   var div=$("<div></div>");
             	   var table=$("<table></table>");

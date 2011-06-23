@@ -496,6 +496,30 @@ public abstract class BaseCurdBiz implements IBaseCrudBiz {
 
 
 
+	public Object getTopModel(Object model) {
+		// TODO Auto-generated method stub
+		List list=this.getModel(model);
+		if(list.size()>0){
+			return list.get(0);
+		}else{
+			return null;
+		}
+	}
+
+
+
+	public Object getTopView(Object model) {
+		// TODO Auto-generated method stub
+		List list=this.getView(model);
+		if(list.size()>0){
+			return list.get(0);
+		}else{
+			return null;
+		}
+	}
+
+
+
 
 
 

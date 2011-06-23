@@ -17,6 +17,7 @@ public interface IBaseCrudBiz {
 	public List getModel();
 	public List getModel(PageBounds pPage);
     public List getModel(Object model)  ;
+    public Object getTopModel(Object model)  ;
     public PageArrayList getModel(Object model,PageBounds pPage) ;
     public List getModel(List listQuery);
     public PageArrayList getModel(List listQuery,PageBounds pPage);
@@ -29,6 +30,7 @@ public interface IBaseCrudBiz {
 	public List getView();
 	public List getView(PageBounds pPage);
     public List getView(Object model)  ;
+    public Object getTopView(Object model)  ;
     public PageArrayList getView(Object model,PageBounds pPage) ;
     public List getView(List listQuery);
     public PageArrayList getView(List listQuery,PageBounds pPage);
