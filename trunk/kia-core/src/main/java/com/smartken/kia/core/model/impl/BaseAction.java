@@ -5,6 +5,8 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.NumberFormat;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,8 +21,10 @@ import com.smartken.kia.core.enums.DataFormatEnum;
 import com.smartken.kia.core.enums.ResultEnum;
 import com.smartken.kia.core.model.IBaseAction;
 import com.smartken.kia.core.pager.PageBounds;
+import com.smartken.kia.core.util.DateTimeUtil;
 import com.smartken.kia.core.util.FileUtil;
 import com.smartken.kia.core.util.ObjectUtil;
+import com.smartken.kia.core.util.StringUtil;
 
 public abstract class BaseAction extends ActionSupport implements IBaseAction {
 
@@ -137,6 +141,35 @@ public abstract class BaseAction extends ActionSupport implements IBaseAction {
 	public String getParameter(String key) {
 		// TODO Auto-generated method stub
 		return this.getRequest().getParameter(key);
+	}
+	
+	public Double getParameterDouble(String key,double dblDefaultValue) {
+		// TODO Auto-generated method stub
+		String value=this.getParameter(key);
+        Double dblValue=ObjectUtil.formatDouble(value,dblDefaultValue);
+        return dblValue;
+	}
+	
+	public Integer getParameterInt(String key,int intDefaultValue) {
+		// TODO Auto-generated method stub
+		String value=this.getParameter(key);
+        Integer intValue=ObjectUtil.formatInt(value,intDefaultValue);
+        return intValue;
+	}
+	
+	public Date getParameterDate(String key,Date dateDefalueValue) {
+		// TODO Auto-generated method stub
+		String value=this.getParameter(key);
+		Date dateValue=null;
+		if(StringUtil.isBlank(value)){
+			return dateDefalueValue;
+		}
+		try{
+		dateValue=DateTimeUtil.parse(value);
+		}catch(Exception ex){
+			dateValue=dateDefalueValue;
+		}
+		return dateValue;
 	}
 	
 	
