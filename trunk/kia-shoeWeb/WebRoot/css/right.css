@@ -1,0 +1,7 @@
+/* CSS Document */
+a{color:#4A4A4A;
+text-decoration:none;
+}
+a:hover,a:focus{color:#ff9933;}
+.title {font-size:18px; background-color:#4A4A4A; color:#FFFFFF}
+.font{font-size:14px; color:#ff0000;}

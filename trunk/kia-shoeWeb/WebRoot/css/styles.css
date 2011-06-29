@@ -1,0 +1,90 @@
+/* CSS Document */
+a:link,a:visited{text-decoration:none;}
+a:hover,a:focus{color:#ff9933;}
+table{color:#4A4A4A;}
+img{ border:0px; cursor: hand;}
+.font{font-size:14px; color:#989898;}/*灰色字体*/
+.font1{color:#FFFFFF;}/*白色字体*/
+.font2{font-size:14px; color:#236DDB;}/*蓝色字体*/
+.font3{font-size:14px;color:#FA6943;}/*橘红色字体*/
+.font4{font-size:14px;color:#FC1A04;}/*红色字体*/
+.font5{font-size:50px;color:#FC1A04;}/*大红色字体*/
+.bottom{background-color:#666666;}
+.sliding-element{list-style:none;}
+#login {background:#4A4A4A; font-family: "新宋体"; border: solid 0px; font-size-adjust:inherit; color:#FFFFFF;}
+#userName {border: solid #4868B8 1px; width:120px;}
+#passWord {border: solid #4868B8 1px; width:120px;}
+#divContent{border-bottom: solid #FF9900 1px;}
+a{color:#4A4A4A;
+text-decoration:none;}
+.title {font-size:18px; background-color:#BBB8C3; color:#FFFFFF}
+.borderRed{
+border:solid 2px #FF9900;}
+.tttt {border-left:solid gray 1px;
+		border-right:solid gray 1px;
+		border-bottom:solid gray 1px;}
+
+.rhm1{
+	width:780px;
+	height:64px;
+	margin:0 auto;
+	background:url(../image/rhm1_bg.gif) repeat-x;		
+}
+.rhm1-left{
+	background:url(../image/rhm1_l.gif) no-repeat;
+	width:15px;
+	height:64px;
+	float:left;
+}
+.rhm1-right{
+	background:url(../image/rhm1_r.gif) no-repeat;
+	width:15px;
+	height:64px;
+	float:right;
+}
+.rhm1-bg{
+	background:url(../image/rhm1_bg.gif) repeat-x;
+	height:64px;
+}
+.rhm1-bg ul{
+	list-style:none;
+	margin:0 auto;
+}
+.rhm1-bg li{
+	float:left;
+	list-style:none;
+}
+.rhm1-bg li a{
+	float:left;
+	display:block;
+	color:#555;
+	text-decoration:none;
+	font:12px 'Lucida Sans', sans-serif;
+	font-weight:bold;
+	padding:0 0 0 18px;
+	height:64px;
+	line-height:40px;
+	text-align:center;
+	cursor:pointer;	
+}
+.rhm1-bg li a span{
+	float:left;
+	display:block;
+	padding:0 32px 0 18px;
+}
+.rhm1-bg li.current a{
+	color:#fff;
+	background:url(../image/rhm1_hover_l.gif) no-repeat left 5px;
+}
+.rhm1-bg li.current a span{
+	color:#fff;
+	background:url(../image/rhm1_hover_r.gif) no-repeat right 5px;
+}
+.rhm1-bg li a:hover{
+	color:#fff;
+	background:url(../image/rhm1_hover_l.gif) no-repeat left 5px;
+}
+.rhm1-bg li a:hover span{
+	color:#fff;
+	background:url(../image/rhm1_hover_r.gif) no-repeat right 5px;
+}

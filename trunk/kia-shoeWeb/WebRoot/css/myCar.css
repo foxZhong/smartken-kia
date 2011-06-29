@@ -1,0 +1,26 @@
+/* CSS Document */
+
+#bigTable {border:solid #A2AA93 5px;width:95%; color:#353C40;}
+.top{width:100%;}
+
+#nifty{background: #A2AA93; width:95%;}
+b.rtop{display:block;background: #FFF}
+b.rtop b{display:block;height: 1px;
+    overflow: hidden; background: #A2AA93}
+b.r1{margin: 0 5px}
+b.r2{margin: 0 3px}
+b.r3{margin: 0 2px}
+b.rtop b.r4{margin: 0 1px;height: 2px}
+
+.tr {background-color:#D4F6F6;}
+.count{text-align:right; height:10px; width:15%;}
+.table3{width:95%; height:100%; color:#526A5C;}
+td{width:15%;}
+
+.cartmore {
+	min-height: 116px;
+	background: #f6f6f6;
+    overflow-y: scroll; height: 100px; 
+	width:90%;
+}
+hr {color:#666666;}
