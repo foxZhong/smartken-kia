@@ -1,0 +1,57 @@
+/* CSS Document */
+a:link,a:visited{ text-decoration:none;}
+a:hover, a:focus {color: #FF9933;}
+.font{
+font-size:16px;
+color: #0953A6;
+text-decoration:none;
+}
+.font1{color:#fff; font-size:14px;}
+.font2{color:#FF0000; font-size:14px;}
+th{
+font-size:14px;
+background-color:#EFEFEF;
+}
+
+#menu{
+width:100%;
+margin:0 auto;}
+#menu a, #menu a:visited{
+text-decoration:none;
+text-align:center;
+color:#698CC3;
+font-size:14px;
+display:block;
+padding:4px;
+background-color:#fff;
+border:solid 1px #fff;
+position:relative;
+width:94%;}
+#menu a:hover{
+border-color:#698CC3;}
+#menu a:hover span{
+position:absolute;
+height:0px;
+width:0px;
+border:solid 8px #fff;
+top:4px;
+overflow:hidden;}
+#menu a:hover span.left{ border-left-color:#698CC3; left:8px;}
+#menu a:hover span.right{ border-right-color:#698CC3; right:8px;}
+
+#menu1{
+width:100%;
+margin:0 auto;
+font-size:14px;
+background-color:#FFFFFF;}
+#menu1 a, #menu1 a:visited{
+text-decoration:none;
+text-align:center;
+color:#698CC3;
+display:block;
+border:8px solid #fff;
+padding:3px 2px 0 0;}
+#menu1 a:hover{
+color:#fff;
+background-color: #0953A6;
+border-color:#698CC3 #0953A6;}

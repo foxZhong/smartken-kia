@@ -1,0 +1,110 @@
+a:link,a:visited{text-decoration:none;color:#FF0000;}
+a:hover,a:focus{color:#698CC3;}
+.table1{
+border:0px; MARGIN:0px auto; WIDTH:560px;
+}
+.font{color:#4868B8;}
+.red{color:#F7615A;}
+.hrOne{
+WIDTH:100%; COLOR:#e6e6e6; HEIGHT: 1px;
+}
+.spanOne{
+FONT-SIZE:12px;
+COLOR:#f00;
+}
+.spanTwo{
+color: #258EEE;font-size: 14px;font-weight: bold;
+}
+.spanThree{
+color: #258EEE;font-size: 14px;font-weight: bold;
+}
+.spanFour{
+color: #258EEE;font-size: 14px;font-weight: bold;
+}
+.spanFive{
+FONT-SIZE: 12px; COLOR: #f00
+}
+.spanSix{
+color: #258EEE;font-size: 14px;font-weight: bold;
+}
+.spanSeven{
+color: #258EEE;font-size: 14px;font-weight: bold;
+}
+.spanEight{
+color: #258EEE;font-size: 14px;font-weight: bold;
+}
+.tdOne{
+PADDING-RIGHT: 14px; WIDTH: 25%; HEIGHT: 29px; BACKGROUND-COLOR: #bce6fa
+}
+.tdTwo{
+PADDING-LEFT: 14px; WIDTH: 75%; BACKGROUND-COLOR: #b1f0fe
+}
+.tdThree{
+PADDING-RIGHT: 14px; HEIGHT: 29px; BACKGROUND-COLOR: #d7fcf0
+}
+.tdFour{
+PADDING-LEFT: 14px; BACKGROUND-COLOR: #e4f6fe
+}
+.tdFive{
+PADDING-RIGHT: 14px; HEIGHT: 29px; BACKGROUND-COLOR: #e7fdf6
+}
+.tdSix{
+PADDING-LEFT: 14px; BACKGROUND-COLOR: #effffa
+}
+.tdSeven{
+PADDING-RIGHT: 14px; WIDTH: 25%; HEIGHT: 29px; BACKGROUND-COLOR: #bcfae6
+}
+.tdEight{
+PADDING-LEFT: 14px; WIDTH: 75%; BACKGROUND-COLOR: #d1fef0
+}
+.tdTen{
+PADDING-RIGHT: 14px; WIDTH: 25%; HEIGHT: 29px; BACKGROUND-COLOR: #d7fcf0
+}
+.tdEleven{
+PADDING-LEFT: 14px; WIDTH: 75%; PADDING-TOP: 5px; BACKGROUND-COLOR: #e4fef6
+}
+.tdTwelve{
+PADDING-RIGHT: 14px; WIDTH: 25%; HEIGHT: 29px; BACKGROUND-COLOR: #e7fdf6
+}
+.tdThirteen{
+PADDING-LEFT: 14px; WIDTH: 75%; PADDING-TOP: 5px; BACKGROUND-COLOR: #effffa
+}
+.tdFourteen{
+WIDTH: 25%; HEIGHT: 48px
+}
+.tdFifteen{
+color:#4868B8;PADDING-LEFT: 23px; WIDTH: 75%
+}
+.inputOne{
+BORDER-RIGHT: #c6c6c6 1px solid; BORDER-TOP: #c6c6c6 1px solid; BORDER-LEFT: #c6c6c6 1px solid; WIDTH: 110px; BORDER-BOTTOM: #c6c6c6 1px solid; HEIGHT: 15px
+}
+.inputTwo{
+BORDER-RIGHT: #c6c6c6 1px solid; BORDER-TOP: #c6c6c6 1px solid; BORDER-LEFT: #c6c6c6 1px solid; WIDTH: 110px; BORDER-BOTTOM: #c6c6c6 1px solid; HEIGHT: 15px
+}
+.inputThree{
+BORDER-RIGHT: #c6c6c6 1px solid; BORDER-TOP: #c6c6c6 1px solid; BORDER-LEFT: #c6c6c6 1px solid; WIDTH: 110px; BORDER-BOTTOM: #c6c6c6 1px solid; HEIGHT: 15px
+}
+.inputFour{
+BORDER-RIGHT: #c6c6c6 1px solid; BORDER-TOP: #c6c6c6 1px solid; BORDER-LEFT: #c6c6c6 1px solid; WIDTH: 70px; BORDER-BOTTOM: #c6c6c6 1px solid; HEIGHT: 15px
+}
+.inputFive{
+BORDER-RIGHT: #c6c6c6 1px solid; BORDER-TOP: #c6c6c6 1px solid; BORDER-LEFT: #c6c6c6 1px solid; WIDTH: 110px; BORDER-BOTTOM: #c6c6c6 1px solid; HEIGHT: 15px
+}
+.inputSix{
+BORDER-RIGHT: #c6c6c6 1px solid; BORDER-TOP: #c6c6c6 1px solid; BORDER-LEFT: #c6c6c6 1px solid; WIDTH: 190px; BORDER-BOTTOM: #c6c6c6 1px solid; HEIGHT: 15px
+}
+.inputSeven{
+BORDER-RIGHT: #c6c6c6 1px solid; BORDER-TOP: #c6c6c6 1px solid; BORDER-LEFT: #c6c6c6 1px solid; WIDTH: 60px; BORDER-BOTTOM: #c6c6c6 1px solid; HEIGHT: 20px;margin-bottom: 4px
+}
+.tableDiv{
+font-size:12px;
+display:inline;
+}
+.checkPwdDiv{
+display:inline;color:#FFFFFF;
+}
+.UserDiv{
+font-size:12px;
+display:inline;
+display:inline;
+}
