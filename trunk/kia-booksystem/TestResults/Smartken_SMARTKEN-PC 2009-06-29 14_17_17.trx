@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<TestRun id="103edd12-9fd3-4989-b319-532af7ee5e89" name="Smartken@SMARTKEN-PC 2009-06-29 14:17:17" runUser="Smartken-PC\Smartken" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2006">
+  <TestRunConfiguration name="本地测试运行" id="3070a8db-fd9e-4a21-8600-95f0a4b3bded">
+    <Description>这是本地测试运行的默认测试运行配置。</Description>
+    <Deployment runDeploymentRoot="D:\MSproject\BookSystem\TestResults\Smartken_SMARTKEN-PC 2009-06-29 14_17_17">
+      <DeploymentItem filename="D:\MSproject\BookSystem\BookSystemModel\bin\Debug\BookSystemModel.dll" />
+      <DeploymentItem filename="D:\MSproject\BookSystem\BookSystemDAL\bin\Debug\BookSystemDAL.dll" />
+    </Deployment>
+    <TestTypeSpecific />
+  </TestRunConfiguration>
+  <ResultSummary outcome="Completed">
+    <Counters total="1" executed="1" passed="1" error="0" failed="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+  </ResultSummary>
+  <Times creation="2009-06-29T14:17:17.6378768+08:00" queuing="2009-06-29T14:17:19.7388768+08:00" start="2009-06-29T14:17:20.0498768+08:00" finish="2009-06-29T14:17:20.9168768+08:00" />
+  <TestDefinitions>
+    <UnitTest name="getSaleItemsByBookIdTest" storage="d:\msproject\booksystem\test\bin\debug\test.dll" id="a39edd2c-a3c6-d2bb-667f-422853a93a8c">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="4e8d3985-3e51-46eb-a4f6-d8cec8a4ec8c" />
+      <TestMethod codeBase="D:\MSproject\BookSystem\Test\bin\Debug\Test.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="Test.SaleServiceTest, Test" name="getSaleItemsByBookIdTest" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestLists>
+    <TestList name="列表中未列出的结果" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="所有已加载的结果" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <TestEntries>
+    <TestEntry testId="a39edd2c-a3c6-d2bb-667f-422853a93a8c" executionId="4e8d3985-3e51-46eb-a4f6-d8cec8a4ec8c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <Results>
+    <UnitTestResult executionId="4e8d3985-3e51-46eb-a4f6-d8cec8a4ec8c" testId="a39edd2c-a3c6-d2bb-667f-422853a93a8c" testName="getSaleItemsByBookIdTest" computerName="SMARTKEN-PC" duration="00:00:00.3852947" startTime="2009-06-29T14:17:20.1678768+08:00" endTime="2009-06-29T14:17:20.8168768+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+  </Results>
+</TestRun>

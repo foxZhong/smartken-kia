@@ -1,0 +1,418 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{15D660A7-D56B-42CB-9DD4-39FB7995FCFC}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BookSystem</RootNamespace>
+    <AssemblyName>BookSystem</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Windows\assembly\GAC_MSIL\CrystalDecisions.CrystalReports.Engine\10.5.3700.0__692fbea5521e1304\CrystalDecisions.CrystalReports.Engine.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.Enterprise.Framework, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" />
+    <Reference Include="CrystalDecisions.Enterprise.InfoStore, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" />
+    <Reference Include="CrystalDecisions.ReportSource, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Windows\assembly\GAC_MSIL\CrystalDecisions.ReportSource\10.5.3700.0__692fbea5521e1304\CrystalDecisions.ReportSource.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.Shared, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Windows\assembly\GAC_MSIL\CrystalDecisions.Shared\10.5.3700.0__692fbea5521e1304\CrystalDecisions.Shared.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.Common, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="Microsoft.ReportViewer.WinForms, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="MySql.Data, Version=6.3.5.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.Configuration.Install" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="frmAbout.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAbout.designer.cs">
+      <DependentUpon>frmAbout.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AccountManage\frmSaleClasslyAccount.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AccountManage\frmSaleClasslyAccount.Designer.cs">
+      <DependentUpon>frmSaleClasslyAccount.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AccountManage\frmSaleMonthAccount.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AccountManage\frmSaleMonthAccount.Designer.cs">
+      <DependentUpon>frmSaleMonthAccount.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BookManage\frmAddBook.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BookManage\frmAddBook.designer.cs">
+      <DependentUpon>frmAddBook.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BookManage\frmManageBook.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BookManage\frmManageBook.designer.cs">
+      <DependentUpon>frmManageBook.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BookManage\frmSeachBook.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BookManage\frmSeachBook.designer.cs">
+      <DependentUpon>frmSeachBook.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BookManage\frmUpdateBook.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BookManage\frmUpdateBook.Designer.cs">
+      <DependentUpon>frmUpdateBook.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CardManage\frmCreateCard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CardManage\frmCreateCard.designer.cs">
+      <DependentUpon>frmCreateCard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CardManage\frmManageCard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CardManage\frmManageCard.designer.cs">
+      <DependentUpon>frmManageCard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SaleManage\frmAccount.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SaleManage\frmAccount.Designer.cs">
+      <DependentUpon>frmAccount.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmLogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmLogin.Designer.cs">
+      <DependentUpon>frmLogin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMain.Designer.cs">
+      <DependentUpon>frmMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="frmAbout.resx">
+      <DependentUpon>frmAbout.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AccountManage\frmSaleClasslyAccount.resx">
+      <DependentUpon>frmSaleClasslyAccount.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AccountManage\frmSaleMonthAccount.resx">
+      <DependentUpon>frmSaleMonthAccount.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BookManage\frmAddBook.resx">
+      <DependentUpon>frmAddBook.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BookManage\frmManageBook.resx">
+      <DependentUpon>frmManageBook.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BookManage\frmSeachBook.resx">
+      <DependentUpon>frmSeachBook.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BookManage\frmUpdateBook.resx">
+      <DependentUpon>frmUpdateBook.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CardManage\frmCreateCard.resx">
+      <DependentUpon>frmCreateCard.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CardManage\frmManageCard.resx">
+      <DependentUpon>frmManageCard.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmLogin.resx">
+      <DependentUpon>frmLogin.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMain.resx">
+      <DependentUpon>frmMain.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SaleManage\frmAccount.resx">
+      <DependentUpon>frmAccount.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SaleManage\frmSale.resx">
+      <DependentUpon>frmSale.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserManage\frmAddUser.resx">
+      <DependentUpon>frmAddUser.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserManage\frmMessage.resx">
+      <DependentUpon>frmMessage.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserManage\frmRoleManage.resx">
+      <DependentUpon>frmRoleManage.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserManage\frmUpDateMessage.resx">
+      <DependentUpon>frmUpDateMessage.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="App.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="SaleManage\frmSale.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SaleManage\frmSale.Designer.cs">
+      <DependentUpon>frmSale.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserManage\frmAddUser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserManage\frmAddUser.designer.cs">
+      <DependentUpon>frmAddUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserManage\frmMessage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserManage\frmMessage.designer.cs">
+      <DependentUpon>frmMessage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserManage\frmRoleManage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserManage\frmRoleManage.designer.cs">
+      <DependentUpon>frmRoleManage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserManage\frmUpDateMessage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserManage\frmUpDateMessage.designer.cs">
+      <DependentUpon>frmUpDateMessage.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BookSystemBLL\BookSystemBLL.csproj">
+      <Project>{8B5C0338-43F4-4543-8A2F-C963F94BAE5A}</Project>
+      <Name>BookSystemBLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BookSystemDAL\BookSystemDAL.csproj">
+      <Project>{0BF837A2-8852-4676-ACFD-0552034846E0}</Project>
+      <Name>BookSystemDAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BookSystemModel\BookSystemModel.csproj">
+      <Project>{16221AC4-C421-48FA-9D03-BD0D549352F3}</Project>
+      <Name>BookSystemModel</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="BooksCover\2\7010076847.jpg" />
+    <Content Include="BooksCover\2\7501967296.jpg" />
+    <Content Include="BooksCover\2\7502362401.jpg" />
+    <Content Include="BooksCover\2\7504574554.jpg" />
+    <Content Include="BooksCover\2\7507525210.jpg" />
+    <Content Include="BooksCover\2\7508254996.jpg" />
+    <Content Include="BooksCover\2\7509125820.jpg" />
+    <Content Include="BooksCover\2\7509126614.jpg" />
+    <Content Include="BooksCover\2\7535631851.jpg" />
+    <Content Include="BooksCover\2\7538155120.jpg" />
+    <Content Include="BooksCover\2\7538156836.jpg" />
+    <Content Include="BooksCover\2\7538158847.jpg" />
+    <Content Include="BooksCover\2\7538440763.jpg" />
+    <Content Include="BooksCover\2\7543651360.jpg" />
+    <Content Include="BooksCover\2\7545300904.jpg" />
+    <Content Include="BooksCover\2\7561760965.jpg" />
+    <Content Include="BooksCover\2\756392049.jpg" />
+    <Content Include="BooksCover\2\7564015993.jpg" />
+    <Content Include="BooksCover\2\7564018917.jpg" />
+    <Content Include="BooksCover\2\7802029686.jpg" />
+    <Content Include="BooksCover\2\7802119219.jpg" />
+    <Content Include="BooksCover\2\7802227801.jpg" />
+    <Content Include="BooksCover\2\7802322219.jpg" />
+    <Content Include="BooksCover\2\7807058773.jpg" />
+    <Content Include="BooksCover\2\7807542659.jpg" />
+    <Content Include="BooksCover\2\7807632445.jpg" />
+    <Content Include="BooksCover\1\7030242866.jpg" />
+    <Content Include="BooksCover\1\7040262940.jpg" />
+    <Content Include="BooksCover\1\7040264404.jpg" />
+    <Content Include="BooksCover\1\7111129253.jpg" />
+    <Content Include="BooksCover\1\7111263138.jpg" />
+    <Content Include="BooksCover\1\7111268490.jpg" />
+    <Content Include="BooksCover\1\7111270436.jpg" />
+    <Content Include="BooksCover\1\7113098177.jpg" />
+    <Content Include="BooksCover\1\7115189099.jpg" />
+    <Content Include="BooksCover\1\7115206805.jpg" />
+    <Content Include="BooksCover\1\7121069806.jpg" />
+    <Content Include="BooksCover\1\7121076578.jpg" />
+    <Content Include="BooksCover\1\7121077515.jpg" />
+    <Content Include="BooksCover\1\7121083116.jpg" />
+    <Content Include="BooksCover\1\7121086220.jpg" />
+    <Content Include="BooksCover\1\7300106048.jpg" />
+    <Content Include="BooksCover\1\7302188947.jpg" />
+    <Content Include="BooksCover\1\7302193460.jpg" />
+    <Content Include="BooksCover\1\7302194076.jpg" />
+    <Content Include="BooksCover\1\7302194181.jpg" />
+    <Content Include="BooksCover\1\7302200882.jpg" />
+    <Content Include="BooksCover\1\7508386329.jpg" />
+    <Content Include="BooksCover\3\8844287.jpg" />
+    <Content Include="BooksCover\3\9787109099944.jpg" />
+    <Content Include="BooksCover\3\9787111109877.jpg" />
+    <Content Include="BooksCover\3\9787111154181.jpg" />
+    <Content Include="BooksCover\3\9787117069755.jpg" />
+    <Content Include="BooksCover\3\9787118054736.jpg" />
+    <Content Include="BooksCover\3\9787122049698.jpg" />
+    <Content Include="BooksCover\3\9787218060309.jpg" />
+    <Content Include="BooksCover\3\9787301103166.jpg" />
+    <Content Include="BooksCover\3\9787503234323.jpg" />
+    <Content Include="BooksCover\3\9787506027762.jpg" />
+    <Content Include="BooksCover\3\9787506028219.jpg" />
+    <Content Include="BooksCover\3\9787506450119.jpg" />
+    <Content Include="BooksCover\3\9787508348810.jpg" />
+    <Content Include="BooksCover\3\9787508510811.jpg" />
+    <Content Include="BooksCover\3\9787540665418.jpg" />
+    <Content Include="BooksCover\3\9787561218648.jpg" />
+    <Content Include="BooksCover\3\9787561327760.jpg" />
+    <Content Include="BooksCover\3\9787561336526.jpg" />
+    <Content Include="BooksCover\3\9787561341216.jpg" />
+    <Content Include="BooksCover\3\9787800795176.jpg" />
+    <Content Include="BooksCover\3\9787801864284.jpg" />
+    <Content Include="BooksCover\3\9787807400868.jpg" />
+    <Content Include="BooksCover\3\9787811361148.jpg" />
+    <Content Include="BooksCover\4\7081212034.jpg" />
+    <Content Include="BooksCover\4\7508614003.jpg" />
+    <Content Include="BooksCover\4\7533878647.jpg" />
+    <Content Include="BooksCover\4\7534025923.jpg" />
+    <Content Include="BooksCover\4\7534249724.jpg" />
+    <Content Include="BooksCover\4\7534646391.jpg" />
+    <Content Include="BooksCover\4\7537410925 .jpg" />
+    <Content Include="BooksCover\4\7538631437.jpg" />
+    <Content Include="BooksCover\4\7539145897.jpg" />
+    <Content Include="BooksCover\4\7539149035.jpg" />
+    <Content Include="BooksCover\4\7539738804.jpg" />
+    <Content Include="BooksCover\4\7539738979.jpg" />
+    <Content Include="BooksCover\4\753981957X.jpg" />
+    <Content Include="BooksCover\4\754054029X.jpg" />
+    <Content Include="BooksCover\4\7798956638.jpg" />
+    <Content Include="BooksCover\4\7799428961.jpg" />
+    <Content Include="BooksCover\4\7799731184.jpg" />
+    <Content Include="BooksCover\4\7802441420.jpg" />
+    <Content Include="BooksCover\4\7802442095.jpg" />
+    <Content Include="BooksCover\4\7807322527.jpg" />
+    <Content Include="BooksCover\4\788087738X.jpg" />
+    <Content Include="BooksCover\4\7883702823.jpg" />
+    <Content Include="BooksCover\4\7883702831.jpg" />
+    <Content Include="BooksCover\4\7883703498.jpg" />
+    <Content Include="BooksCover\4\788370351X.jpg" />
+    <Content Include="BooksCover\5\7020067093.jpg" />
+    <Content Include="BooksCover\5\7108031930.jpg" />
+    <Content Include="BooksCover\5\7208082960.jpg" />
+    <Content Include="BooksCover\5\7214056089.jpg" />
+    <Content Include="BooksCover\5\7214057743.jpg" />
+    <Content Include="BooksCover\5\7301150784.jpg" />
+    <Content Include="BooksCover\5\7503691115.jpg" />
+    <Content Include="BooksCover\5\7507525953.jpg" />
+    <Content Include="BooksCover\5\7507526534.jpg" />
+    <Content Include="BooksCover\5\7530650467.jpg" />
+    <Content Include="BooksCover\5\7544708756.jpg" />
+    <Content Include="BooksCover\5\7545800133.jpg" />
+    <Content Include="BooksCover\5\7561339127.jpg" />
+    <Content Include="BooksCover\5\7561346409.jpg" />
+    <Content Include="BooksCover\5\7561770685.jpg" />
+    <Content Include="BooksCover\5\756337907X.jpg" />
+    <Content Include="BooksCover\5\7802137314.jpg" />
+    <Content Include="BooksCover\5\7802228778.jpg" />
+    <Content Include="BooksCover\5\7802256704.jpg" />
+    <Content Include="BooksCover\5\7802256828.jpg" />
+    <Content Include="BooksCover\5\7806008497.jpg" />
+    <Content Include="BooksCover\5\7807092564.jpg" />
+    <Content Include="BooksCover\5\7807193581.jpg" />
+    <Content Include="BooksCover\5\7807670231.jpg" />
+    <Content Include="BooksCover\5\7811156318.jpg" />
+    <Content Include="BooksCover\5\暂无图片.jpg" />
+    <Content Include="BooksCover\nophoto.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="BooksCover\backup\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
