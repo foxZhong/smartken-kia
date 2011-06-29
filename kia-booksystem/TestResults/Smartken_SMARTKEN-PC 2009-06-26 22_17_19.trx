@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<TestRun id="3b7ca46f-1130-4513-93ef-cc730fb3a9de" name="Smartken@SMARTKEN-PC 2009-06-26 22:17:19" runUser="Smartken-PC\Smartken" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2006">
+  <TestRunConfiguration name="本地测试运行" id="3070a8db-fd9e-4a21-8600-95f0a4b3bded">
+    <Description>这是本地测试运行的默认测试运行配置。</Description>
+    <Deployment runDeploymentRoot="D:\MSproject\BookSystem\TestResults\Smartken_SMARTKEN-PC 2009-06-26 22_17_19">
+      <DeploymentItem filename="D:\MSproject\BookSystem\BookSystemModel\bin\Debug\BookSystemModel.dll" />
+      <DeploymentItem filename="D:\MSproject\BookSystem\BookSystemDAL\bin\Debug\BookSystemDAL.dll" />
+    </Deployment>
+    <TestTypeSpecific />
+  </TestRunConfiguration>
+  <ResultSummary outcome="Failed">
+    <Counters total="1" executed="1" error="0" failed="1" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" passed="0" completed="0" inProgress="0" pending="0" />
+  </ResultSummary>
+  <Times creation="2009-06-26T22:17:19.7394774+08:00" queuing="2009-06-26T22:17:21.7244774+08:00" start="2009-06-26T22:17:22.0344774+08:00" finish="2009-06-26T22:17:23.1944774+08:00" />
+  <TestDefinitions>
+    <UnitTest name="addSaleTest" storage="d:\msproject\booksystem\test\bin\debug\test.dll" id="90959fb6-3524-a8fd-8ae1-28877502d4ed">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="14a7bb77-590f-4786-b05a-a410330ea72e" />
+      <TestMethod codeBase="D:\MSproject\BookSystem\Test\bin\Debug\Test.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="Test.SaleServiceTest, Test" name="addSaleTest" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestLists>
+    <TestList name="列表中未列出的结果" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="所有已加载的结果" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <TestEntries>
+    <TestEntry testId="90959fb6-3524-a8fd-8ae1-28877502d4ed" executionId="14a7bb77-590f-4786-b05a-a410330ea72e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <Results>
+    <UnitTestResult executionId="14a7bb77-590f-4786-b05a-a410330ea72e" testId="90959fb6-3524-a8fd-8ae1-28877502d4ed" testName="addSaleTest" computerName="SMARTKEN-PC" duration="00:00:00.5238507" startTime="2009-06-26T22:17:22.2084774+08:00" endTime="2009-06-26T22:17:23.0764774+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+        <ErrorInfo>
+          <Message>Test method Test.SaleServiceTest.addSaleTest threw exception:  System.InvalidCastException: Specified cast is not valid..</Message>
+          <StackTrace>    at BookSystem.SaleService.addSale(Sales s) in D:\MSproject\BookSystem\BookSystemDAL\SaleService.cs:line 83
+   at Test.SaleServiceTest.addSaleTest() in D:\MSproject\BookSystem\Test\SaleServiceTest.cs:line 77
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+  </Results>
+</TestRun>
