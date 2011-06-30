@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="gb2312"?><theme version="1.0">
+<Window minWidth="270" minHeight="515" maxWidth="270" maxHeight="515" clippingColor="#FF00FF" backgroundColor="#FF00FF">
+<Picture id="BackgroundLT" left="0" top="0" width="90" height="140" zIndex="9" image="BackgroundLT.bmp" transparencyColor="#FF00FF" visible="true" horizontalAlignment="Stretch" verticalAlignment="Stretch"/>
+<Picture id="BackgroundRT" left="257" top="0" width="13" height="140" zIndex="2" image="BackgroundRT.bmp" transparencyColor="#FF00FF" visible="true" horizontalAlignment="Stretch" verticalAlignment="Stretch"/>
+<Picture id="BackgroundT" left="90" top="0" width="167" height="140" zIndex="2" image="BackgroundT.bmp"     transparencyColor="#FF00FF" visible="true" horizontalAlignment="Stretch" verticalAlignment="Stretch"/>
+<Picture id="BackgroundL" left="0" top="140" width="13" height="359" zIndex="2" image="BackgroundL.bmp"   transparencyColor="#FF00FF" visible="true" horizontalAlignment="Stretch" verticalAlignment="Stretch"/>
+<Picture id="BackgroundC" left="13" top="140" width="244" height="359" zIndex="2" image="BackgroundC.bmp"  transparencyColor="#FF00FF" visible="true" horizontalAlignment="Stretch" verticalAlignment="Stretch"/>
+<Picture id="BackgroundR" left="257" top="140" width="13" height="359" zIndex="2" image="BackgroundR.bmp"  transparencyColor="#FF00FF" visible="true" horizontalAlignment="Stretch" verticalAlignment="Stretch"/>
+<Picture id="ToolBarBackgroundL" left="0" top="500" width="90" height="15" zIndex="5" image="ToolBarBackgroundL.bmp" transparencyColor="#FF00FF" visible="true" horizontalAlignment="Stretch" verticalAlignment="Stretch"/>
+<Picture id="ToolBarBackgroundC" left="90" top="500" width="167" height="15" zIndex="5" image="ToolBarBackgroundC.bmp" visible="true" horizontalAlignment="Stretch" verticalAlignment="Stretch"/>
+<Picture id="ToolBarBackgroundR" left="257" top="500" width="13" height="15" zIndex="5" image="ToolBarBackgroundR.bmp" transparencyColor="#FF00FF" visible="true" horizontalAlignment="Stretch" verticalAlignment="Stretch"/>
+<Picture id="BackgroundLB" left="0" top="499" width="13" height="1" zIndex="2" image="BackgroundLB.bmp" transparencyColor="#FF00FF" visible="true" horizontalAlignment="Stretch" verticalAlignment="Stretch"/>
+<Picture id="BackgroundRB" left="257" top="499" width="13" height="1" zIndex="2" image="BackgroundRB.bmp"     transparencyColor="#FF00FF" visible="true" horizontalAlignment="Stretch" verticalAlignment="Stretch"/>
+<Picture id="BackgroundB" left="13" top="499" width="244" height="1" zIndex="2" image="BackgroundB.bmp" transparencyColor="#FF00FF" visible="true" horizontalAlignment="Stretch" verticalAlignment="Stretch"/>
+<Button id="CloseButton" left="235" top="6" width="27" height="28" zIndex="6" toolTip="关闭" cursor="Hand.cur" visible="true" image="CloseButton_Normal.bmp" hoverImage="CloseButton_Hover.bmp" downImage="CloseButton_Down.bmp" horizontalAlignment="Stretch" verticalAlignment="Stretch"/>
+<Button id="MinButton" left="183" top="6" width="27" height="28" zIndex="10" toolTip="最小化至系统托盘" cursor="Hand.cur" visible="true" image="MinButton_Normal.bmp" hoverImage="MinButton_Hover.bmp" downImage="MinButton_Down.bmp" horizontalAlignment="Stretch" verticalAlignment="Stretch"/>
+<Button id="ColorButton" left="210" top="6" width="25" height="28" zIndex="8" toolTip="更改外观" cursor="Hand.cur" visible="true" image="ColorButton_Normal.bmp" hoverImage="ColorButton_Hover.bmp" downImage="ColorButton_Down.bmp" horizontalAlignment="Stretch" verticalAlignment="Stretch"/>
+<Button id="StatusPic" left="18" top="40" width="40" height="40" zIndex="25" toolTip="个人信息" cursor="Hand.cur" visible="true">
+<Icon ico="StatusPic.ico" cx="2" cy="2" horizontalAlignment="Left" verticalAlignment="Top" leftPadding="0" topPadding="0"/>
+<Label labelValue="　" color="#F5F5F5" hoverColor="#000000" fontFamily="微软雅黑" fontSize="8" fontStyle="" fontWeight="400" horizontalAlignment="Right" verticalAlignment="Center" leftPadding="0" topPadding="0"/>
+</Button>
+		<Text id="QQStatusText" left="132" top="50" width="109" height="13" visible="false" zIndex="27" value="(离线)" color="#071E81" hoverColor="#FFFFFF" bgMode = "clarity" borderShow = "FALSE" fontFamily="微软雅黑" fontSize="8" ellipsis="TRUE" fontWeight="400" active="true" visible="true" link="false"/>
+		
+		<Button id="QQStatus" left="132" top="38" width="109" height="18" zIndex="28" cursor="MailButton.cur" visible="true" image="ButtonBG_normal.bmp" hoverImage="ButtonBG_Hover.bmp" horizontalAlignment="CenterStretch" transparencyColor="#FF00FF">
+				<Label labelValue="(离线)" color="#FFFFFF" hoverColor="#9aeaff"  fontFamily="微软雅黑" fontSize="8" ellipsis="TRUE" ellipsisex="TRUE" fontStyle="" fontWeight="400" horizontalAlignment="Center" verticalAlignment="Center" leftPadding="1" topPadding="0"/>
+		</Button>
+<Button id="StatusButton" left="66" top="38" width="18" height="18" zIndex="24" toolTip="更改状态" cursor="Hand.cur" visible="true" image="StatusButton_Normal.bmp" hoverImage="StatusButton_Hover.bmp" downImage="StatusButton_Down.bmp" transparencyColor="#FF00FF" "29" left = "30" width = "150" height = "18" />
+
+<Text id="QQNumber" left="88" top="37" width="100" height="16" zIndex="26" value="999999999999(离线)" color="#FFFFFF" hoverColor="#FFFFFF" fontFamily="微软雅黑" fontSize="10" fontWeight="400" active="false" visible="true" link="true"  horizontalAlignment="Right" verticalAlignment="Center"/>
+<Text id="QQPushMsg" left="88" top="24" width="100" height="16" zIndex="26" value="999999999999(离线)" color="#F0F0F0"  bgColor="#FFFFFF" bgMode = "opacity" borderShow = "false" borderColor = "#1E3E8E" link="true" fontFamily="微软雅黑" fontSize="11" fontWeight="400" active="true" visible="false" link="false" cursor="Hand.cur" toolTipAuto = "true"
+IconVisible = "true" horizontalAlignment="Right" verticalAlignment="Center"/>
+		
+<Button id="PushMsgButton" left="3" top="68" width="16" height="16" zIndex="27" cursor="Hand.cur" visible="false">
+<Icon ico="PushMsgInfo.ico" cx="16" cy="16" horizontalAlignment="Center" verticalAlignment="Center" leftPadding="0" topPadding="1"/>
+</Button>
+<Button id="StatusWeather" left="100" top="55" width="50" height="50" zIndex="25" toolTip="" cursor="Hand.cur" visible="true">
+<Icon ico="StatusPic.ico" cx="40" cy="40" horizontalAlignment="Left" verticalAlignment="Top" leftPadding="0" topPadding="0"/>
+<Label labelValue="　" color="#F0F0F0" hoverColor="#ffffff" fontFamily="微软雅黑" fontSize="8" fontStyle="" fontWeight="400" horizontalAlignment="Right" verticalAlignment="Center" leftPadding="0" topPadding="0"/>
+</Button>
+
+<Button id="QZoneMsgCenterButton" left="42" top="124" width="40" height="16" zIndex="27" toolTip="QQ空间信息中心" cursor="Hand.cur" visible="false">
+<Icon ico="QZONE_16.ico" cx="16" cy="16" horizontalAlignment="Left" verticalAlignment="Center" leftPadding="0" topPadding="1"/>
+<Label labelValue="(0)" color="#F5F5F5" hoverColor="#FFFFFF" fontFamily="微软雅黑" fontSize="8" fontStyle="" fontWeight="400" horizontalAlignment="Left" verticalAlignment="Center" leftPadding="18" topPadding="0"/>
+</Button>
+
+<Button id="MailButton" left="108" top="62" width="24" height="24" zIndex="28" toolTip="邮件" cursor="Hand.cur" visible="true">
+<Icon ico="MailButton.ico" cx="24" cy="24" horizontalAlignment="Left" verticalAlignment="Center" leftPadding="0" topPadding="0"/>
+<Label labelValue="(0)" color="#FFFFFF" hoverColor="#FFFFFF" fontFamily="微软雅黑" fontSize="9" fontStyle="" fontWeight="400" horizontalAlignment="Left" verticalAlignment="Center" leftPadding="25" topPadding="0"/>
+</Button>
+
+<Button id="ContentsButton" left="11" top="108" width="25" height="25" zIndex="21" toolTip="标签管理" cursor="Hand.cur" visible="true" image="content_Normal.bmp" hoverImage="content_Hover.bmp" downImage="content_Down.bmp" transparencyColor="#FF00FF" horizontalAlignment="Stretch" verticalAlignment="Stretch"/>
+<Button id="PaymentButton" left="62" top="62" width="24" height="24" zIndex="28" toolTip="钱包" cursor="Hand.cur" visible="true">
+<Icon ico="payment.ico" cx="24" cy="24" horizontalAlignment="Left" verticalAlignment="Center" leftPadding="0" topPadding="1"/>
+<Label labelValue="(0)" color="#FFFFFF" hoverColor="#FFFFFF" fontFamily="微软雅黑" fontSize="9" fontStyle="" fontWeight="400" horizontalAlignment="Left" verticalAlignment="Center" leftPadding="25" topPadding="0"/>
+</Button>
+<Button id="MobileMsgButton" left="235" top="200" width="32" height="32" zIndex="17" toolTip="发送手机短讯" cursor="Hand.cur" visible="false">
+<Icon ico="MobileMsgButton.ico" cx="32" cy="32" horizontalAlignment="Left" verticalAlignment="Center" leftPadding="0" topPadding="0"/>
+</Button>
+<Button id="GameButton" left="113" top="400" width="32" height="32" zIndex="18" toolTip="QQ游戏" cursor="Hand.cur" visible="false" >
+<Icon ico="GameButton.ico" cx="32" cy="32" horizontalAlignment="Center" verticalAlignment="Center" leftPadding="0" topPadding="0"/>			
+</Button>
+<Button id="QQMusic" left="190" top="430" width="32" height="32" zIndex="28" toolTip="QQ音乐" visible="false" cursor="Hand.cur">
+<Icon ico="QQMusicButton.ico" cx="32" cy="32" horizontalAlignment="Left" verticalAlignment="Center" leftPadding="0" topPadding="0"/>
+</Button>
+<Button id="QQTV" left="165" top="430" width="32" height="32" zIndex="29" toolTip="QQ直播" visible="false"  cursor="Hand.cur">
+<Icon ico="QQTVButton.ico" cx="32" cy="32" horizontalAlignment="Left" verticalAlignment="Center" leftPadding="0" topPadding="0"/>
+</Button>
+<Button id="TTButton" left="139" top="448" height = "32" width = "32" zIndex="20" visible="false"  cursor="Hand.cur" toolTip = "腾讯TT浏览器">
+<Icon ico="TTButton.ico" cx="32" cy="32" horizontalAlignment="Left" verticalAlignment="Center" leftPadding="0" topPadding="0"/>			
+</Button>
+<Button id="petOpenBtn" left="212" top="430" height = "32" width = "32" zIndex="20" visible="false"  cursor="Hand.cur" toolTip = "QQ宠物">
+<Icon ico="OpenPet.ico" cx="32" cy="32" horizontalAlignment="Left" verticalAlignment="Center" leftPadding="0" topPadding="0"/>					
+</Button>
+<Button id="MenuButton" left="10" top="88" width="50" height="22" zIndex="21" toolTip="菜单" cursor="Hand.cur" visible="true" image="MenuButton_Normal.bmp" hoverImage="MenuButton_Hover.bmp" downImage="MenuButton_Down.bmp" transparencyColor="#FF00FF" horizontalAlignment="Stretch" verticalAlignment="Stretch"/>
+<Button id="SearchButton" left="38" top="109" width="25" height="25" zIndex="21" toolTip="寻找用户" cursor="Hand.cur" visible="true" image="Search_Normal.bmp" hoverImage="Search_Hover.bmp" downImage="Search_Down.bmp" transparencyColor="#FF00FF" horizontalAlignment="Stretch" verticalAlignment="Stretch"/>
+<Button id="MsgManagerButton" left="63" top="109" width="25" height="25" zIndex="21" toolTip="消息管理" cursor="Hand.cur" visible="true" image="MSG_Normal.bmp" hoverImage="MSG_Hover.bmp" downImage="MSG_Down.bmp" transparencyColor="#FF00FF" horizontalAlignment="Stretch" verticalAlignment="Stretch"/>
+<Button id="DisplayPlug" left="89" top="106" width="28" height="29" zIndex="29" toolTip="功能列表" cursor="Hand.cur" visible="true" image="DisplayPlug.bmp" hoverImage="DisplayPlug2.bmp" downImage="DisplayPlug3.bmp" horizontalAlignment="Stretch" verticalAlignment="Stretch"/>
+
+<Button id="FriendButton" itemID="1001 top = "20000" height = "4" width = "4" zIndex="3" cursor="Hand.cur" toolTip = "QQ好友面板" transparencyColor="#FF00FF" image="barback_normal.bmp" hoverImage="barback_over.bmp" disabledImage="barback_disabled.bmp">
+</Button>
+
+<PanelDescription>
+<DlgItem id="Bar1"  left="8" top="148" height="4" itemID="1001" />
+</PanelDescription>
+		<PlugItem id="StatusEdit" visible="true" top = "60" left = "192" width = "80" height = "18" itemID ="1004" />
+
+<PanelContainer id="NewPanels" left="64" top="65" width="0" height="1000" zIndex="8" align="vertical" PanelDistance="-4"/>
+</Window>
+</theme>
