@@ -1,0 +1,274 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{742CCBDC-A001-4825-9DE7-AEDDBEEEBBD5}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>myQQ</RootNamespace>
+    <AssemblyName>myQQ</AssemblyName>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <PublishUrl>http://localhost/myQQ/</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="SideBar, Version=1.0.2813.28543, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>第三方控件SideBar\SideBar.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ConfigHelper.cs" />
+    <Compile Include="DBHelper.cs" />
+    <Compile Include="Frm_addFriend.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frm_addFriend.designer.cs">
+      <DependentUpon>Frm_addFriend.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Frm_addFriendRequest.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frm_addFriendRequest.Designer.cs">
+      <DependentUpon>Frm_addFriendRequest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Frm_addGroup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frm_addGroup.Designer.cs">
+      <DependentUpon>Frm_addGroup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Frm_chat.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frm_chat.designer.cs">
+      <DependentUpon>Frm_chat.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Frm_findpwd.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frm_findpwd.Designer.cs">
+      <DependentUpon>Frm_findpwd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Frm_groupChat.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frm_groupChat.Designer.cs">
+      <DependentUpon>Frm_groupChat.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Frm_groupManage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frm_groupManage.Designer.cs">
+      <DependentUpon>Frm_groupManage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Frm_leaveGroup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frm_leaveGroup.Designer.cs">
+      <DependentUpon>Frm_leaveGroup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Frm_Record.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frm_Record.Designer.cs">
+      <DependentUpon>Frm_Record.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Frm_info.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frm_info.Designer.cs">
+      <DependentUpon>Frm_info.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Frm_login.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frm_login.Designer.cs">
+      <DependentUpon>Frm_login.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Frm_main.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frm_main.Designer.cs">
+      <DependentUpon>Frm_main.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Frm_rege.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frm_rege.Designer.cs">
+      <DependentUpon>Frm_rege.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Frm_selectImage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frm_selectImage.Designer.cs">
+      <DependentUpon>Frm_selectImage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Frm_systemConfig.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frm_systemConfig.Designer.cs">
+      <DependentUpon>Frm_systemConfig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Frm_systemMessage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frm_systemMessage.Designer.cs">
+      <DependentUpon>Frm_systemMessage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Frm_addFriend.resx">
+      <DependentUpon>Frm_addFriend.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Frm_addFriendRequest.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>Frm_addFriendRequest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Frm_addGroup.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>Frm_addGroup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Frm_chat.resx">
+      <DependentUpon>Frm_chat.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Frm_findpwd.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>Frm_findpwd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Frm_groupChat.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>Frm_groupChat.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Frm_groupManage.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>Frm_groupManage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Frm_leaveGroup.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>Frm_leaveGroup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Frm_Record.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>Frm_Record.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Frm_info.resx">
+      <DependentUpon>Frm_info.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Frm_login.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>Frm_login.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Frm_main.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>Frm_main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Frm_rege.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>Frm_rege.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Frm_selectImage.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>Frm_selectImage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Frm_systemConfig.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>Frm_systemConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Frm_systemMessage.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>Frm_systemMessage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="system.ini" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="UserHelper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
