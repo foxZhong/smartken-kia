@@ -184,7 +184,7 @@ namespace myQQ
 
         private void adduser()
         {
-            str = string.Format("insert into Users (loginpwd,friendshippolicyid,nickname,faceid,sex,age,name,stat,bloodtype,email,questionid,city,mood,answer,userstateid)  values " +
+            str = string.Format("insert into Users (loginpwd,friendshippolicyid,nickname,faceid,sex,age,name,stat,bloodtypeid,email,questionid,city,mood,answer,userstateid)  values " +
                         "('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}','{13}','{14}')",
                     txtPwd.Text,//0  密码
                     1,//1 添加好友选项
