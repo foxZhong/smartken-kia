@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="kia-myCrm"
+  id="myeclipse.1240142661878"
+  context-root="/mycrm"
+  j2ee-spec="5.0"
+  archive="kia-myCrm.war">
+  <attributes>
+    <attribute name="webrootdir" value="/WebRoot" />
+  </attributes>
+</project-module>
+

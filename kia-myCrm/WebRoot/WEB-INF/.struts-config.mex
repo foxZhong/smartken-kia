@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FlowViewLayout Version="1.2">
+  <StrutsActivity path="/baseData/data.do" location="50,50" dimension="218,96" />
+  <StrutsActivity path="/serviceManage/services.do" location="950,50" dimension="236,96" />
+  <StrutsActivity path="/customerManage/customer.do" location="650,250" dimension="262,84" />
+  <StrutsActivity path="/sellManage/sell.do" location="50,550" dimension="238,84" />
+  <StrutsActivity path="/main/message.do" location="350,1050" dimension="240,96" />
+  <StrutsActivity path="/baseData/produce.do" location="1250,150" dimension="238,96" />
+  <StrutsActivity path="/systemManage/user.do" location="1250,1050" dimension="217,96" />
+  <StrutsActivity path="/baseData/data_showDictonary.jsp" location="350,50" dimension="213,51" />
+  <StrutsActivity path="/form/data.jsp" location="650,50" dimension="107,51" />
+  <StrutsActivity path="/serviceManage/ser_showFeedBack.jsp" location="350,550" dimension="250,48" />
+  <StrutsActivity path="/serviceManage/ser_showHandle.jsp" location="950,450" dimension="223,51" />
+  <StrutsActivity path="/serviceManage/ser_showAssign.jsp" location="350,850" dimension="220,51" />
+  <StrutsActivity path="/serviceManage/ser_showFile.jsp" location="650,850" dimension="203,51" />
+  <StrutsActivity path="/serviceManage/ser_doCreate.jsp" location="350,250" dimension="205,51" />
+  <StrutsActivity path="/serviceManage/ser_doHandle.jsp" location="650,450" dimension="209,51" />
+  <StrutsActivity path="/form/services.jsp" location="50,250" dimension="125,51" />
+  <StrutsActivity path="/customerManage/cus_showCustomer.jsp" location="950,850" dimension="254,51" />
+  <StrutsActivity path="/customerManage/cus_showBleed.jsp" location="50,950" dimension="231,51" />
+  <StrutsActivity path="/form/customer.jsp" location="350,450" dimension="148,48" />
+  <StrutsActivity path="/sellManage/sell_showEmpolder.jsp" location="50,750" dimension="219,51" />
+  <StrutsActivity path="/sellManage/sell_doEditChance.jsp" location="350,650" dimension="214,51" />
+  <StrutsActivity path="/sellManage/sell_showChance.jsp" location="650,650" dimension="208,51" />
+  <StrutsActivity path="/sellManage/sell_doCreateChance.jsp" location="950,650" dimension="228,51" />
+  <StrutsActivity path="/baseData/prod_showInfo.jsp" location="1250,550" dimension="185,51" />
+  <StrutsActivity path="/form/produce.jsp" location="950,1050" dimension="128,51" />
+  <StrutsActivity path="/systemManage/user_doManage.jsp" location="350,1250" dimension="222,51" />
+  <StrutsActivity path="/form/user.jsp" location="50,1150" dimension="106,51" />
+  <StrutsActivity path="/main/main.jsp" location="50,450" dimension="124,48" />
+  <StrutsActivity path="/form/message.jsp" location="650,1050" dimension="130,51" />
+  <StrutsTransition id="/baseData/produce.do,prod_showInfo,/baseData/prod_showInfo.jsp,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="0,0" />
+      <AbsolutePoint location="0,0" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/form/customer.jsp,null,/sellManage/sell.do,2" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="350,474" />
+      <AbsolutePoint location="190,474" />
+      <AbsolutePoint location="190,550" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/form/data.jsp,null,/baseData/data.do,2" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="703,101" />
+      <AbsolutePoint location="703,116" />
+      <AbsolutePoint location="268,116" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/serviceManage/services.do,ser_showFeedBack,/serviceManage/ser_showFeedBack.jsp,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="1186,98" />
+      <AbsolutePoint location="1261,98" />
+      <AbsolutePoint location="1261,574" />
+      <AbsolutePoint location="600,574" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/form/user.jsp,null,/systemManage/user.do,2" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="156,1175" />
+      <AbsolutePoint location="1358,1175" />
+      <AbsolutePoint location="1358,1146" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/serviceManage/services.do,ser_doHandle,/serviceManage/ser_doHandle.jsp,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="1068,146" />
+      <AbsolutePoint location="1068,379" />
+      <AbsolutePoint location="754,379" />
+      <AbsolutePoint location="754,450" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/customerManage/customer.do,cus_showBleed,/customerManage/cus_showBleed.jsp,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="874,334" />
+      <AbsolutePoint location="874,975" />
+      <AbsolutePoint location="281,975" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/form/customer.jsp,null,/customerManage/customer.do,2" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="0,0" />
+      <AbsolutePoint location="0,0" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/sellManage/sell.do,sell_showChance,/sellManage/sell_showChance.jsp,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="288,613" />
+      <AbsolutePoint location="754,613" />
+      <AbsolutePoint location="754,650" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/customerManage/customer.do,cus_showCustomer,/customerManage/cus_showCustomer.jsp,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="912,292" />
+      <AbsolutePoint location="1201,292" />
+      <AbsolutePoint location="1201,850" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/form/produce.jsp,null,/baseData/produce.do,2" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="0,0" />
+      <AbsolutePoint location="0,0" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/serviceManage/services.do,ser_showAssign,/serviceManage/ser_showAssign.jsp,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="1098,146" />
+      <AbsolutePoint location="1098,409" />
+      <AbsolutePoint location="615,409" />
+      <AbsolutePoint location="615,875" />
+      <AbsolutePoint location="570,875" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/serviceManage/services.do,ser_doCreate,/serviceManage/ser_doCreate.jsp,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="1008,146" />
+      <AbsolutePoint location="1008,191" />
+      <AbsolutePoint location="452,191" />
+      <AbsolutePoint location="452,250" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/sellManage/sell.do,sell_showEmpolder,/sellManage/sell_showEmpolder.jsp,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="139,634" />
+      <AbsolutePoint location="139,750" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/serviceManage/services.do,ser_showHandle,/serviceManage/ser_showHandle.jsp,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="1128,146" />
+      <AbsolutePoint location="1128,450" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/serviceManage/services.do,ser_showFile,/serviceManage/ser_showFile.jsp,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="950,86" />
+      <AbsolutePoint location="927,86" />
+      <AbsolutePoint location="927,875" />
+      <AbsolutePoint location="853,875" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/sellManage/sell.do,sell_doCreateChance,/sellManage/sell_doCreateChance.jsp,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="159,550" />
+      <AbsolutePoint location="159,516" />
+      <AbsolutePoint location="1064,516" />
+      <AbsolutePoint location="1064,650" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/baseData/data.do,data_showDictonary,/baseData/data_showDictonary.jsp,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="268,86" />
+      <AbsolutePoint location="350,86" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/form/services.jsp,null,/serviceManage/services.do,2" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="112,250" />
+      <AbsolutePoint location="112,221" />
+      <AbsolutePoint location="1038,221" />
+      <AbsolutePoint location="1038,146" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/sellManage/sell.do,sell_doEditChance,/sellManage/sell_doEditChance.jsp,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="169,634" />
+      <AbsolutePoint location="169,675" />
+      <AbsolutePoint location="350,675" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/systemManage/user.do,user_doManage,/systemManage/user_doManage.jsp,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="1388,1146" />
+      <AbsolutePoint location="1388,1275" />
+      <AbsolutePoint location="572,1275" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+</FlowViewLayout>
+

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+  <data-sources />
+  <form-beans >
+    <form-bean name="dataForm" type="com.cms.struts.form.DataForm" />
+    <form-bean name="customerForm" type="com.cms.struts.form.CustomerForm" />
+    <form-bean name="sellForm" type="com.cms.struts.form.SellForm" />
+    <form-bean name="servicesForm" type="com.cms.struts.form.ServicesForm" />
+    <form-bean name="messageForm" type="org.apache.struts.action.DynaActionForm">
+      <form-property name="message" type="com.cms.hibernate.message.ent.SysMessage" />
+    </form-bean>
+    <form-bean name="produceForm" type="org.apache.struts.action.DynaActionForm">
+      <form-property name="produce" type="com.cms.hibernate.produces.ent.Produces" />
+    </form-bean>
+    <form-bean name="userForm" type="org.apache.struts.action.DynaActionForm">
+      <form-property name="users" type="com.cms.hibernate.user.ent.Users" />
+    </form-bean>
+    
+    
+  </form-beans>
+
+  <global-exceptions />
+  <global-forwards />
+  <action-mappings >
+    <action
+      attribute="dataForm"
+      input="/form/data.jsp"
+      name="dataForm"
+      parameter="oper"
+      path="/baseData/data"
+      scope="request"
+      type="org.springframework.web.struts.DelegatingActionProxy">
+      <forward name="data_showDictonary" path="/baseData/data_showDictonary.jsp" />
+    </action>
+    <action
+      attribute="servicesForm"
+      input="/form/services.jsp"
+      name="servicesForm"
+      parameter="oper"
+      path="/serviceManage/services"
+      scope="request"
+      type="org.springframework.web.struts.DelegatingActionProxy">
+      <forward name="ser_showFeedBack" path="/serviceManage/ser_showFeedBack.jsp" />
+      <forward name="ser_showAssign" path="/serviceManage/ser_showAssign.jsp" />
+      <forward name="ser_showHandle" path="/serviceManage/ser_showHandle.jsp" />
+      <forward name="ser_showFile" path="/serviceManage/ser_showFile.jsp" />
+      <forward name="ser_doHandle" path="/serviceManage/ser_doHandle.jsp" />
+      <forward name="ser_doCreate" path="/serviceManage/ser_doCreate.jsp" />
+    </action>
+    
+    <action
+      attribute="customerForm"
+      input="/form/customer.jsp"
+      name="customerForm"
+      parameter="oper"
+      path="/customerManage/customer"
+      scope="request"
+      type="org.springframework.web.struts.DelegatingActionProxy">
+      <forward name="cus_showCustomer" path="/customerManage/cus_showCustomer.jsp" />
+      <forward name="cus_showBleed" path="/customerManage/cus_showBleed.jsp" />
+    </action>
+    
+    <action
+      attribute="sellForm"
+      input="/form/customer.jsp"
+      name="sellForm"
+      parameter="oper"
+      path="/sellManage/sell"
+      scope="request"
+      type="org.springframework.web.struts.DelegatingActionProxy">
+      <forward name="sell_showEmpolder" path="/sellManage/sell_showEmpolder.jsp" />
+      <forward name="sell_doEditChance" path="/sellManage/sell_doEditChance.jsp" />
+      <forward name="sell_showChance" path="/sellManage/sell_showChance.jsp" />
+      <forward name="sell_doCreateChance" path="/sellManage/sell_doCreateChance.jsp" />
+    </action>
+    <action
+      attribute="messageForm"
+      name="messageForm"
+      parameter="oper"
+      path="/main/message"
+      scope="request"
+      type="org.springframework.web.struts.DelegatingActionProxy" />
+    <action
+      attribute="produceForm"
+      input="/form/produce.jsp"
+      name="produceForm"
+      parameter="oper"
+      path="/baseData/produce"
+      scope="request"
+      type="org.springframework.web.struts.DelegatingActionProxy">
+      <forward name="prod_showInfo" path="/baseData/prod_showInfo.jsp" />
+    </action>
+    <action
+      attribute="userForm"
+      input="/form/user.jsp"
+      name="userForm"
+      parameter="oper"
+      path="/systemManage/user"
+      scope="request"
+      type="org.springframework.web.struts.DelegatingActionProxy">
+      <forward name="user_doManage" path="/systemManage/user_doManage.jsp" />
+    </action>
+    
+    
+    
+   
+  </action-mappings>
+
+  <message-resources parameter="com.cms.struts.ApplicationResources" />
+</struts-config>
+

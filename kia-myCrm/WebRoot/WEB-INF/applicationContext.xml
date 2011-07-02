@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+	http://www.springframework.org/schema/tx  http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+	http://www.springframework.org/schema/aop  http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+	">
+
+   <bean id="data" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName"
+			value="com.mysql.jdbc.Driver">
+		</property>
+		<property name="url"
+			value="jdbc:mysql://localhost:3306/mycrm">
+		</property>
+		<property name="username" value="smartken"></property>
+		<property name="password" value="sa"></property>
+	</bean>
+
+
+
+   <bean id="sessionFactory"
+   	class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+   	<property name="dataSource">
+   		<ref bean="data" />
+   	</property>
+   	<property name="hibernateProperties">
+   		<props>
+   			<prop key="hibernate.dialect">
+   				org.hibernate.dialect.MySQLDialect
+   			</prop>
+   			<prop key="show_sql">true</prop>
+   		</props>
+   	</property>
+   	<property name="mappingResources">
+   		<list>
+   			<value>com/cms/hibernate/customer/ent/Cusnote.hbm.xml</value>
+   			<value>com/cms/hibernate/customer/ent/Cusorder.hbm.xml</value>
+   			<value>com/cms/hibernate/customer/ent/Cusorderitems.hbm.xml</value>
+   			<value>com/cms/hibernate/customer/ent/Cusstaff.hbm.xml</value>
+   			<value>com/cms/hibernate/customer/ent/Customers.hbm.xml</value>
+   			<value>com/cms/hibernate/data/ent/SysDataoptions.hbm.xml</value>
+   			<value>com/cms/hibernate/data/ent/SysDatas.hbm.xml</value>
+   			<value>com/cms/hibernate/message/ent/SysMessage.hbm.xml</value>
+   			<value>com/cms/hibernate/produces/ent/Produces.hbm.xml	</value>
+   		    <value>com/cms/hibernate/produces/ent/Storage.hbm.xml</value>
+   			<value>com/cms/hibernate/produces/ent/StorageShelf.hbm.xml</value>
+   			<value>com/cms/hibernate/produces/ent/StorageShelfitems.hbm.xml</value>
+   			<value>com/cms/hibernate/sell/ent/Sellchance.hbm.xml</value>
+   			<value>com/cms/hibernate/sell/ent/Sellplan.hbm.xml</value>
+   			<value>com/cms/hibernate/services/ent/Services.hbm.xml</value>
+   			<value>com/cms/hibernate/user/ent/Users.hbm.xml</value>
+   		</list>
+   	</property>
+  
+   </bean>
+   
+   <!-- 服务管理 -->
+   <bean id="serviceDAO" class="com.cms.hibernate.services.dao.impl.ServicesDAOImpl">
+       <property name="sessionFactory" ref="sessionFactory"></property>
+   </bean>
+   
+   <bean id="serviceBiz" class="com.cms.hibernate.services.biz.impl.ServicesBizImpl">
+       <property name="sdao" ref="serviceDAO"></property>
+       <property name="cdao" ref="customerDAO"></property>
+   </bean>
+   
+   <bean name="/serviceManage/services" class="com.cms.struts.action.ServicesAction">
+       <property name="sbiz" ref="serviceBiz"></property>
+   </bean>
+    <!-- 服务管理  end-->
+   
+   
+   
+   <!-- 营销管理 -->
+   <bean id="sellChanceDAO" class="com.cms.hibernate.sell.dao.impl.SellChanceDAOImpl">
+      <property name="sessionFactory" ref="sessionFactory"></property>
+   </bean>
+   <bean id="sellPlanDAO" class="com.cms.hibernate.sell.dao.impl.SellPlanDAOImpl">
+       <property name="sessionFactory" ref="sessionFactory"></property>
+   </bean>
+   
+   <bean id="sellChanceBiz" class="com.cms.hibernate.sell.biz.impl.SellChanceBizImpl">
+        <property name="scDAO" ref="sellChanceDAO"></property>
+        <property name="cuDAO" ref="customerDAO"></property>
+        <property name="stDAO" ref="cusStaffDAO"></property>
+   </bean>
+   <bean id="sellPlanBiz" class="com.cms.hibernate.sell.biz.impl.SellPlanBizImpl">
+        <property name="spDAO" ref="sellPlanDAO"></property>
+   </bean>
+   
+   <bean name="/sellManage/sell" class="com.cms.struts.action.SellAction">
+       <property name="chanceBiz" ref="sellChanceBiz"></property>
+       <property name="planBiz" ref="sellPlanBiz"></property>
+   </bean>
+   <!-- 营销管理 end-->
+   
+   
+   
+   <!-- 客户管理 -->
+    <bean id="customerDAO" class="com.cms.hibernate.customer.dao.impl.CustomersDAOImpl">
+       <property name="sessionFactory" ref="sessionFactory"></property>
+   </bean>
+    <bean id="cusStaffDAO" class="com.cms.hibernate.customer.dao.impl.CusstaffDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+    <bean id="cusOrderDAO" class="com.cms.hibernate.customer.dao.impl.CusorderDAOImpl">
+       <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+    <bean id="cusNoteDAO" class="com.cms.hibernate.customer.dao.impl.CusnoteDAOImpl">
+       <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+    
+    <bean id="customerBiz" class="com.cms.hibernate.customer.biz.impl.CustomerBizImpl">
+        <property name="customersDAO" ref="customerDAO"></property>
+        <property name="cstaDAO" ref="cusStaffDAO"></property>
+    </bean>
+    <bean id="cusStaffBiz" class="com.cms.hibernate.customer.biz.impl.CusstaffBizImpl">
+       <property name="cusstaffDAO" ref="cusStaffDAO"></property>
+    </bean>
+      <bean id="cusOrderBiz" class="com.cms.hibernate.customer.biz.impl.CusorderBizImpl">
+       <property name="cusorderDAO" ref="cusOrderDAO"></property>
+    </bean>
+      <bean id="cusNoteBiz" class="com.cms.hibernate.customer.biz.impl.CusnoteBizImpl">
+      <property name="cusnoteDAO" ref="cusNoteDAO"></property>
+    </bean>
+    
+    <bean name="/customerManage/customer" class="com.cms.struts.action.CustomerAction">
+       <property name="cusnotebiz" ref="cusNoteBiz"></property>
+       <property name="cusorderbiz" ref="cusOrderBiz"></property>
+       <property name="cusstaffbiz" ref="cusStaffBiz"></property>
+       <property name="customerbiz" ref="customerBiz"></property>
+    </bean>
+    
+   <!-- 客户管理 end-->
+   
+   <!-- 基础数据 -->
+   <bean id="dataDAO" class="com.cms.hibernate.data.dao.impl.DataDAOImpl">
+      <property name="sessionFactory" ref="sessionFactory"></property>
+   </bean>
+   <bean id="dataOptionDAO" class="com.cms.hibernate.data.dao.impl.OptionDAOImpl">
+      <property name="sessionFactory" ref="sessionFactory"></property>
+   </bean>
+   
+   <bean id="dataBiz" class="com.cms.hibernate.data.biz.impl.DataBizImpl">
+      <property name="ddao" ref="dataDAO"></property>
+   </bean>
+   <bean id="dataOptionBiz" class="com.cms.hibernate.data.biz.impl.OptionBizImpl">
+      <property name="odao" ref="dataOptionDAO"></property>
+   </bean>
+   
+   <bean name="/baseData/data" class="com.cms.struts.action.DataAction">
+     <property name="dbiz" ref="dataBiz"></property>
+     <property name="obiz" ref="dataOptionBiz"></property>
+   </bean>
+   
+   <!-- 基础数据 end -->
+   
+   <!-- 货物管理 -->
+   <bean id="produceDAO" class="com.cms.hibernate.produces.dao.impl.ProduceDAOImpl">
+     <property name="sessionFactory" ref="sessionFactory"></property>
+   </bean>
+   
+   <bean id="produceBiz" class="com.cms.hibernate.produces.biz.impl.ProduceBizImpl">
+     <property name="pdao" ref="produceDAO"></property>
+   </bean>
+   
+   <bean name="/baseData/produce" class="com.cms.struts.action.ProduceAction">
+     <property name="pbiz" ref="produceBiz"></property>
+   </bean>
+   
+   <!-- 货物管理 end-->
+   
+   <!--  消息管理 -->
+     <bean id="messageDAO" class="com.cms.hibernate.message.dao.impl.MessageDAOImpl">
+       <property name="sessionFactory" ref="sessionFactory"></property>
+     </bean>
+     
+     <bean id="messageBiz" class="com.cms.hibernate.message.biz.impl.MessageBizImpl">
+       <property name="mdao" ref="messageDAO"></property>
+     </bean>
+     
+     <bean name="/main/message" class="com.cms.struts.action.MessageAction">
+        <property name="mbiz" ref="messageBiz"></property>
+     </bean>
+   <!-- 消息管理 end-->
+   
+    <!-- 用户管理 -->
+      <bean id="userDao" class="com.cms.hibernate.user.dao.impl.UserDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"></property>
+      </bean>
+      
+      <bean id="userBiz" class="com.cms.hibernate.user.biz.impl.UserBizImpl">
+        <property name="udao" ref="userDao"></property>
+      </bean>
+      
+      <bean name="/systemManage/user" class="com.cms.struts.action.UserAction">
+       <property name="ubiz" ref="userBiz"></property>
+      </bean>
+    <!-- 用户管理 end-->
+   
+   
+   <bean id="myTM" class="org.springframework.orm.hibernate3.HibernateTransactionManager"
+    abstract="false" lazy-init="default" autowire="default" dependency-check="default"
+   >
+    <property name="sessionFactory" ref="sessionFactory"></property>
+   </bean>
+   
+   <tx:advice id="txAdvice" transaction-manager="myTM">
+      <tx:attributes>
+        <tx:method name="*" propagation="REQUIRED"></tx:method>
+       </tx:attributes>
+   </tx:advice>
+   
+   <aop:config>
+     <aop:pointcut id="cmsMethod" expression="execution(* com.cms.hibernate.*.biz.*.*(..))" />
+     <aop:advisor advice-ref="txAdvice" pointcut-ref="cmsMethod"/>
+   </aop:config>
+   
+   </beans>
