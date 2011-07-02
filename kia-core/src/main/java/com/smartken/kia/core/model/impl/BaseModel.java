@@ -1,6 +1,9 @@
 package com.smartken.kia.core.model.impl;
 
 
+import org.apache.geronimo.mail.util.Base64Encoder;
+import org.bson.BSONObject;
+import org.bson.BasicBSONObject;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
@@ -13,6 +16,10 @@ import org.json.JSONObject;
 import java.security.acl.LastOwnerException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+
+import biz.source_code.base64Coder.Base64Coder;
+
+import com.smartken.kia.core.enums.DataFormatEnum;
 import com.smartken.kia.core.enums.StringFormatEnum;
 import com.smartken.kia.core.model.IBaseModel;
 import com.smartken.kia.core.model.IFormatterModel;
@@ -51,36 +58,8 @@ public abstract class BaseModel implements IBaseModel ,IFormatterModel{
 				String lStrFieldName=lArrField[i].getName();
                 try{
                 Object lObjFieldValue=eval(lStrFieldName);
-				if(lObjFieldValue instanceof IFormatterModel)
-				{
-					lJsonTemp.put(lStrFieldName, lObjFieldValue==null?"":((IFormatterModel)lObjFieldValue).toJson());
-				}else if(lObjFieldValue instanceof Date ){
-					if(lObjFieldValue!=null){
-						Date d=(Date)lObjFieldValue;
-						//d.getTime();
-						lJsonTemp.put(lStrFieldName, DateTimeUtil.format(d, DateTimeUtil.DATE_FORMAT_DB));
-					}else{
-						lJsonTemp.put(lStrFieldName,"");
-					}
-				}else if( lObjFieldValue instanceof Timestamp){
-					if(lObjFieldValue!=null){
-						Timestamp t=(Timestamp)lObjFieldValue;
-						//d.getTime();
-						lJsonTemp.put(lStrFieldName, DateTimeUtil.format(t, DateTimeUtil.DATE_TIME_FORMAT_DB));
-					}else{
-						lJsonTemp.put(lStrFieldName,"");
-					}
-				}
-				else{
-				   lJsonTemp.put(lStrFieldName, lObjFieldValue==null?"":lObjFieldValue);
-				}
-				}catch(Exception ex){
-					try{
-						String lStrTempName="get"+lStrFieldName;
-						Object lObjFieldValue=eval(lStrFieldName);
-						lJsonTemp.put(lStrFieldName, lObjFieldValue==null?"":lObjFieldValue);
-					}catch (Exception exx){}
-				}
+                lJsonTemp.put(lStrFieldName, this.formatObject(lObjFieldValue,DataFormatEnum.json));
+               }catch(Exception ex){}
 			}
 		}
 
@@ -116,23 +95,11 @@ public abstract class BaseModel implements IBaseModel ,IFormatterModel{
 			//Object lObjFieldValue=lMth.invoke(this, null);
 		    Object lObjFieldValue=	eval(lStrFieldName);
 			Element el=DocumentHelper.createElement(lStrFieldName);
-			el.setText(lObjFieldValue==null?"":lObjFieldValue.toString());
+			el.setText(this.formatObject(lObjFieldValue,DataFormatEnum.xml).toString());
 			el.addAttribute("type", lArrField[i].getType().getSimpleName());
 			root.add(el);
 			}
-			catch(Exception ex)
-			{
-				try{
-			    //String lTempName="get"+lStrFieldName;
-				//Method lMth=c.getDeclaredMethod(lTempName, null);
-				//Object lObjFieldValue=lMth.invoke(this, null);
-				Object lObjFieldValue=	eval(lStrFieldName);
-				Element el=DocumentHelper.createElement(lStrFieldName);
-				el.setData(lObjFieldValue==null?"":lObjFieldValue);
-				el.addAttribute("type", lArrField[i].getType().getSimpleName());
-				root.add(el);
-				}catch (Exception exx){}
-			}
+			catch(Exception ex){}
 		}
 		}
 		return root;
@@ -295,7 +262,7 @@ public abstract class BaseModel implements IBaseModel ,IFormatterModel{
 
 	public  Enum[] enumFields() {
 		// TODO Auto-generated method stub
-		return null;
+		return new Enum[]{};
 	}
 
 
@@ -399,6 +366,61 @@ public abstract class BaseModel implements IBaseModel ,IFormatterModel{
    }
 
 
-	
+
+
+
+
+   public BSONObject toBson() {
+	// TODO Auto-generated method stub
+	BSONObject bson=new BasicBSONObject();
+	ArrayList<Class> lAllClass=this.getAllClass();
+	for (Class c : lAllClass) {
+		Field[] lArrField=c.getDeclaredFields();
+		for (int i=0;i<lArrField.length;i++) {
+			String lStrFieldName=lArrField[i].getName();
+            try{
+            Object lObjFieldValue=eval(lStrFieldName);
+            bson.put(lStrFieldName, this.formatObject(lObjFieldValue,DataFormatEnum.bson));
+           }catch(Exception ex){}
+		}
+	}
+	return bson;
+   }
+
+   final private Object formatObject(Object obj,DataFormatEnum dfe){
+	   Object reObj="";
+       try{
+           if(obj==null){
+        	   reObj="";
+           }else if(obj instanceof String
+           		||obj instanceof Number||dfe.equals(DataFormatEnum.bson)){
+        	   reObj=obj;
+           }
+           else if(obj instanceof Date ){
+				Date d=(Date)obj;
+				reObj=DateTimeUtil.format(d, DateTimeUtil.DATE_FORMAT_DB);
+			}else if( obj instanceof Timestamp){
+			   Timestamp t=(Timestamp)obj;
+			   reObj=DateTimeUtil.format(t, DateTimeUtil.DATE_TIME_FORMAT_DB);
+			}else if(obj instanceof byte[]){
+				reObj=Base64Coder.encodeLines((byte[])obj);
+			}
+			else if(obj instanceof IFormatterModel)
+			{
+				switch(dfe){
+				case json:reObj=((IFormatterModel)obj).toJson().toString();break;
+				case xml:reObj=((IFormatterModel)obj).toXmlElement().toString();break;
+				case bson:reObj=((IFormatterModel)obj).toBson().toString();break;
+
+				}
+			}
+			else{
+				reObj=obj;
+			}
+            return reObj;
+	   }catch(Exception ex){
+		   return "";
+	   }
+   }
 	
 }
