@@ -4,6 +4,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bson.BSONObject;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.json.JSONArray;
@@ -14,6 +15,8 @@ public interface IFormatterModel {
 	 public JSONObject toJson();
 	 public JSONObject toJsonInclude(List listField);
 	 public JSONObject toJsonExclude(List listField);
+	 
+	 public BSONObject toBson();
 	
 	 public Document toXmlDocucmnt();
 	 public Element toXmlElement();

@@ -16,12 +16,6 @@
   <dependencies>
     
     
-         <dependency>
-      <groupId>javax.servlet.jsp</groupId>
-      <artifactId>jsp-api</artifactId>
-      <version>2.1</version>
-      <scope>provided</scope>
-    </dependency>
     
     
       <dependency>
@@ -84,13 +78,6 @@
         	<scope>provided</scope>
         </dependency>
         <dependency>
-        	<groupId>org.mongodb</groupId>
-        	<artifactId>mongo-java-driver</artifactId>
-        	<version>2.5.3</version>
-        	<scope>provided</scope>
-        	<optional>true</optional>
-        </dependency>
-        <dependency>
         	<groupId>net.sourceforge.jexcelapi</groupId>
         	<artifactId>jxl</artifactId>
         	<version>2.6.12</version>
@@ -134,12 +121,6 @@
       <scope>provided</scope>
     </dependency>
     
-    <dependency>
-    	<groupId>org.json</groupId>
-    	<artifactId>json</artifactId>
-    	<version>20090211</version>
-    	<scope>provided</scope>
-    </dependency>
     
     
     <dependency>
@@ -230,6 +211,20 @@
         	<groupId>rome</groupId>
         	<artifactId>rome</artifactId>
         	<version>0.9</version>
+        	<scope>provided</scope>
+        </dependency>
+        <dependency>
+        	<groupId>biz.source_code</groupId>
+        	<artifactId>base64coder</artifactId>
+        	<version>2010-09-21</version>
+        	<type>jar</type>
+        	<scope>provided</scope>
+        </dependency>
+        <dependency>
+        	<groupId>com.google.code.gson</groupId>
+        	<artifactId>gson</artifactId>
+        	<version>1.7.1</version>
+        	<type>jar</type>
         	<scope>provided</scope>
         </dependency>
   </dependencies>
