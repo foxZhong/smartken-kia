@@ -23,7 +23,6 @@ public interface IBaseAction {
     
     public static String HEADER_Content_DISPOSITION="Content-disposition";
     
-    public void clear();
     
 	public void setPage(Integer page);
 	public void setRows(Integer rows);
