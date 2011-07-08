@@ -27,7 +27,7 @@ public  class SessionRequiredFilter extends OncePerRequestFilter  {
 	private String[] includeRegexps=new String[]{};
 	private String[] excludeRegexps=new String[]{};
 	private String errorPath="";
-	
+	 
 	
 	
 
