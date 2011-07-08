@@ -13,7 +13,10 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.oro.text.regex.PatternMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
+
+import com.sun.tools.javac.resources.compiler;
 
 
 public  class SessionRequiredFilter extends OncePerRequestFilter  {
@@ -55,7 +58,7 @@ public  class SessionRequiredFilter extends OncePerRequestFilter  {
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest req,
-			HttpServletResponse res, FilterChain arg2)
+			HttpServletResponse res, FilterChain fc)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		 String url=req.getServletPath();
@@ -64,14 +67,14 @@ public  class SessionRequiredFilter extends OncePerRequestFilter  {
 		 for(String regexp:includeRegexps){
 			 Pattern p=Pattern.compile(regexp);
 			 Matcher matcher=p.matcher(url);
-			 if(matcher.matches()){
+			 if(matcher.find()){
 				 isMatch=true;
 				 for(String regexp2:excludeRegexps){
-					 Pattern p2=Pattern.compile(regexp);
-					 Matcher matcher2=p.matcher(url);
-					 if(matcher.matches()){
+					 Pattern p2=Pattern.compile(regexp2);
+					 Matcher matcher2=p2.matcher(url);
+					 if(matcher2.find()){
 						isMatch=false;
-						return;
+                        break;
 					 }
 				 }
 				 break;
@@ -81,12 +84,23 @@ public  class SessionRequiredFilter extends OncePerRequestFilter  {
 			 for(String key :requiredKeys){
 	        	 if(req.getSession().getAttribute(key)==null){
 	        		 res.sendRedirect(basePath+errorPath);
-	        		 return;
 	        	 }
 	         }
 		 }
+		 fc.doFilter(req, res);
 	}
 	
 
+	
+	public static void main(String[] args){
+		 String regexp="(/to/).*(.action)$";
+		 String url="/admin/Buslog/to/count.action";
+		 Pattern p=Pattern.compile(regexp);
+		 Matcher matcher=p.matcher(url);
+		 boolean isMatch= matcher.find();
+		 System.out.println(isMatch);
+		 //int end= matcher.end();
+		 //System.out.println(end);
+	}
 
 }
