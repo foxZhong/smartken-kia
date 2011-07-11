@@ -85,4 +85,34 @@ public class FileUtil {
 		return bytes;
 	}
 	
+	
+	public static String getWebClassesPath(Class cls) {
+		   String path = cls.getProtectionDomain().getCodeSource()
+		     .getLocation().getPath();
+		   return path;
+		  
+		}
+
+   public static String getWebInfPath(Class cls) throws IllegalAccessException{
+		   String path = getWebClassesPath(cls);
+		   if (path.indexOf("WEB-INF") > 0) {
+		    path = path.substring(0, path.indexOf("WEB-INF")+8);
+		   } else {
+		    throw new IllegalAccessException("路径获取错误");
+		   }
+		   return path;
+		}
+
+  public static String getWebRoot(Class cls) throws IllegalAccessException{
+		   String path = getWebClassesPath(cls);
+		   if (path.indexOf("WEB-INF") > 0) {
+		    path = path.substring(0, path.indexOf("WEB-INF/classes"));
+		   } else {
+		    throw new IllegalAccessException("路径获取错误");
+		   }
+		   return path;
+		}
+
+	
+	
 }

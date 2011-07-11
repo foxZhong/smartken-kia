@@ -294,5 +294,64 @@ kiaLoadFields:function(){
 	}catch(ex){alert(ex);}
  } 
 	
+ 
+ ,kiaUploadForm:function(opts){
+	     if(!opts){
+	    	 opts={};
+	     }
+    	 var uploadUrl=opts["uploadUrl"]||"#";
+    	 var inputName=opts["inputName"]||"file";
+    	 var muti=opts["muti"]||false;
+    	 var div=$("<div></div>");
+    	 var table=$("<table></table>");
+    	 var ol=$("<ol type='1'></ol>");
+    	 var span=$("<span></span>");
+    	 var form=$("<form method='post' enctype='multipart/form-data'></form>");
+    	 form.attr("action",uploadUrl);
+    	 var aNew=$("<a></a>");
+    	 var aSubmit=$("<a></a>");
+    	 aNew.linkbutton({
+    		  text:"新增"
+    		  ,iconCls:"icon-add"
+    	 });
+    	 aSubmit.linkbutton({
+    		  text:"提交"
+    		  ,iconCls:"icon-save"
+    	 });
+    	 aNew.click(function(){
+    		    var li=$("<li></li>");
+    		    var inputFile=$("<input type='file' />");
+    		    inputFile.attr("name",inputName);
+    		    var btnRemove=$("<button type='button'>删除</button>");
+    		    btnRemove.click(function(){
+    		    	li.remove();
+    		    });
+    		    li.append(inputFile).append("&nbsp;&nbsp;").append(btnRemove);
+    		    ol.append(li);
+    	 });
+    	 
+    	 aSubmit.click(function(){
+    		 form.form("submit");
+    	 });
+    	 
+    	 //var btns=[];
+    	 
+    	 if(muti){
+    		 //btns=[btnNew,btnUpload];
+    		 span.append(aNew);
+    	 }
+    	 span.append(aSubmit);
+    	 var li=$("<li></li>");
+    	 var inputFile=$("<input type='file' />");
+    	 inputFile.attr("name",inputName);
+    	 li.append(inputFile);
+    	 ol.append(li);
+    	 div.css("padding","1%");
+    	 span.css("width","100%").css("text-align","right").css("padding-right","5%");
+    	 form.append(ol);
+    	 form.append(span);
+    	 div.append(form);
+         $(this).html(div);
+}
   
  }); //jQuery.fn.entends({
