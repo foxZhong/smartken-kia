@@ -4,9 +4,9 @@
 <configuration>
 
 <typeAliases>
-   <typeAlias type="com.smartken.kia.model.sys.MenuModel" alias="MenuModel"/>
-   <typeAlias type="com.smartken.kia.model.sys.UserModel" alias="UserModel"/>
-   <typeAlias type="com.smartken.kia.model.sys.DepartmentModel" alias="DepartmentModel"/>
+   <typeAlias type="com.smartken.kia.model.admin.MenuModel" alias="MenuModel"/>
+   <typeAlias type="com.smartken.kia.model.admin.UserModel" alias="UserModel"/>
+   <typeAlias type="com.smartken.kia.model.admin.DepartmentModel" alias="DepartmentModel"/>
 </typeAliases>
 
 
@@ -32,9 +32,7 @@
 -->
  
 <mappers>
-<mapper resource="com/smartken/kia/mapper/admin/IMenuMapper.xml"/>
-<mapper resource="com/smartken/kia/mapper/admin/IUserMapper.xml"/>
-<mapper resource="com/smartken/kia/mapper/admin/IDepartmentMapper.xml"/>
+<mapper resource="com/smartken/kia/mapper/admin/oracle/IMenuMapper.xml"/>
 </mappers>
 
 </configuration>

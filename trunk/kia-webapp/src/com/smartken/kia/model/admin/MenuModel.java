@@ -9,84 +9,81 @@ public class MenuModel extends BaseModel {
 	public static final String TYPE_TITLE="title";
 	public static final String TYPE_LINK="link";
 	
-	protected Object id;
-	protected String name;
-	protected String descp;
-	protected String url;
-	protected String icon;
-	protected String parma;
-	protected String parentId;
-	protected Integer seqno;
-	protected String type;
-	protected String token;
+	 public static enum F { 
+		  Id,Name,Descp,Url,Parma,ParentId,Ordernum,Icon,Token,Folder  
+		 } 
+
+		private String Id;         //ID  VARCHAR2 100
+		private String Name;         //NAME  VARCHAR2 100
+		private String Descp;         //DESCP  VARCHAR2 400
+		private String Url;         //URL  VARCHAR2 400
+		private String Parma;         //PARMA  VARCHAR2 400
+		private String ParentId;         //PARENT_ID  VARCHAR2 20
+		private Integer Ordernum;         //ORDERNUM  NUMBER 38
+		private String Icon;         //ICON  VARCHAR2 50
+		private String Token;         //TOKEN  CHAR 3
+		private String Folder;         //FOLDER  CHAR 1
+		public String getId() {
+			return Id;
+		}
+		public void setId(String id) {
+			Id = id;
+		}
+		public String getName() {
+			return Name;
+		}
+		public void setName(String name) {
+			Name = name;
+		}
+		public String getDescp() {
+			return Descp;
+		}
+		public void setDescp(String descp) {
+			Descp = descp;
+		}
+		public String getUrl() {
+			return Url;
+		}
+		public void setUrl(String url) {
+			Url = url;
+		}
+		public String getParma() {
+			return Parma;
+		}
+		public void setParma(String parma) {
+			Parma = parma;
+		}
+		public String getParentId() {
+			return ParentId;
+		}
+		public void setParentId(String parentId) {
+			ParentId = parentId;
+		}
+		public Integer getOrdernum() {
+			return Ordernum;
+		}
+		public void setOrdernum(Integer ordernum) {
+			Ordernum = ordernum;
+		}
+		public String getIcon() {
+			return Icon;
+		}
+		public void setIcon(String icon) {
+			Icon = icon;
+		}
+		public String getToken() {
+			return Token;
+		}
+		public void setToken(String token) {
+			Token = token;
+		}
+		public String getFolder() {
+			return Folder;
+		}
+		public void setFolder(String folder) {
+			Folder = folder;
+		}
 	
-	public Integer getSeqno() {
-		return seqno;
-	}
-	public void setSeqno(Integer seqno) {
-		this.seqno = seqno;
-	}
-	public String getType() {
-		return type;
-	}
-	public void setType(String type) {
-		this.type = type;
-	}
-	public void setId(Object id) {
-		this.id = id;
-	}
-	public String getToken() {
-		return token;
-	}
-	public void setToken(String token) {
-		this.token = token;
-	}
-	public Object getId() {
-		return id;
-	}
-	public void setId(String id) {
-		this.id = id;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getDescp() {
-		return descp;
-	}
-	public void setDescp(String descp) {
-		this.descp = descp;
-	}
-	public String getUrl() {
-		return url;
-	}
-	public void setUrl(String url) {
-		this.url = url;
-	}
-	public String getIcon() {
-		return icon;
-	}
-	public void setIcon(String icon) {
-		this.icon = icon;
-	}
-	public String getParma() {
-		return parma;
-	}
-	public void setParma(String parma) {
-		this.parma = parma;
-	}
-	public String getParentId() {
-		return parentId;
-	}
-	public void setParentId(String parentId) {
-		this.parentId = parentId;
-	}
-	@Override
-	public Object generalPK() throws NullPointerException {
-		// TODO Auto-generated method stub
-		return id;
-	}
-	
+		
+		
 }

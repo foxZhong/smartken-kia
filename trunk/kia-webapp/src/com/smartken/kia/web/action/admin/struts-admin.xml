@@ -8,8 +8,8 @@
 
    <action name="*/*/*" 
      class="com.smartken.kia.web.action.admin.{1}Action" method="{2}_{3}">
-      <result name="input">/jsp/sys/{1}/{3}.jsp</result>
-      <result name="jsp">/jsp/sys/{1}/{3}.jsp</result>
+      <result name="input">/jsp/admin/{1}/{3}.jsp</result>
+      <result name="jsp">/jsp/admin/{1}/{3}.jsp</result>
    </action>
 
  

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Struts2Diagram version="2.0">
+  <package name="admin" location="10,10" size="280,210">
+    <action name="*/*/*" location="65,47" size="150,62">
+      <result name="input">
+        <resourceEdge source="input" routing="0" target="{3}.jsp" />
+      </result>
+      <result name="jsp">
+        <resourceEdge source="jsp" routing="0" target="{3}.jsp" />
+      </result>
+    </action>
+  </package>
+  <webResource name="{3}.jsp" path="/jsp/sys/{1}/{3}.jsp" location="354,30" size="150,55" />
+</Struts2Diagram>
+

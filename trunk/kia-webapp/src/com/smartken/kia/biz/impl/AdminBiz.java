@@ -13,7 +13,7 @@ import com.smartken.kia.model.admin.UserModel;
 
 
 
-public class AdminBiz extends BaseCurdBiz implements IAdminBiz {
+public class AdminBiz extends BaseKiaBiz implements IAdminBiz {
 
 	
 

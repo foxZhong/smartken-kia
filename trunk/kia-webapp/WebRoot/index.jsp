@@ -18,7 +18,7 @@
 		    });
     	 
     		$('#MenuTreeNode').tree({
-				url: 'sys/Menu/list/Tree.action',
+				url: 'admin/Menu/tree/menu.action',
 				animate:true,
 				onClick:function(node){
 					if(node.attributes.url.length<1)

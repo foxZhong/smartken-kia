@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+	Create Date:2011-07-13 03:10:42
+	MapperTemplate:com.smartken.kia.core.plugin.mybatis.OracleMapperTemplate
+	Model:com.smartken.kia.model.admin.MenuModel 
+
+
+ public static enum F { 
+  Id,Name,Descp,Url,Parma,ParentId,Ordernum,Icon,Token,Folder  
+ } 
+
+private String Id;         //ID  VARCHAR2 100
+private String Name;         //NAME  VARCHAR2 100
+private String Descp;         //DESCP  VARCHAR2 400
+private String Url;         //URL  VARCHAR2 400
+private String Parma;         //PARMA  VARCHAR2 400
+private String ParentId;         //PARENT_ID  VARCHAR2 20
+private Integer Ordernum;         //ORDERNUM  NUMBER 38
+private String Icon;         //ICON  VARCHAR2 50
+private String Token;         //TOKEN  CHAR 3
+private String Folder;         //FOLDER  CHAR 1
+ -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.smartken.kia.mapper.admin.IMenuMapper">
+
+<cache flushInterval="30000" readOnly="true"></cache>
+
+
+<sql id="table">KIA_ADMIN_MENU</sql>
+
+<sql id="pk">ID</sql>
+
+<sql id="colums">
+ID,NAME,DESCP,URL,PARMA,PARENT_ID,ORDERNUM,ICON,TOKEN,FOLDER 
+</sql>
+
+<sql id="insertCols">
+#{Id,jdbcType=VARCHAR,javaType=String},
+#{Name,jdbcType=VARCHAR,javaType=String},
+#{Descp,jdbcType=VARCHAR,javaType=String},
+#{Url,jdbcType=VARCHAR,javaType=String},
+#{Parma,jdbcType=VARCHAR,javaType=String},
+#{ParentId,jdbcType=VARCHAR,javaType=String},
+#{Ordernum,jdbcType=INTEGER,javaType=Integer},
+#{Icon,jdbcType=VARCHAR,javaType=String},
+#{Token,jdbcType=CHAR,javaType=String},
+#{Folder,jdbcType=CHAR,javaType=String},
+
+</sql>
+
+<sql id="updateCols">
+<if test="pk neq null">ID=#{pk},</if>
+NAME=#{model.Name,jdbcType=VARCHAR,javaType=String},
+DESCP=#{model.Descp,jdbcType=VARCHAR,javaType=String},
+URL=#{model.Url,jdbcType=VARCHAR,javaType=String},
+PARMA=#{model.Parma,jdbcType=VARCHAR,javaType=String},
+PARENT_ID=#{model.ParentId,jdbcType=VARCHAR,javaType=String},
+ORDERNUM=#{model.Ordernum,jdbcType=INTEGER,javaType=Integer},
+ICON=#{model.Icon,jdbcType=VARCHAR,javaType=String},
+TOKEN=#{model.Token,jdbcType=CHAR,javaType=String},
+FOLDER=#{model.Folder,jdbcType=CHAR,javaType=String},
+
+</sql>
+
+<sql id="orderby">order by m.ID desc </sql>
+
+<sql id="joinColums"></sql>
+
+<sql id="join"></sql><!-- 别名m已被主表使用  -->
+
+<resultMap type="com.smartken.kia.model.admin.MenuModel" id="resultMap">
+ <id column="ID"  property="Id" jdbcType="VARCHAR" javaType="String"/>
+<result column="NAME"  property="Name" jdbcType="VARCHAR" javaType="String"/>
+<result column="DESCP"  property="Descp" jdbcType="VARCHAR" javaType="String"/>
+<result column="URL"  property="Url" jdbcType="VARCHAR" javaType="String"/>
+<result column="PARMA"  property="Parma" jdbcType="VARCHAR" javaType="String"/>
+<result column="PARENT_ID"  property="ParentId" jdbcType="VARCHAR" javaType="String"/>
+<result column="ORDERNUM"  property="Ordernum" jdbcType="INTEGER" javaType="Integer"/>
+<result column="ICON"  property="Icon" jdbcType="VARCHAR" javaType="String"/>
+<result column="TOKEN"  property="Token" jdbcType="CHAR" javaType="String"/>
+<result column="FOLDER"  property="Folder" jdbcType="CHAR" javaType="String"/>
+
+ </resultMap>
+
+
+<sql id="selectCondition">
+<if test="model.Id neq null">and m.ID like #{model.Id,jdbcType=VARCHAR ,javaType=String } </if> 
+<if test="model.Name neq null">and m.NAME like #{model.Name,jdbcType=VARCHAR ,javaType=String } </if> 
+<if test="model.Descp neq null">and m.DESCP like #{model.Descp,jdbcType=VARCHAR ,javaType=String } </if> 
+<if test="model.Url neq null">and m.URL like #{model.Url,jdbcType=VARCHAR ,javaType=String } </if> 
+<if test="model.Parma neq null">and m.PARMA like #{model.Parma,jdbcType=VARCHAR ,javaType=String } </if> 
+<if test="model.ParentId neq null">and m.PARENT_ID like #{model.ParentId,jdbcType=VARCHAR ,javaType=String } </if> 
+<if test="model.Ordernum neq null">and m.ORDERNUM = #{model.Ordernum,jdbcType=INTEGER, javaType=Integer } </if> 
+<if test="model.Icon neq null">and m.ICON like #{model.Icon,jdbcType=VARCHAR ,javaType=String } </if> 
+<if test="model.Token neq null">and m.TOKEN like #{model.Token,jdbcType=CHAR ,javaType=String } </if> 
+<if test="model.Folder neq null">and m.FOLDER like #{model.Folder,jdbcType=CHAR ,javaType=String } </if> 
+
+</sql>
+
+
+<select id="select" resultType="ArrayList" resultMap="resultMap">
+	select m.* from <include refid="table" /> m   
+		<trim prefix="where 1=2 or (" suffix=")" prefixOverrides="and|or" suffixOverrides="and|or">
+			<include refid="selectCondition"/>
+		</trim>
+	<include refid="orderby"/>
+</select>
+
+<select id="selectUnion" resultType="ArrayList" resultMap="resultMap">
+  select m.* from (
+	<trim  prefixOverrides="union" suffixOverrides="union">
+		<foreach collection="list" item="model">
+			<if test="model neq null">
+				union select m.* from <include refid="table" /> m 
+					<trim prefix="where 1=2 or (" suffix=")" prefixOverrides="and|or" suffixOverrides="and|or">
+						<include refid="selectCondition"/>
+					</trim>
+			</if>
+		</foreach>
+	</trim>
+   ) m <include refid="orderby"/>
+</select>
+
+<select id="selectEqPk"  resultMap="resultMap">
+	select m.* from <include refid="table" /> m  where m.<include refid="pk" /> = #{Id,jdbcType=VARCHAR,javaType=String}
+</select>
+
+<select id="selectInPk" resultType="ArrayList" resultMap="resultMap" >
+	select m.* from <include refid="table" /> m  where m.<include refid="pk" /> in
+		<foreach item="pk" collection="list" open="(" separator="," close=")"> #{pk} </foreach>
+	<include refid="orderby"/>
+</select>
+
+<select id="selectNotInPk" resultType="ArrayList" resultMap="resultMap" >
+	select m.* from <include refid="table" /> m  where m.<include refid="pk" /> not in
+		<foreach item="pk" collection="list" open="(" separator="," close=")"> #{pk} </foreach>
+	<include refid="orderby"/>
+</select>
+
+<select  id="selectAll"  resultType="ArrayList"  resultMap="resultMap">
+	select m.* from  <include refid="table" /> m
+	<include refid="orderby"/>
+</select>
+
+<select id="count" resultType="int">
+	select count(*) from <include refid="table"/>
+</select>
+
+<insert id="insertOne" flushCache="true" >
+	insert into <include refid="table"/> ( <include refid="colums"/> ) values  
+	(
+		<trim  prefixOverrides="," suffixOverrides=",">
+			<include refid="insertCols"/>
+		</trim>
+	)
+</insert>
+
+<update id="updateOne" flushCache="true" >
+	update <include refid="table"/> set 
+		<trim  prefixOverrides="," suffixOverrides=",">
+			<include refid="updateCols"/>
+		</trim>
+	where <include refid="pk" />=#{model.Id,jdbcType=VARCHAR,javaType=String}</update>
+
+<delete id="deleteEqPk" flushCache="true">
+	delete from <include refid="table"/> where <include refid="pk" /> =#{Id,jdbcType=VARCHAR,javaType=String}
+</delete>
+
+<delete id="deleteInPk" flushCache="true">
+	delete from <include refid="table"/> where <include refid="pk" /> in
+		<foreach item="pk" collection="list" open="(" separator="," close=")">#{pk}</foreach>
+</delete>
+
+<delete id="deleteNotInPk" flushCache="true">
+	delete from <include refid="table"/> where <include refid="pk" /> not in
+		<foreach item="pk" collection="list" open="(" separator="," close=")">#{pk}</foreach>
+</delete>
+
+
+
+<resultMap type="com.smartken.kia.model.admin.MenuModel" id="viewMap" extends="resultMap" ></resultMap>
+
+
+<sql id="selectViewCondition">
+	 <include refid="selectCondition"/>  
+</sql><select id="selectView" resultType="ArrayList" resultMap="viewMap">
+	select m.* <include refid="joinColums"/> from <include refid="table" /> m <include refid="join"/> 
+		<trim prefix="where 1=2 or (" suffix=")" prefixOverrides="and|or" suffixOverrides="and|or">
+			<include refid="selectViewCondition"/>
+		</trim>	<include refid="orderby"/>
+</select>
+
+<select id="selectViewUnion" resultType="ArrayList" resultMap="viewMap">
+  select m.* from (
+	<trim  prefixOverrides="union" suffixOverrides="union">
+		<foreach collection="list" item="model">
+			<if test="model neq null">
+				union select m.* <include refid="joinColums"/> from <include refid="table" /> m <include refid="join"/> 
+					<trim prefix="where 1=2 or (" suffix=")" prefixOverrides="and|or" suffixOverrides="and|or">
+						<include refid="selectViewCondition"/>
+					</trim>
+			</if>
+		</foreach>
+	</trim>
+  ) m <include refid="orderby"/>
+</select>
+
+<select id="selectViewEqPk"  resultMap="viewMap">
+	select m.* <include refid="joinColums"/> from <include refid="table" /> m <include refid="join"/> where m.<include refid="pk" /> = #{Id,jdbcType=VARCHAR,javaType=String}
+</select>
+
+<select id="selectViewInPk" resultType="ArrayList" resultMap="viewMap" >
+	select m.* <include refid="joinColums"/> from <include refid="table" /> m <include refid="join"/> where m.<include refid="pk" /> in
+	<foreach item="pk" collection="list" open="(" separator="," close=")"> #{pk} </foreach>
+	<include refid="orderby"/>
+</select>
+
+<select id="selectViewNotInPk" resultType="ArrayList" resultMap="viewMap" >
+	select m.* <include refid="joinColums"/> from <include refid="table" /> m <include refid="join"/> where m.<include refid="pk" /> not in
+	<foreach item="pk" collection="list" open="(" separator="," close=")"> #{pk} </foreach>
+	<include refid="orderby"/>
+</select>
+
+<select  id="selectViewAll"  resultType="ArrayList"  resultMap="viewMap">
+	select m.* <include refid="joinColums"/> from  <include refid="table" /> m <include refid="join"/>
+	<include refid="orderby"/>
+</select>
+
+</mapper>
