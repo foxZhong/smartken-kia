@@ -58,10 +58,7 @@
 	</bean>
  -->
  
- <jdbc:embedded-database>
-   <jdbc:script  location="" />
- </jdbc:embedded-database>
- 
+
  <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
    <property name="jndiName" value="${jndi.oradrvde}"></property>
  </bean>    
@@ -102,9 +99,7 @@
 <bean id="menuMapper" parent="baseMapper">
     <property name="mapperInterface" value="com.smartken.kia.mapper.admin.IMenuMapper"></property>
 </bean>
-<bean id="userMapper" parent="baseMapper">
-    <property name="mapperInterface" value="com.smartken.kia.mapper.admin.IUserMapper"></property>
-</bean>
+
 
 
  
@@ -112,11 +107,11 @@
 
 <bean class="com.smartken.kia.biz.impl.BaseKiaBiz" id="baseAdminBiz" abstract="true" >
  <property name="menuMapper" ref="menuMapper"></property>
- <property name="userMapper" ref="userMapper"></property>
+
 </bean>
 
 
-<bean id="actionAdminBiz" parent="baseAdminBiz">
+<bean id="actionAdminBiz" class="com.smartken.kia.biz.impl.AdminBiz" parent="baseAdminBiz">
 </bean>
 
 <bean class="com.smartken.kia.web.action.BaseAction" abstract="true"  id="baseAction"

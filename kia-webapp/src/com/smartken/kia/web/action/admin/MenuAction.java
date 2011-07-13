@@ -15,18 +15,23 @@ import org.json.JSONObject;
 import com.opensymphony.xwork2.ModelDriven;
 import com.smartken.kia.biz.IAdminBiz;
 import com.smartken.kia.model.admin.MenuModel;
+import com.smartken.kia.model.admin.UserModel;
 import com.smartken.kia.core.util.EasyUiUtil;
 import com.smartken.kia.core.util.ObjectUtil;
 import com.smartken.kia.core.util.StringUtil;
 import com.smartken.kia.core.enums.DataFormatEnum;
 
 import com.smartken.kia.core.enums.ResultEnum;
+import com.smartken.kia.core.model.impl.ResultModel;
 import com.smartken.kia.core.pager.PageBounds;
 import com.smartken.kia.web.action.BaseAction;
 
 public class MenuAction extends BaseAction 
  implements ModelDriven<MenuModel>{
 
+	public static String comboTreeMenuPath="admin/Menu/comboTree/menu.action";
+	public static String datagridMenuPath="admin/Menu/datagrid/menu.action";
+	
 	private String menuid;
 	private String menuids;
 	private MenuModel menu;
@@ -58,22 +63,16 @@ public class MenuAction extends BaseAction
 	}
 
 
-	public String fn_modify() {
+	public void do_saveMenu() {
 		// TODO Auto-generated method stub
-		System.out.println("save:"+menu.toJson());
-		int re=0;
-		try {
-			re = this.adminBiz.modifyModel(menu).getRe();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		writeHTML(re+"");
-		return NONE;
+        this.adminBiz.loadCrudMapper(UserModel.class);
+		ResultModel reModel=this.adminBiz.modifyOrAddModel(this.menu);
+		this.writePlainText(reModel.toJson().toString());
+		
 	}
 
 
-	public String fn_remove() {
+	public void do_removeMenu() {
 		// TODO Auto-generated method stub
 		HttpServletRequest req=this.getRequest();
 		ArrayList lListIds=new ArrayList();
@@ -83,17 +82,17 @@ public class MenuAction extends BaseAction
              lListIds=StringUtil.splitToList(menuids,",");
              int re=this.adminBiz.removeModelInPk(lListIds).getRe();
              writeHTML(""+re+"");
-             return NONE;
+            
 		}else if(req.getMethod().equalsIgnoreCase(METHOD_POST))
 		{
 	    	lListIds.add(menu.getId());
 	    	this.adminBiz.removeModelInPk(lListIds);
-	    	return INPUT;
+	    	
 		} 
 		}catch(Exception e)
 		{
 		  e.printStackTrace();	
-		}finally{return NONE;}
+		}
 	}
 
 	public String fn_search() {
@@ -113,7 +112,7 @@ public class MenuAction extends BaseAction
 	}
 	
 	
-	public String list_Tree() throws Exception{
+	public String tree_menu() throws Exception{
 		ArrayList lListToken=StringUtil.toList("root");
 		List<MenuModel> lListMenu=adminBiz.getModelNotInPk(lListToken);
 		JSONArray lJsonMenu=this.loadTreeNode(lListMenu,"root");
@@ -122,32 +121,24 @@ public class MenuAction extends BaseAction
 	}
 	
 	
-	public String list_ComboTree() throws Exception{
+	public void comboTree_menu() throws Exception{
+		this.adminBiz.loadCrudMapper(UserModel.class);
 		ArrayList lListIds=StringUtil.toList((String) menu.getId());
-	    List<MenuModel> lListMenu =adminBiz.getModelNotInPk(lListIds);
-	    JSONArray lJsonMenu=this.loadTreeNode(lListMenu,"");
-	    this.writeHTML(lJsonMenu.toString());
-		return NONE;
+	    List<MenuModel> lListMenu =adminBiz.getModel();
+	    JSONArray lJsonMenu=this.loadTreeNode(lListMenu,"0");
+	    this.writePlainText(lJsonMenu.toString());
+		
 	}
 
 
 
 	
-	public String list_DataGrid() throws Exception {
+	public void datagrid_menu() throws Exception {
 		// TODO Auto-generated method stub
 		PageBounds pb=this.getPager();
 		ArrayList lListMenu=adminBiz.getModelNotInPk(StringUtil.toList("root"),pb);
-		//System.out.println("list:"+lArrJson.toString());
-		if(this.getDataFormat().equalsIgnoreCase(DataFormatEnum.json.toString()))
-		{
-		  JSONObject lJsonDg=this.loadJsonDataGrid(lListMenu);
-		  this.writeHTML(lJsonDg.toString());
-		  return NONE;
-		}else if(this.getDataFormat().equalsIgnoreCase(DataFormatEnum.xml.toString()))
-		{
-			return NONE;
-		}
-		return NONE;
+        JSONObject datagrid=EasyUiUtil.toJsonDataGrid(lListMenu);
+        this.writePlainText(datagrid.toString());
 	}
 
 	public void prepare() throws Exception {
@@ -232,11 +223,7 @@ public class MenuAction extends BaseAction
 	}
 
 
-	public String fn_add() throws Exception {
-		// TODO Auto-generated method stub
-		int re=adminBiz.addModel(menu).getRe();
-		return NONE;
-	}
+
 
 
 	public boolean isGet() {

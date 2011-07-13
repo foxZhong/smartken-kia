@@ -10,8 +10,8 @@ public class BaseKiaBiz extends BaseCurdBiz{
 
 	
 	
-	private IMenuMapper<MenuModel> menuMapper;
-	private IUserMapper<UserModel> userMapper;
+	protected IMenuMapper<MenuModel> menuMapper;
+	protected IUserMapper<UserModel> userMapper;
 
 	public void setMenuMapper(IMenuMapper iMenuTreeNodeMapper) {
 		this.menuMapper = iMenuTreeNodeMapper;
