@@ -37,45 +37,11 @@ public abstract class BaseDiguApi {
 		this.diguClient=digu;
 	}
 	
-	public String getString(String url){
-		return diguClient.loadData(url);
+	public String getResponseText(String url){
+		return diguClient.loadData(getApiRootPath()+url);
 	}
 	
-	public JSONObject getJsonObject(String url){
-		String re=this.getString(url);
-		try {
-			JSONObject json=new JSONObject(re);
-			return json;
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return new JSONObject();
-		}
-	}
+	public abstract String getApiRootPath();
 	
-	public JSONArray getJsonArray(String url){
-		String re=this.getString(url);
-		try {
-			JSONArray jarr=new JSONArray(re);
-			return jarr;
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return new JSONArray();
-		}
-	}
-	
-	public Document getXml(String url){
-		String text=this.getString(url);
-		try {
-			Document doc=DocumentHelper.parseText(text);
-			return doc;
-		} catch (DocumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return DocumentHelper.createDocument();
-		}
-		
-	}
 	
 }
