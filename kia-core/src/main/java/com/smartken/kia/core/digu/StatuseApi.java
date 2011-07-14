@@ -78,7 +78,47 @@ public class StatuseApi extends BaseDiguApi {
 	 	return this.getResponseText(url);
 	}
 	
+	//返回认证用户的朋友列表，内含每个用户的当前Digu 信息。这个方法同样可以用来请
+	//求其他用户的朋友列表，通过下面指明的方法传递id 参数。分页
+	public String friends(EDataFormat edf) throws NoAuthException{
+		String pattern="/friends.{0}";
+	    String url =MessageFormat.format(pattern,
+	 	       edf		
+	 	);
+	 	    return this.getResponseText(url);
+	}
 	
+	//返回认证用户或者指定用户的朋友列表数。这个方法同样可以用来请求其他用户的朋友
+	//列表，通过下面指明的方法传递参数
+	public String friends_count(EDataFormat edf) throws NoAuthException{
+		String pattern="/friends_count.{0}";
+	    String url =MessageFormat.format(pattern,
+	 	       edf		
+	 	);
+	 	    return this.getResponseText(url);
+	}
+	
+	//返回认证用户的订阅者，内含每个订阅者的当前Digu 消息。与friends 一样，只需要把
+	//friends 地址中的friends 替换为followers 即可，其余一切包括参数都不需要改变，都是一样
+	//的用法。分页
+	public String followers(EDataFormat edf) throws NoAuthException{
+		String pattern="/followers.{0}";
+	    String url =MessageFormat.format(pattern,
+	 	       edf		
+	 	);
+	 	    return this.getResponseText(url);
+	}
+	
+	//返回认证用户或者指定用户的跟随者数量。与friends_count 一样，只需要把friends_count
+	//地址中的friends_count 替换为followers_count 即可，其余一切包括参数都不需要改变，都是
+	//一样的用法。
+	public String followers_count(EDataFormat edf) throws NoAuthException{
+		String pattern="/followers_count.{0}";
+	    String url =MessageFormat.format(pattern,
+	 	       edf		
+	 	);
+	 	    return this.getResponseText(url);
+	}
 	
 	public static void main(String[] args){
 		DiguClient diguClient=new DiguClient();
