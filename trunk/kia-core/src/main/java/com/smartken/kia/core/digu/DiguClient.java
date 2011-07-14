@@ -20,7 +20,9 @@ import org.apache.http.protocol.BasicHttpContext;
 public class DiguClient {
 
 	final public static String DIGU_API_HOME="api.minicloud.com.cn" ;
-    final private HttpHost targetHost; 
+   
+	
+	final private HttpHost targetHost; 
 	
 	final private DefaultHttpClient httpclient = new DefaultHttpClient();
 	final private AuthCache authCache = new BasicAuthCache();
