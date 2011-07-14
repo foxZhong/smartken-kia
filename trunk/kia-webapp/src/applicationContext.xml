@@ -60,7 +60,7 @@
  
 
  <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
-   <property name="jndiName" value="${jndi.oradrvde}"></property>
+   <property name="jndiName" value="${jndi.datasource}"></property>
  </bean>    
 
 <bean class="org.mybatis.spring.SqlSessionFactoryBean" id="sqlSessionFactory">
@@ -114,7 +114,7 @@
 <bean id="actionAdminBiz" class="com.smartken.kia.biz.impl.AdminBiz" parent="baseAdminBiz">
 </bean>
 
-<bean class="com.smartken.kia.web.action.BaseAction" abstract="true"  id="baseAction"
+<bean class="com.smartken.kia.web.action.BaseKiaAction" abstract="true"  id="baseAction"
 >
    <property name="adminBiz" ref="actionAdminBiz"></property>
 </bean>

@@ -76,22 +76,23 @@ public class DiguUtil {
 	            BasicHttpContext localcontext = new BasicHttpContext();
 	            localcontext.setAttribute(ClientContext.AUTH_CACHE, authCache);
 			 
-			 //ResponseHandler<String> responseHandler=new BasicResponseHandler();
+			 ResponseHandler<String> responseHandler=new BasicResponseHandler();
 			 
 			 //String str=httpclient.execute(httpGet, responseHandler,localcontext);
 			 //System.out.println(str.toString());
 	          
-	            HttpResponse response = httpclient.execute(targetHost, httpGet, localcontext);
-	            HttpEntity httpEntity= response.getEntity();
-	            InputStream iss= httpEntity.getContent();
-	            BufferedReader br = new BufferedReader(new InputStreamReader(iss)); 
-			    StringBuffer sbr2=new StringBuffer("");
-		        while ((sCurrentLine = br.readLine()) != null) {   
-		        	sbr2.append(sCurrentLine );   
-		  
-		        }   
+	            String re = httpclient.execute(targetHost, httpGet,responseHandler, localcontext);
+	            
+//	            HttpEntity httpEntity= response.getEntity();
+//	            InputStream iss= httpEntity.getContent();
+//	            BufferedReader br = new BufferedReader(new InputStreamReader(iss)); 
+//			    StringBuffer sbr2=new StringBuffer("");
+//		        while ((sCurrentLine = br.readLine()) != null) {   
+//		        	sbr2.append(sCurrentLine );   
+//		  
+//		        }   
 
-			 System.out.println(sbr2.toString());
+			 System.out.println(re.toString());
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

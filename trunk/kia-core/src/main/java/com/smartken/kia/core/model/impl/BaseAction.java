@@ -17,8 +17,8 @@ import org.apache.struts2.ServletActionContext;
 
 
 import com.opensymphony.xwork2.ActionSupport;
-import com.smartken.kia.core.enums.DataFormatEnum;
-import com.smartken.kia.core.enums.ResultEnum;
+import com.smartken.kia.core.enums.EDataFormat;
+import com.smartken.kia.core.enums.EResult;
 import com.smartken.kia.core.model.IBaseAction;
 import com.smartken.kia.core.pager.PageBounds;
 import com.smartken.kia.core.util.DateTimeUtil;
@@ -38,7 +38,7 @@ public abstract class BaseAction extends ActionSupport implements IBaseAction {
 	
 	public String to_index() throws Exception
 	{
-		return ResultEnum.jsp.toString();
+		return EResult.jsp.toString();
 	
 	}
 	
@@ -119,7 +119,7 @@ public abstract class BaseAction extends ActionSupport implements IBaseAction {
 
 	public void setDataFormat(String format) {
 		// TODO Auto-generated method stub
-		this.dataFormat = ObjectUtil.formatString(dataFormat, DataFormatEnum.json.toString());
+		this.dataFormat = ObjectUtil.formatString(dataFormat, EDataFormat.json.toString());
 	}
 	
 	public HttpServletRequest getRequest()
@@ -275,5 +275,7 @@ public abstract class BaseAction extends ActionSupport implements IBaseAction {
 	  this.getResponse().setHeader(HEADER_Content_DISPOSITION, 
 			  "attachment; filename="+fileName );   
    }
+    
+    
 	
 }

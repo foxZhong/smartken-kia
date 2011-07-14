@@ -10,8 +10,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import com.smartken.kia.core.enums.CodeEnum;
-import com.smartken.kia.core.enums.StringFormatEnum;
+import com.smartken.kia.core.enums.ECode;
+import com.smartken.kia.core.enums.EStringFormat;
 
 public class StringUtil {
 
@@ -90,7 +90,7 @@ public class StringUtil {
 		}
 	}
 	
-	public static String format(String pStr,StringFormatEnum fe){
+	public static String format(String pStr,EStringFormat fe){
 		if(isBlank(pStr))return "";
 		String lStrFormat="";
 		switch (fe) {
@@ -158,7 +158,7 @@ public class StringUtil {
 		String lStrReturn="";
 		if(value==null)return lStrReturn;
 		try {
-			lStrReturn =URLEncoder.encode(value, CodeEnum.utf8.toString());
+			lStrReturn =URLEncoder.encode(value, ECode.utf8.toString());
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
