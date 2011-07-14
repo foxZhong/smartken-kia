@@ -24,8 +24,8 @@ import org.dom4j.dom.DOMDocumentType;
 import org.dom4j.io.SAXReader;
 import org.w3c.dom.ls.LSResourceResolver;
 
-import com.smartken.kia.core.enums.CodeEnum;
-import com.smartken.kia.core.enums.StringFormatEnum;
+import com.smartken.kia.core.enums.ECode;
+import com.smartken.kia.core.enums.EStringFormat;
 import com.smartken.kia.core.util.FileUtil;
 import com.smartken.kia.core.util.ObjectUtil;
 import com.smartken.kia.core.util.StringUtil;
@@ -641,7 +641,7 @@ public abstract class MapperTemplate {
 			isSuccess=true;
 		}
 		xmlFile.createNewFile();
-		osw=new OutputStreamWriter(new FileOutputStream(xmlFile),CodeEnum.utf8.name());
+		osw=new OutputStreamWriter(new FileOutputStream(xmlFile),ECode.utf8.name());
 		bw=new BufferedWriter(osw);
 		bw.write(strMapper);
 		bw.flush();

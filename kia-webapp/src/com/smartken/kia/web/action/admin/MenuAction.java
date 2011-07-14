@@ -19,21 +19,21 @@ import com.smartken.kia.model.admin.UserModel;
 import com.smartken.kia.core.util.EasyUiUtil;
 import com.smartken.kia.core.util.ObjectUtil;
 import com.smartken.kia.core.util.StringUtil;
-import com.smartken.kia.core.enums.DataFormatEnum;
+import com.smartken.kia.core.enums.EDataFormat;
 
-import com.smartken.kia.core.enums.ResultEnum;
+import com.smartken.kia.core.enums.EResult;
 import com.smartken.kia.core.model.impl.ResultModel;
 import com.smartken.kia.core.pager.PageBounds;
-import com.smartken.kia.web.action.BaseAction;
+import com.smartken.kia.web.action.BaseKiaAction;
 
-public class MenuAction extends BaseAction 
+public class MenuAction extends BaseKiaAction 
  implements ModelDriven<MenuModel>{
 
 	public static String comboTreeMenuPath="admin/Menu/comboTree/menu.action";
 	public static String datagridMenuPath="admin/Menu/datagrid/menu.action";
 	
 	private String menuid;
-	private String menuids;
+	
 	private MenuModel menu;
 	
 
@@ -42,10 +42,6 @@ public class MenuAction extends BaseAction
 		this.menuid = menuid;
 	}
 
-
-	public void setMenuids(String menuids) {
-		this.menuids = menuids;
-	}
 
 
 	
@@ -74,25 +70,15 @@ public class MenuAction extends BaseAction
 
 	public void do_removeMenu() {
 		// TODO Auto-generated method stub
-		HttpServletRequest req=this.getRequest();
+		String ids=this.getParameter("ids");
 		ArrayList lListIds=new ArrayList();
-		try{
-	    if(menuids!=null&&req.getMethod().equalsIgnoreCase(METHOD_GET))
+		ResultModel reModel=new ResultModel();
+	    if(StringUtil.isNotBlank(ids))
 		{
-             lListIds=StringUtil.splitToList(menuids,",");
-             int re=this.adminBiz.removeModelInPk(lListIds).getRe();
-             writeHTML(""+re+"");
-            
-		}else if(req.getMethod().equalsIgnoreCase(METHOD_POST))
-		{
-	    	lListIds.add(menu.getId());
-	    	this.adminBiz.removeModelInPk(lListIds);
-	    	
-		} 
-		}catch(Exception e)
-		{
-		  e.printStackTrace();	
+             lListIds=StringUtil.splitToList(ids,",");
+             reModel=this.adminBiz.removeModelInPk(lListIds);                   
 		}
+		this.writePlainText(reModel.toJson().toString());
 	}
 
 	public String fn_search() {
@@ -153,21 +139,11 @@ public class MenuAction extends BaseAction
 			MenuModel m=(MenuModel) adminBiz.getModelEqPk(this.menuid);
 		    this.menu=m;
 		
-		}else
-		{
-			this.clear();
 		}
 	}
 
 
-	@Override
-	public void clear() {
-		// TODO Auto-generated method stub
-		this.menu=new MenuModel();
-		this.menuid="";
-		this.menuids="";
-	}
-	
+
 	
 	
 	
@@ -223,48 +199,11 @@ public class MenuAction extends BaseAction
 	}
 
 
+	
 
 
 
-	public boolean isGet() {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
-
-	public boolean isPost() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-
-	public void setRequestAttribute(Enum en, Object obj) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	public void setRequestAttribute(String key, Object obj) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	public void setSessionAttribute(Enum en, Object obj) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	public void setSessionAttribute(String key, Object obj) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	public void writeStream(byte[] image) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 }

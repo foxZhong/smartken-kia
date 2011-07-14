@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.smartken.kia.core.enums.StringFormatEnum;
+import com.smartken.kia.core.enums.EStringFormat;
 import com.smartken.kia.core.jdbc.dialect.DB2Dialect;
 import com.smartken.kia.core.util.ObjectUtil;
 import com.smartken.kia.core.util.StringUtil;
@@ -121,7 +121,7 @@ public class ColumnTemplate {
 //				}
 //			}
 //			else{
-			   lSbrModelColName.append(StringUtil.format(lSubName, StringFormatEnum.upcaseFirstChar));
+			   lSbrModelColName.append(StringUtil.format(lSubName, EStringFormat.upcaseFirstChar));
 //			}
 		}
 		return lSbrModelColName.toString();

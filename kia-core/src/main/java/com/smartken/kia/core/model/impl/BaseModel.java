@@ -19,8 +19,8 @@ import java.text.SimpleDateFormat;
 
 import biz.source_code.base64Coder.Base64Coder;
 
-import com.smartken.kia.core.enums.DataFormatEnum;
-import com.smartken.kia.core.enums.StringFormatEnum;
+import com.smartken.kia.core.enums.EDataFormat;
+import com.smartken.kia.core.enums.EStringFormat;
 import com.smartken.kia.core.model.IBaseModel;
 import com.smartken.kia.core.model.IFormatterModel;
 import com.smartken.kia.core.util.DateTimeUtil;
@@ -58,7 +58,7 @@ public abstract class BaseModel implements IBaseModel ,IFormatterModel{
 				String lStrFieldName=lArrField[i].getName();
                 try{
                 Object lObjFieldValue=eval(lStrFieldName);
-                lJsonTemp.put(lStrFieldName, this.formatObject(lObjFieldValue,DataFormatEnum.json));
+                lJsonTemp.put(lStrFieldName, this.formatObject(lObjFieldValue,EDataFormat.json));
                }catch(Exception ex){}
 			}
 		}
@@ -90,12 +90,12 @@ public abstract class BaseModel implements IBaseModel ,IFormatterModel{
 			String lStrFieldName=lArrField[i].getName();
 			try{
 			
-			//String lTempName="get"+StringUtil.format(lStrFieldName, StringFormatEnum.upcaseFirstChar);
+			//String lTempName="get"+StringUtil.format(lStrFieldName, EStringFormat.upcaseFirstChar);
 			//Method lMth=c.getDeclaredMethod(lTempName, null);
 			//Object lObjFieldValue=lMth.invoke(this, null);
 		    Object lObjFieldValue=	eval(lStrFieldName);
 			Element el=DocumentHelper.createElement(lStrFieldName);
-			el.setText(this.formatObject(lObjFieldValue,DataFormatEnum.xml).toString());
+			el.setText(this.formatObject(lObjFieldValue,EDataFormat.xml).toString());
 			el.addAttribute("type", lArrField[i].getType().getSimpleName());
 			root.add(el);
 			}
@@ -169,7 +169,7 @@ public abstract class BaseModel implements IBaseModel ,IFormatterModel{
 		// TODO Auto-generated method stub
 		boolean isOk=false;
 		ArrayList<Class> lAllClass=this.getAllClass();
-		String lTempName="set"+StringUtil.format(pattern, StringFormatEnum.upcaseFirstChar);
+		String lTempName="set"+StringUtil.format(pattern, EStringFormat.upcaseFirstChar);
 		for (Class c : lAllClass) {
 			try{
 			Field f=c.getDeclaredField(pattern);
@@ -203,13 +203,14 @@ public abstract class BaseModel implements IBaseModel ,IFormatterModel{
 		// TODO Auto-generated method stub
 		boolean isOk=false;
 		ArrayList<Class> lAllClass=this.getAllClass();
-		String lTempName="get"+StringUtil.format(pattern, StringFormatEnum.upcaseFirstChar);
+		String lTempName="get"+StringUtil.format(pattern, EStringFormat.upcaseFirstChar);
 		Object lObjFieldValue=null;
 		for (Class c : lAllClass) {
 			try{
 			Method lMth=c.getDeclaredMethod(lTempName, null);
+			if(lMth==null){continue;}
 			lObjFieldValue=lMth.invoke(this, null);
-			if(lMth!=null){isOk=true;break;}
+			isOk=true;
 			}catch(Exception ex){}
 		}
 		if(!isOk){ throw new Exception(MessageFormat.format("This Model have not \"{0}\" 's getter", pattern));}
@@ -285,7 +286,7 @@ public abstract class BaseModel implements IBaseModel ,IFormatterModel{
 		boolean isOk=false;
 		ArrayList<Class> lAllClass=this.getAllClass();
 		Type t=null;
-		//String lTempName="set"+StringUtil.format(pattern, StringFormatEnum.upcaseFirstChar);
+		//String lTempName="set"+StringUtil.format(pattern, EStringFormat.upcaseFirstChar);
 		for (Class c : lAllClass) {
 			try{
 			Field f=c.getDeclaredField(pattern);
@@ -380,20 +381,20 @@ public abstract class BaseModel implements IBaseModel ,IFormatterModel{
 			String lStrFieldName=lArrField[i].getName();
             try{
             Object lObjFieldValue=eval(lStrFieldName);
-            bson.put(lStrFieldName, this.formatObject(lObjFieldValue,DataFormatEnum.bson));
+            bson.put(lStrFieldName, this.formatObject(lObjFieldValue,EDataFormat.bson));
            }catch(Exception ex){}
 		}
 	}
 	return bson;
    }
 
-   final private Object formatObject(Object obj,DataFormatEnum dfe){
+   final private Object formatObject(Object obj,EDataFormat dfe){
 	   Object reObj="";
        try{
            if(obj==null){
         	   reObj="";
            }else if(obj instanceof String
-           		||obj instanceof Number||dfe.equals(DataFormatEnum.bson)){
+           		||obj instanceof Number||dfe.equals(EDataFormat.bson)){
         	   reObj=obj;
            }
            else if(obj instanceof Date ){
