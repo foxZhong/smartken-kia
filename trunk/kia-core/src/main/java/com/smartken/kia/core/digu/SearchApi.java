@@ -17,22 +17,22 @@ public class SearchApi extends BaseDiguApi {
 		return "/search_";
 	}
 	
-	public String search_user(EDataFormat edf,String q) throws NoAuthException{
+	public String search_user(EDataFormat edf,String q) throws DiguException{
 		String pattern="user.{1}?q={0}";
 	    String url =MessageFormat.format(pattern,
 	    		q
 	    		,edf		
 	 	);
-	 	return this.getResponseText(url);
+	 	return this.doGet(edf,url);
 	}
 	
-	public String search_statuses(EDataFormat edf,String q) throws NoAuthException{
+	public String search_statuses(EDataFormat edf,String q) throws DiguException{
 		String pattern="/statuses.{1}?q={0}";
 	    String url =MessageFormat.format(pattern,
 	    		q
 	    		,edf		
 	 	);
-	 	return this.getResponseText(url);
+	 	return this.doGet(edf,url);
 	}
 
 }

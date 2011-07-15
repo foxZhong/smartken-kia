@@ -7,6 +7,8 @@ import com.smartken.kia.core.model.impl.BaseModel;
 public class ResponseModel extends BaseModel{
 
 	
+
+	
 	private Date created_at;
 	//这个元素创建的UTC 时间戳。例如： Sat Jan 24 22:14:29 +0000 2009
 	
