@@ -19,13 +19,13 @@ public class FollowerApi extends BaseDiguApi {
 	
 	
 	//用来获取指定的用户被跟随的用户id。
-	public String ids(EDataFormat edf,String userIdOrName) throws NoAuthException{
+	public String ids(EDataFormat edf,String userIdOrName) throws DiguException{
 		String pattern="/ids/{0}.{1}";
 	    String url =MessageFormat.format(pattern,
 	 	       userIdOrName
 	    		,edf		
 	 	);
-	 	return this.getResponseText(url);
+	 	return this.doGet(edf,url);
 	}
 
 }

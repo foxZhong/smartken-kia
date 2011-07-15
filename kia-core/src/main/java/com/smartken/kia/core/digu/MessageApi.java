@@ -18,31 +18,31 @@ public class MessageApi extends BaseDiguApi {
 	}
 	
 	//返回发送给认证用户的消息列表
-	public String messages(EDataFormat edf,String messages) throws NoAuthException{
+	public String messages(EDataFormat edf,String messages) throws DiguException{
 		String pattern="/{0}.{1}";
 	    String url =MessageFormat.format(pattern,
 	    		messages
 	    		,edf		
 	 	);
-	 	return this.getResponseText(url);
+	 	return this.doGet(edf,url);
 	}
 	
-	public String New(EDataFormat edf,String contend,String messages,String receiveUserId) throws NoAuthException{
+	public String New(EDataFormat edf,String contend,String messages,String receiveUserId) throws DiguException{
 		String pattern="/handle/new.{1}";
 	    String url =MessageFormat.format(pattern,
 	    		messages
 	    		,edf		
 	 	);
-	 	return this.getResponseText(url);
+	 	return this.doGet(edf,url);
 	}
 	
-	public String destroy(EDataFormat edf,String id) throws NoAuthException{
+	public String destroy(EDataFormat edf,String id) throws DiguException{
 		String pattern="/handle/destroy/{0}.{1}";
 	    String url =MessageFormat.format(pattern,
 	    		id
 	    		,edf		
 	 	);
-	 	return this.getResponseText(url);
+	 	return this.doGet(edf,url);
 	}
 	
 
