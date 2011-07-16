@@ -1,5 +1,5 @@
+#summary ORACLE与SQLSERVER、MYSQL的数据类型对照表
 #labels oracle,mysql,mssql
-#ORACLE与SQLSERVER、MYSQL的数据类型对照表
 
 = Introduction =
 
