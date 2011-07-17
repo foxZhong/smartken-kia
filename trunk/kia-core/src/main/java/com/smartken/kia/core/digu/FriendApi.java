@@ -27,4 +27,24 @@ public class FriendApi extends BaseDiguApi {
 	 	return this.doGet(edf,url);
 	}
 	
+	
+	public static void main(String[] args){
+		String user="smartken";
+		String pwd="chipchina";
+		DiguClient digu=new DiguClient(user,pwd);
+		FriendApi friendApi=new FriendApi(digu);
+		StringBuffer sbr=new StringBuffer("");
+		try {
+			
+			sbr.append("ids:").append(friendApi.ids(EDataFormat.json,user)).append("\n");
+			friendApi.clear();
+
+			//测试完成
+			System.out.print(sbr.toString());
+		} catch (DiguException e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+		}
+	}
+	
 }

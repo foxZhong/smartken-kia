@@ -18,21 +18,47 @@ public class SearchApi extends BaseDiguApi {
 	}
 	
 	public String search_user(EDataFormat edf,String q) throws DiguException{
-		String pattern="user.{1}?q={0}";
+		String pattern="user.{0}";
 	    String url =MessageFormat.format(pattern,
-	    		q
-	    		,edf		
+	    		edf		
 	 	);
+	    this.setQ(q);
 	 	return this.doGet(edf,url);
 	}
 	
 	public String search_statuses(EDataFormat edf,String q) throws DiguException{
-		String pattern="/statuses.{1}?q={0}";
+		String pattern="statuses.{0}";
 	    String url =MessageFormat.format(pattern,
-	    		q
-	    		,edf		
+	    		edf		
 	 	);
+	    this.setQ(q);
 	 	return this.doGet(edf,url);
+	}
+	
+	
+	
+	public static void main(String[] args){
+		String user="smartken";
+		String pwd="chipchina";
+		DiguClient digu=new DiguClient(user,pwd);
+		SearchApi api=new SearchApi(digu);
+		StringBuffer sbr=new StringBuffer("");
+		try {
+			
+			api.setCount(1);
+			sbr.append("search_statuses:").append(api.search_statuses(EDataFormat.json,"勋章")).append("\n");
+			api.clear();
+			sbr.append("search_user:").append(api.search_user(EDataFormat.json,"龟")).append("\n");
+			api.clear();
+			//sbr.append("destroy:").append(api.destroy(EDataFormat.json,"42746817")).append("\n");
+			api.clear();
+
+			//测试完成
+			System.out.print(sbr.toString());
+		} catch (DiguException e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+		}
 	}
 
 }

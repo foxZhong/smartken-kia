@@ -2,6 +2,7 @@ package com.smartken.kia.core.digu;
 
 import java.io.File;
 import java.text.MessageFormat;
+import java.util.Date;
 
 import com.smartken.kia.core.enums.EDataFormat;
 
@@ -68,7 +69,7 @@ public class AccountApi extends BaseDiguApi {
 	    String url =MessageFormat.format(pattern,
 	    		edf		
 	 	);
-	 	return this.doGet(edf,url);
+	 	return this.doPost(edf,url);
 	}
 
 	
@@ -81,9 +82,19 @@ public class AccountApi extends BaseDiguApi {
 		try {
 			sbr.append("show:").append(userApi.verify(EDataFormat.json, false)).append("\n");
 			
-			File image=new File("h:\\agentIdFrontImg.jpg");
-			userApi.update_profile_bg_image(EDataFormat.json, image);
+			//File image=new File("h:\\agentIdFrontImg.jpg");
+			//userApi.update_profile_bg_image(EDataFormat.json, image);
 			
+			//userApi.setNickname("我爱147");
+			userApi.setGender(GENDER_WOMAN);
+			userApi.setAddress("唔话你知");
+			userApi.setEmail("smartken0824@gmail.com");
+			userApi.setBirthday(new Date());
+			userApi.setHomepage("www.google.com");
+			userApi.setInterest("杀人防火");
+			userApi.setSignature("java api 开发中");
+			sbr.append("update_profile:").append(userApi.update_profile(EDataFormat.json)).append("\n");
+
 			System.out.print(sbr.toString());
 		} catch (DiguException e) {
 			// TODO Auto-generated catch block

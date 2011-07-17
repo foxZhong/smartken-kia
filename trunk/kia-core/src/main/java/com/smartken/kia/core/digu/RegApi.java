@@ -2,6 +2,8 @@ package com.smartken.kia.core.digu;
 
 import java.text.MessageFormat;
 
+import org.apache.commons.mail.Email;
+
 import com.smartken.kia.core.enums.EDataFormat;
 
 public class RegApi extends BaseDiguApi {
@@ -24,17 +26,46 @@ public class RegApi extends BaseDiguApi {
 	    String url =MessageFormat.format(pattern,
 	    edf		
 	 	);
-	 	return this.doGet(edf,url);
+	    this.setUsername(username);
+	    this.setNickname(nickname);
+	    this.setPwd(pwd);
+	    this.setConfirmPwd(confirmPwd);
+	    this.setEmail(email);
+	 	return this.doPost(edf,url);
 	}
 	
 	//验证用户名是否已经被注册，Get 请求。
 	public String check(EDataFormat edf,String username) throws DiguException{
-		String pattern="/check.{1}?username={0}";
+		String pattern="/check.{1}";
 	    String url =MessageFormat.format(pattern,
 	    		username
 	    		,edf		
 	 	);
+	    this.setUsername(username);
 	 	return this.doGet(edf,url);
+	}
+	
+	public static void main(String[] args){
+		String user="smartken";
+		String pwd="chipchina";
+		DiguClient digu=new DiguClient(user,pwd);
+		RegApi api=new RegApi(digu);
+		StringBuffer sbr=new StringBuffer("");
+		try {
+			
+			sbr.append("reg:").append(api.reg(EDataFormat.json,"lasysnake","龟爷未死",pwd,pwd,"249750689@qq.com")).append("\n");
+			api.clear();
+			sbr.append("check:").append(api.check(EDataFormat.json,"hhlin")).append("\n");
+			api.clear();
+			//sbr.append("destroy:").append(api.destroy(EDataFormat.json,"42746817")).append("\n");
+			api.clear();
+
+			//测试完成
+			System.out.print(sbr.toString());
+		} catch (DiguException e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+		}
 	}
 
 }
