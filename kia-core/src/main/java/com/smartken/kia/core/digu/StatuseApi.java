@@ -1,13 +1,17 @@
 package com.smartken.kia.core.digu;
 
+import java.io.File;
 import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
 import com.smartken.kia.core.enums.EDataFormat;
+import com.smartken.kia.core.util.DateTimeUtil;
 
 public class StatuseApi extends BaseDiguApi {
 
@@ -60,7 +64,7 @@ public class StatuseApi extends BaseDiguApi {
 	 	       edf		
 	 	);
 	    this.setContent(content);
-	 	return this.doPost(edf,url);
+	 	return this.doPost(edf,url,true);
 	}
 	
 	
@@ -129,20 +133,26 @@ public class StatuseApi extends BaseDiguApi {
 	
 	public static void main(String[] args){
 		DiguClient diguClient=new DiguClient();
-		StatuseApi statuseApi=new StatuseApi(diguClient);
+		StatuseApi api=new StatuseApi(diguClient);
 		//System.out.println(statuseApi.public_timeline(EDataFormat.json));
 		String testUser="smartken";
 		DiguClient authDiguClient=new DiguClient(testUser, "chipchina");
-		statuseApi=new StatuseApi(authDiguClient);
+		api=new StatuseApi(authDiguClient);
 		try {
-//			System.out.println("friends_timeline:"+statuseApi.friends_timeline(EDataFormat.json));
+		//	System.out.println("public_timeline:"+api.public_timeline(EDataFormat.json));
+		//	System.out.println("friends_timeline:"+api.friends_timeline(EDataFormat.json));
 //			System.out.println("followers:"+statuseApi.followers(EDataFormat.json));
 //			System.out.println("followers_count:"+statuseApi.followers_count(EDataFormat.json));
 //			System.out.println("friends:"+statuseApi.friends(EDataFormat.json));
 //			System.out.println("friends_count:"+statuseApi.friends_count(EDataFormat.json));
 		//	System.out.println("user_timeline:"+statuseApi.user_timeline(EDataFormat.json,testUser));
 			//System.out.println("show:"+statuseApi.show(EDataFormat.json,"85108796"));
-			System.out.println("update:"+statuseApi.update(EDataFormat.xml,"龟爷用java api叼叼你4"));
+			File image0=new File("h:\\test.jpg");
+			api.setImage0(image0);
+			//api.setImage1(image0);
+			api.setUploadImg("xiexiezhichi");
+			String strNow= DateTimeUtil.format(new Date(), DateTimeUtil.DATE_TIME_FORMAT_DB);
+			System.out.println("update:"+api.update(EDataFormat.json,strNow+":龟爷仲未死,用java api测试图片上传"));
       //		System.out.println("replies:"+statuseApi.replies(EDataFormat.json));
 		//	System.out.println("destroy:"+statuseApi.destroy(EDataFormat.json, "85137431"));
 		} catch (DiguException e) {

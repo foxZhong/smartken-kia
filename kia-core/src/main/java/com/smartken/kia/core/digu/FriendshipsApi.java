@@ -33,11 +33,11 @@ public class FriendshipsApi extends BaseDiguApi {
 	//用来注销同指定id 的用户的好友关系，当操作成功时，将返回被取消好友关系的用户，
 	//当失败时，将会返回失败信息。
 	public String destroy(EDataFormat edf,String userIdOrName) throws DiguException{
-		String pattern="/handle/destroy/{0}.{1}";
+		String pattern="/destroy.{0}";
 	    String url =MessageFormat.format(pattern,
-	    		userIdOrName
-	    		,edf		
+	    		edf		
 	 	);
+	    this.setUserIdOrName(userIdOrName);
 	 	return this.doGet(edf,url);
 	}
 	
@@ -52,6 +52,30 @@ public class FriendshipsApi extends BaseDiguApi {
 	    		,userIdOrNameB
 	 	);
 	 	return this.doGet(edf,url);
+	}
+	
+	
+	public static void main(String[] args){
+		String user="smartken";
+		String pwd="chipchina";
+		DiguClient digu=new DiguClient(user,pwd);
+		FriendshipsApi api=new FriendshipsApi(digu);
+		StringBuffer sbr=new StringBuffer("");
+		try {
+			
+			sbr.append("create:").append(api.create(EDataFormat.json,"10128552")).append("\n");
+			api.clear();
+			sbr.append("destroy:").append(api.destroy(EDataFormat.json,"")).append("\n");
+			api.clear();
+			sbr.append("verify:").append(api.verify(EDataFormat.json,user,"10010231")).append("\n");
+			api.clear();
+
+			//测试完成
+			System.out.print(sbr.toString());
+		} catch (DiguException e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+		}
 	}
 
 }

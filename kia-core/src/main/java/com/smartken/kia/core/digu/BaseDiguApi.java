@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -45,6 +46,7 @@ import org.json.JSONObject;
 
 import com.ibm.icu.text.ArabicShaping;
 import com.smartken.kia.core.enums.EDataFormat;
+import com.smartken.kia.core.util.DateTimeUtil;
 import com.smartken.kia.core.util.StringUtil;
 
 public abstract class BaseDiguApi {
@@ -57,9 +59,10 @@ public abstract class BaseDiguApi {
 	final public static int TYPE_IMAGE_OR_TEXT=5;   //5 只查询带图片的，可能有文字（没有图片的文字嘀咕是查不出来的）
 
 	final public static int MESSAGE_PRIVATE=0;  //0 表示悄悄话
-	final public static int MESSAGE_UPDATE=0;  //2 表示升级通知
-	final public static int MESSAGE_PROXY=0;  //3 表示代发通知
-	final public static int MESSAGE_SYSTEM=0;  //4表示系统消息
+	final public static int MESSAGE_SayHi=2;  //1 表示戳一下
+	final public static int MESSAGE_UPDATE=2;  //2 表示升级通知
+	final public static int MESSAGE_PROXY=3;  //3 表示代发通知
+	final public static int MESSAGE_SYSTEM=4;  //4表示系统消息
 	final public static int MESSAGE_ALL=100;  //100 表示不分类，都查询
 	
 	final public static String POSITION_LEFT="left";  //left ( 居左)
@@ -70,11 +73,16 @@ public abstract class BaseDiguApi {
 	final public static String IS_FIXED_YES="yes";
 	final public static String IS_FIXED_NO="no";
 	
-
+	final public static int GENDER_MAN=1; //1 表示男性
+	final public static int GENDER_WOMAN=2;  //2表示女性
 	
 	final private DiguClient diguClient;
 	private List<NameValuePair> parmaPost=new LinkedList<NameValuePair>();
 	private Map<String, String> parmaGet=new HashMap<String, String>();
+	private Map<String, File> parmaPostFiles=new HashMap<String, File>();
+
+	
+	protected String id;
 	
 	protected String since_id;   
 	//传递记录的id，表示要查询的结果的id 值在这个id 值之后，不包括这条记录的id 值
@@ -172,7 +180,7 @@ public abstract class BaseDiguApi {
 	protected String nickname;
 	//[可选]： 用户的昵称，不是用户名哦。用户名不可修改。
 	
-	protected String gender;
+	protected int gender;
 	//[可选]： 用户的性别，2 表示女性，1 表示男性。只能为这两个值
 	
 	protected String address;
@@ -181,7 +189,7 @@ public abstract class BaseDiguApi {
 	protected String email;
 	//[可选]： 用户的联系email
 	
-	protected String birthday;
+	protected Date birthday;
 	//[可选]： 生日(格式必须为："2009-03-13")
 	
 	protected String homepage;
@@ -210,6 +218,21 @@ public abstract class BaseDiguApi {
 	protected String category;
 	//[可选]：如果不为空，则返回这一条分类数据。如果为空，表示查询授权用户
 	//的所有分类信息。
+	
+	protected String name;
+	//授权用户收藏夹中的分类名字
+	
+	protected String oldName;
+	//授权用户收藏夹中的分类名字
+	
+	protected String newName;
+	//授权用户收藏夹中的新分类名
+	
+	protected String receiveUserId;
+	//接收方的用户id
+	
+	protected String q;
+	//查询关键字
 	
 	public BaseDiguApi(DiguClient digu){
 		this.diguClient=digu;
@@ -249,10 +272,20 @@ public abstract class BaseDiguApi {
 	}
 	
 	public String doPost(EDataFormat edf,String url) throws DiguException{
+		return this.doPost(edf, url, false);
+	}
+	
+	public String doPost(EDataFormat edf,String url,boolean isMultipart) throws DiguException{
 		String responseText="";
 		String requestUrl=getApiRootPath()+url;
 		try {
-			responseText= diguClient.post(requestUrl,this.parmaPost);
+			if(isMultipart){
+				responseText= diguClient.post(requestUrl,this.parmaPost,this.parmaPostFiles);
+
+			}else{
+				responseText= diguClient.post(requestUrl,this.parmaPost);
+
+			}
 		} catch (MalformedChallengeException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -308,8 +341,28 @@ public abstract class BaseDiguApi {
 	public void clear(){
 		this.parmaGet=new HashMap<String, String>();
 		this.parmaPost=new LinkedList<NameValuePair>();
+		this.parmaPostFiles=new HashMap<String, File>();
 	}
 	
+	public void addParma(String key,Object value){
+		if(value==null)return;
+		String formatVal="";
+		if(value instanceof String || value instanceof Number || value instanceof Boolean){
+			formatVal=value.toString();
+		}else if(value instanceof Date){
+			Date d=(Date)value;
+			formatVal=String.valueOf(d.getTime());
+		}else if(value instanceof File){
+		    File file=(File)value;
+		    this.parmaPostFiles.put(key, file);
+		    return;
+		}else{
+			return;
+		}
+		this.parmaGet.put(key, formatVal);
+		this.parmaPost.add(new BasicNameValuePair(key, formatVal));
+		
+	}
 
 	public String getSince_id() {
 		return since_id;
@@ -327,6 +380,7 @@ public abstract class BaseDiguApi {
 
 	public void setCount(int count) {
 		this.count = count;
+		this.addParma("count",count);
 	}
 
 	public int getPage() {
@@ -359,6 +413,7 @@ public abstract class BaseDiguApi {
 
 	public void setUserIdOrName(String userIdOrName) {
 		this.userIdOrName = userIdOrName;
+		this.addParma("userIdOrName", userIdOrName);
 	}
 
 	public boolean isBack() {
@@ -416,7 +471,7 @@ public abstract class BaseDiguApi {
 
 	public void setImage(File image) {
 		this.image = image;
-		
+		this.addParma("image", image);
 	}
 
 	public File getImage0() {
@@ -425,6 +480,7 @@ public abstract class BaseDiguApi {
 
 	public void setImage0(File image0) {
 		this.image0 = image0;
+		this.addParma("image0", image0);
 	}
 
 	public File getImage1() {
@@ -433,6 +489,7 @@ public abstract class BaseDiguApi {
 
 	public void setImage1(File image1) {
 		this.image1 = image1;
+		this.addParma("image1", image1);
 	}
 
 	public File getImage2() {
@@ -441,6 +498,7 @@ public abstract class BaseDiguApi {
 
 	public void setImage2(File image2) {
 		this.image2 = image2;
+		this.addParma("image2", image2);
 	}
 
 	public String getUploadImg() {
@@ -449,6 +507,7 @@ public abstract class BaseDiguApi {
 
 	public void setUploadImg(String uploadImg) {
 		this.uploadImg = uploadImg;
+		this.addParma("uploadImg", uploadImg);
 	}
 
 	public String getFriendUserId() {
@@ -561,14 +620,16 @@ public abstract class BaseDiguApi {
 
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
+		this.addParma("nickname", nickname);
 	}
 
-	public String getGender() {
+	public int getGender() {
 		return gender;
 	}
 
-	public void setGender(String gender) {
+	public void setGender(int gender) {
 		this.gender = gender;
+		this.addParma("gender", gender);
 	}
 
 	public String getAddress() {
@@ -577,6 +638,7 @@ public abstract class BaseDiguApi {
 
 	public void setAddress(String address) {
 		this.address = address;
+		this.addParma("address", address);
 	}
 
 	public String getEmail() {
@@ -585,14 +647,17 @@ public abstract class BaseDiguApi {
 
 	public void setEmail(String email) {
 		this.email = email;
+		this.addParma("email", email);
 	}
 
-	public String getBirthday() {
+	public Date getBirthday() {
 		return birthday;
 	}
 
-	public void setBirthday(String birthday) {
+	public void setBirthday(Date birthday) {
 		this.birthday = birthday;
+		String str=DateTimeUtil.format(birthday, DateTimeUtil.DATE_FORMAT_DB);
+		this.addParma("birthday", str);
 	}
 
 	public String getHomepage() {
@@ -601,6 +666,7 @@ public abstract class BaseDiguApi {
 
 	public void setHomepage(String homepage) {
 		this.homepage = homepage;
+		this.addParma("homepage", homepage);
 	}
 
 	public String getInterest() {
@@ -609,6 +675,7 @@ public abstract class BaseDiguApi {
 
 	public void setInterest(String interest) {
 		this.interest = interest;
+		this.addParma("interest", interest);
 	}
 
 	public String getSignature() {
@@ -617,6 +684,7 @@ public abstract class BaseDiguApi {
 
 	public void setSignature(String signature) {
 		this.signature = signature;
+		this.addParma("signature", signature);
 	}
 
 	public String getUsername() {
@@ -625,6 +693,7 @@ public abstract class BaseDiguApi {
 
 	public void setUsername(String username) {
 		this.username = username;
+		this.addParma("username", username);
 	}
 
 	public String getPwd() {
@@ -633,6 +702,7 @@ public abstract class BaseDiguApi {
 
 	public void setPwd(String pwd) {
 		this.pwd = pwd;
+		this.addParma("pwd", pwd);
 	}
 
 	public String getConfirmPwd() {
@@ -641,6 +711,7 @@ public abstract class BaseDiguApi {
 
 	public void setConfirmPwd(String confirmPwd) {
 		this.confirmPwd = confirmPwd;
+		this.addParma("confirmPwd", confirmPwd);
 	}
 
 	public String getFocusUserId() {
@@ -665,10 +736,65 @@ public abstract class BaseDiguApi {
 
 	public void setCategory(String category) {
 		this.category = category;
+		this.addParma("category", category);
 	}
 
 	public DiguClient getDiguClient() {
 		return diguClient;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+		this.addParma("name", name);
+	}
+
+	public String getOldName() {
+		return oldName;
+	}
+
+	public void setOldName(String oldName) {
+		this.oldName = oldName;
+		this.addParma("oldName", oldName);
+	}
+
+	public String getNewName() {
+		return newName;
+	}
+
+	public void setNewName(String newName) {
+		this.newName = newName;
+		this.addParma("newName", newName);
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+		this.addParma("id", id);
+	}
+
+	public String getReceiveUserId() {
+		return receiveUserId;
+	}
+
+	public void setReceiveUserId(String receiveUserId) {
+		this.receiveUserId = receiveUserId;
+		this.addParma("receiveUserId", receiveUserId);
+	}
+
+	public String getQ() {
+		return q;
+	}
+
+	public void setQ(String q) {
+		this.q = q;
+		this.addParma("q", q);
 	}
 	
 	
