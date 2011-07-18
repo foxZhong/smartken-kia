@@ -37,32 +37,30 @@ import org.springframework.beans.propertyeditors.FileEditor;
 
 import com.smartken.kia.core.util.StringUtil;
 
-public class DiguClient {
+final public class DiguClient extends DefaultHttpClient {
 
 	final public static String DIGU_API_HOME="api.minicloud.com.cn" ;
+	final public static int DIGU_API_PORT=80;
+	final public static String DIGU_API_SCHEME="http";
    
 	
 	final private HttpHost targetHost; 
-	
-	final private DefaultHttpClient httpclient = new DefaultHttpClient();
-	final private AuthCache authCache = new BasicAuthCache();
-	final private BasicScheme basicAuth = new BasicScheme();
 	final private BasicHttpContext localcontext = new BasicHttpContext();
-	
-    private boolean isAuth=false;
-	
+
 	public DiguClient(){
-		targetHost=new HttpHost(DIGU_API_HOME, 80, "http");
+		targetHost=new HttpHost(DIGU_API_HOME, DIGU_API_PORT, DIGU_API_SCHEME);
 	}
 	
 	public DiguClient(String user,String pwd){
-		targetHost=new HttpHost(DIGU_API_HOME, 80, "http");
-	    httpclient.getCredentialsProvider().setCredentials(
+		targetHost=new HttpHost(DIGU_API_HOME, DIGU_API_PORT, DIGU_API_SCHEME);
+		AuthCache authCache = new BasicAuthCache();
+		BasicScheme basicAuth = new BasicScheme();
+	    this.getCredentialsProvider().setCredentials(
 	            new AuthScope(targetHost.getHostName(), targetHost.getPort()),
 	            new UsernamePasswordCredentials(user, pwd));
 	    authCache.put(targetHost, basicAuth);
         localcontext.setAttribute(ClientContext.AUTH_CACHE, authCache);
-        isAuth=true;
+        
 	}
 	
 
@@ -71,8 +69,8 @@ public class DiguClient {
 		String responseText="";
 		try {
 			ResponseHandler<String> responseHandler=new BasicResponseHandler();
-			responseText = httpclient.execute(targetHost, httpGet,responseHandler, localcontext);
-			httpclient.getConnectionManager().closeExpiredConnections();
+			responseText = this.execute(targetHost, httpGet,responseHandler, localcontext);
+			this.getConnectionManager().closeExpiredConnections();
 		} catch (ClientProtocolException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -91,8 +89,8 @@ public class DiguClient {
 		try {
 			ResponseHandler<String> responseHandler=new BasicResponseHandler();
 			httpPost.setEntity(new UrlEncodedFormEntity(nvps, HTTP.UTF_8));
-			responseText = httpclient.execute(targetHost, httpPost,responseHandler, localcontext);
-			httpclient.getConnectionManager().closeExpiredConnections();
+			responseText = this.execute(targetHost, httpPost,responseHandler, localcontext);
+			this.getConnectionManager().closeExpiredConnections();
 		} catch (ClientProtocolException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -131,8 +129,8 @@ public class DiguClient {
 			ResponseHandler<String> responseHandler=new BasicResponseHandler();
 			
 			httpPost.setEntity(entity);
-			responseText = httpclient.execute(targetHost, httpPost,responseHandler, localcontext);
-			httpclient.getConnectionManager().closeExpiredConnections();
+			responseText = this.execute(targetHost, httpPost,responseHandler, localcontext);
+			this.getConnectionManager().closeExpiredConnections();
 		} catch (ClientProtocolException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

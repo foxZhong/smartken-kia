@@ -5,7 +5,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.text.NumberFormat;
+
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,6 +30,10 @@ public abstract class BaseAction extends ActionSupport implements IBaseAction {
 
 
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8303629716579248465L;
 	private String dataFormat;
     private Integer page;
     private Integer rows;
