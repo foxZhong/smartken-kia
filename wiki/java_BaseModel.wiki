@@ -3,12 +3,11 @@
 
 = Introduction =
 
-*BaseModel作用为用于承载数据的抽象实体类，能够进行json、xml等多种格式的转换*
+*BaseModel 作用为用于承载数据的抽象实体类，能够进行json、xml等多种格式的转换*
 
 
 = Details =
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+* 实现接口
+ # com.smartken.kia.core.model.IBaseModel
+ # com.smartken.kia.core.model.IFormatterModel
