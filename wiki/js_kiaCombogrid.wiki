@@ -5,9 +5,24 @@
 
 本控为复合下拉框，用户可通过输入短码或下拉选择方式快速选定需要的字段，实现快速输入的效果
 
-= Details =
+== 依赖控件 ==
+  # jquery
+  # easyui
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+== 调用方式 ==
+
+ {{{
+     var opts={};
+     $("<input />").kiaCrudForm(opts);
+  }}}
+
+== 传参方式 ==
+*参数必须使用json对象方式传入,如下例*
+  {{{
+     var opts={};
+     opts["colNum"]=4;
+  }}}
+
+== 参数列表 ==
+
+||参数名||参数类型||参数描述||默认值||备注||
