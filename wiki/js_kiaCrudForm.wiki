@@ -1,14 +1,30 @@
-#summary 基于easyui的通用自生成增删改表单控件
+#summary 基于easyui的通用自生成数据增改表单控件
 #labels javascript,jquery,easyui
 
-= Introduction =
+= 功能介绍 =
 
-Add your content here.
+*通过传入json配置参数生成相应的数据增改表单，配合特定返回结果格式能实现友好提示*
 
+== 依赖控件 ==
+  # jquery
+  # easyui
 
-= Details =
+== 调用方式 ==
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+ {{{
+     var opts={};
+     $("<div></div>").kiaCrudForm(opts);
+  }}}
+
+== 传参方式 ==
+*参数必须使用json对象方式传入,如下例*
+  {{{
+     var opts={};
+     opts["regexp"]="#form";
+  }}}
+
+= 参数列表 =
+
+||参数名||参数类型||参数描述||默认值||备注||
+||prefix||string||给生成表单内的所有input的name添加前缀||""||如，一个input name为age,配置prefix为“person.",input name就会变为"person.age"||
+||colNum||int||生成表单的行数||2||||
