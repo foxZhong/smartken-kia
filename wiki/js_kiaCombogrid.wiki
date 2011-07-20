@@ -1,0 +1,12 @@
+#summary 基于easyui的强化combogrid控件
+
+= Introduction =
+
+本控为复合下拉框，用户可通过输入短码或下拉选择方式快速选定需要的字段，实现快速输入的效果
+
+= Details =
+
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
