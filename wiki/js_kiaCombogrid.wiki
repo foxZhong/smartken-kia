@@ -1,4 +1,5 @@
 #summary 基于easyui的强化combogrid控件
+#labels javascript,jquery,easyui
 
 = Introduction =
 
