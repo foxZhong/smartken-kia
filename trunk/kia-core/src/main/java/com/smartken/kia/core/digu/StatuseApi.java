@@ -65,7 +65,7 @@ public class StatuseApi extends BaseDiguApi {
 	 	);
 	    this.setContent(content);
 	 	return this.doPost(edf,url,true);
-	}
+	}    
 	
 	
 	//显示20 条最近的对认证用户的回复Digu 消息， ( 消息前缀为@username ) 。该API
